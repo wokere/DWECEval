@@ -141,7 +141,7 @@ class Juego{
  function actualizar (juegoActual){
     puestaACero();
      if (!juegoActual.juegoDebeParar()){
-        game(juegoActual);
+        gameToScreen(juegoActual);
         
      }else{
         muestraMarcador(juegoActual);
@@ -159,7 +159,7 @@ class Juego{
  }
 
  //mostrar la partida segun la config del juego (marcador, pregunta, dialogos y eventos)
- function gameScreen(juegoActual){
+ function gameToScreen(juegoActual){
     muestraMarcador(currentGame);
     muestraPreguntas(currentGame.preguntas);
     let button = muestraDialogoRespuesta(currentGame);
@@ -180,7 +180,7 @@ class Juego{
  let currentGame = new Juego (player,preguntasJuego);
 
  //jugar partida aqui
-gameScreen();
+gameToScreen();
    
    
  
