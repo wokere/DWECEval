@@ -70,3 +70,25 @@ let juegoActual = new Juego (player,preguntasJuego);
 //console.log("check preguntas");
 //console.log(juegoActual.preguntas);
 
+/*empezamos la partida*/
+ function muestraPreguntas(arrayPreguntas){
+     const contenedor = document.getElementById("preguntas");
+     //creamos el radio de eleccion de preguntas
+     for (let i=0; i<arrayPreguntas.length;i++){
+         //creamos el elemento radio
+         let radio = document.createElement("INPUT");
+         radio.setAttribute("type","radio");
+         radio.setAttribute("value",arrayPreguntas[i].enunciado);
+         radio.setAttribute("id",i);
+         radio.setAttribute("name","questions");
+         //creamos la etiqeta para el radio
+         let text = document.createElement("LABEL");
+         text.setAttribute("for",i);
+         text.innerHTML = (arrayPreguntas[i].categoria).toUpperCase()+": "+arrayPreguntas[i].enunciado + "</br>";
+         //lo añadimos al documento
+         contenedor.appendChild(radio);
+         contenedor.appendChild(text);
+     }
+ }
+
+ muestraPreguntas(preguntasJuego);
