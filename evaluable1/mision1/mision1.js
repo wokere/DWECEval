@@ -13,8 +13,8 @@ class Pregunta{
 /* Creamos la clase jugador done estarán todos los atributos y métodos que usará el mismo*/
 class Jugador {
 
-    constructor (nombre){
-        this.nombre = nombre;
+    constructor (){
+       
         this.puntuacion = 0;
     }
 
@@ -64,7 +64,7 @@ class Juego{
             this.preguntas.length = this.preguntas.length-1;
             return resultado;
         }
-    
+    //si pidiera decir si se gana o se pierde se calcularia aqui
 }
 
 /**FUNCIONES DE LA PARTIDA */
@@ -94,7 +94,7 @@ class Juego{
  }
  function muestraMarcador(){
     let marcaPuntos = document.getElementById("puntos");
-    marcaPuntos.innerHTML = juegoActual.jugador.nombre +" " +juegoActual.jugador.puntuacion + " puntos";
+    marcaPuntos.innerHTML = juegoActual.jugador.puntuacion + " puntos";
  }
  function muestraDialogoRespuesta(){
 
@@ -159,13 +159,13 @@ class Juego{
 
 /** EMPIEZA LA PARTIDA */
 
- let player = new Jugador("lolina");
- let preguntaMates = new Pregunta("Mates","Cuanto son 3+2",5);
- let preguntaLetras = new Pregunta("letras","Como me llamo?","loli");
- let preguntaFilosofia = new Pregunta("filosofia","Que sabe socrates?","Nada");
- let preguntaIngles = new Pregunta("ingles","Como se dice hola?","hello");
- let preguntaTele = new Pregunta("tele", "Cual es la mejor serie ever?","One Piece");
- let preguntaHistoria = new Pregunta("historia","como se llama mi profesor de historia?","federico")
+ let player = new Jugador();
+ let preguntaEspectaculos = new Pregunta("Espectaculos","¿Qué conocido cómico imitó a Hitler en la película “El Gran Dictador”?","Charles Chaplin");
+ let preguntaGeografia = new Pregunta("Geografía","¿Cuál es la capital de Filipinas?","Manila");
+ let preguntaArte = new Pregunta("Arte","¿Cómo se llama el libro en el que se basa la película 'Blade Runner'?","¿Sueñan los androides con ovejas eléctricas?");
+ let preguntaHistoria = new Pregunta("Historia","¿Quién era el gran ministro británico cuando la India Británica fue sacudida por la hambruna de Bengala?","Winston Churchill");
+ let preguntaCiencias = new Pregunta("Ciencias", "¿Qué gas nos protege de la radiación solar, concretamente de la radiación ultravioleta, formando una capa en la atmósfera?","Ozono");
+ let preguntaDeporte = new Pregunta("Deporte","¿Qué deporte jugado con un bate y una pelota es el más popular en la India?","Criquet")
 
  let preguntasJuego = [preguntaMates,preguntaLetras,preguntaFilosofia,preguntaIngles,preguntaTele,preguntaHistoria];
  let juegoActual = new Juego (player,preguntasJuego);
