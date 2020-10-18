@@ -41,7 +41,7 @@ class Juego{
 
             let fallos = this.ronda - this.jugador.puntuacion;
             //si el jugador tiene 4 puntos, si estamos en la ultima ronda o si ha tenido 3 fallos, el juego se acaba
-             return this.jugador.puntuacion===4 || fallos === 3 || this.ronda===6;      
+             return this.jugador.puntuacion===4 || fallos === 3;      
         }
 
        //comprobamos la respuesta dada con respecto a la pregunta elegida. Si es correcto aumentamos el marcador. 
