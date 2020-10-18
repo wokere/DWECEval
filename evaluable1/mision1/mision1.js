@@ -92,11 +92,11 @@ class Juego{
          contenedor.appendChild(text);
      }
  }
- function muestraMarcador(){
+ function muestraMarcador(juegoActual){
     let marcaPuntos = document.getElementById("puntos");
     marcaPuntos.innerHTML = juegoActual.jugador.puntuacion + " puntos";
  }
- function muestraDialogoRespuesta(){
+ function muestraDialogoRespuesta(juegoActual){
 
      //creamos el input de texto
     let inputText = document.createElement("INPUT");
@@ -108,11 +108,13 @@ class Juego{
     let buttonResponder = document.createElement("INPUT");
     buttonResponder.setAttribute("type","submit");
     buttonResponder.setAttribute("value","comprobar");
-    buttonResponder.setAttribute("onclick","responder()");
 
     //lo añadimos al documento
     document.getElementById("preguntas").appendChild(inputText);
     document.getElementById("preguntas").appendChild(buttonResponder);
+    
+    return buttonResponder;
+
 
 }
 //recogemos el valor de la opcion seleccionada
@@ -127,23 +129,22 @@ class Juego{
  }
 
 //se envia la respuesta para su comprobacion junto con la pregunta a la que hay que comprobar
- function responder(){
+ function responder(juegoActual){
      let respuesta = document.getElementById("respuesta").value;
      let posicionPregunta = opcionSeleccionada(juegoActual.preguntas.length)
      //comprobamos la respuesta y nos saca en un alert el resultado
      alert(juegoActual.comprobarRespuesta(respuesta,posicionPregunta));
-     actualizar();
+     actualizar(juegoActual);
          
  }
-
- function actualizar (){
+//se vuelve a lanzar las rondas en funcion de si debe parar o no
+ function actualizar (juegoActual){
     puestaACero();
      if (!juegoActual.juegoDebeParar()){
-        muestraMarcador();
-        muestraPreguntas(juegoActual.preguntas);
-        muestraDialogoRespuesta();
+        game(juegoActual);
+        
      }else{
-        muestraMarcador();
+        muestraMarcador(juegoActual);
         alert("fin del juego");
      }
 
@@ -157,6 +158,14 @@ class Juego{
     </body>`
  }
 
+ //mostrar la partida segun la config del juego (marcador, pregunta, dialogos y eventos)
+ function gameScreen(juegoActual){
+    muestraMarcador(currentGame);
+    muestraPreguntas(currentGame.preguntas);
+    let button = muestraDialogoRespuesta(currentGame);
+    button.setAttribute("onclick","responder(currentGame)");
+ }
+
 /** EMPIEZA LA PARTIDA */
 
  let player = new Jugador();
@@ -167,13 +176,12 @@ class Juego{
  let preguntaCiencias = new Pregunta("Ciencias", "¿Qué gas nos protege de la radiación solar, concretamente de la radiación ultravioleta, formando una capa en la atmósfera?","Ozono");
  let preguntaDeporte = new Pregunta("Deporte","¿Qué deporte jugado con un bate y una pelota es el más popular en la India?","Criquet")
 
- let preguntasJuego = [preguntaMates,preguntaLetras,preguntaFilosofia,preguntaIngles,preguntaTele,preguntaHistoria];
- let juegoActual = new Juego (player,preguntasJuego);
+ let preguntasJuego = [preguntaEspectaculos,preguntaGeografia,preguntaArte,preguntaHistoria,preguntaCiencias,preguntaDeporte];
+ let currentGame = new Juego (player,preguntasJuego);
 
  //jugar partida aqui
+gameScreen();
    
-    muestraMarcador();
-    muestraPreguntas(juegoActual.preguntas);
-    muestraDialogoRespuesta();
+   
  
  
