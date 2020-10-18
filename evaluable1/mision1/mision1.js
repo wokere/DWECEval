@@ -61,7 +61,7 @@ class Juego{
             //cambiamos el tamaño del array porque ahora sigue siendo el mismo pero sin estar vacio
             //ordenandolo nos aseguramos de no borrar una posicion que si tiene una pregunta 
             this.preguntas.sort();
-            this.preguntas.length = this.preguntas.length-1;
+            this.preguntas.pop();
             return resultado;
         }
     //si pidiera decir si se gana o se pierde se calcularia aqui
