@@ -44,13 +44,29 @@ class Juego{
              return this.jugador.puntuacion===4 || ronda === 6 || fallos === 3;      
         }
 
-        //eliminamos las preguntas que ya hemos respondido
-        eliminarPregunta(pregunta){
-            let posicion = this.preguntas.indexOf(pregunta.enunciado);
-            delete this.preguntas[posicion];            
+       //comprobamos la respuesta dada con respecto a la pregunta elegida. Si es correcto aumentamos el marcador. 
+       // Devolvemos correcto o la respuesta en caso de fallo.
+        comprobarRespuesta(respuesta,posicionPreguntaActual){
+            let resultado;
+            if(respuesta == this.preguntas[posicionPreguntaActual].respuesta){
+                this.jugador.aumentaPuntuacion();
+                resultado = "respuesta correcta!";
+            }else{
+                resultado =  "lo siento, la respuesta era "+this.preguntas[posicionPreguntaActual].respuesta;
+            }
+            //eliminamos las preguntas que ya hemos respondido
+            delete this.preguntas[posicionPreguntaActual];
+            return resultado;
         }
     
 }
 let player = new Jugador("lolina");
-let preguntaMates = 
-let juegoActual = new Juego ()
+let preguntaMates = new Pregunta("Mates","Cuanto son 3+2",5);
+let preguntaLetras = new Pregunta("letras","Como me llamo?","loli");
+let preguntasJuego = [preguntaMates,preguntaLetras];
+let juegoActual = new Juego (player,preguntasJuego);
+//probar metodos
+//console.log(juegoActual.comprobarRespuesta("loli",1));
+//console.log("check preguntas");
+//console.log(juegoActual.preguntas);
+
