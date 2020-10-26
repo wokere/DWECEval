@@ -25,5 +25,13 @@ class Hospital {
         this.personal.push(personal);
     }
 
+    buscarPaciente(nombre){
+        for (let i=0;i<this.pacientes.length;i++){
+            if(this.pacientes[i].nombre==nombre){
+                return i;
+            }
+        }
+        return -1;
+    }
 
 }

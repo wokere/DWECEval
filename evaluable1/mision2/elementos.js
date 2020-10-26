@@ -59,3 +59,9 @@ function crearTabla(datos) {
 function crearTexto(texto){
     document.getElementById("datos").innerHTML = texto;
 }
+
+function adjuntarTexto(texto){
+    let bloqueTexto = document.createElement("p");
+    bloqueTexto.innerHTML = texto;
+    document.getElementById("datos").appendChild(bloqueTexto);
+}

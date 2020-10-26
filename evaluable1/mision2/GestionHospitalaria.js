@@ -16,8 +16,8 @@ function cargaDatos() {
     //eventos
     document.getElementById("verPacientes").onclick = mostrarPacientes;
     document.getElementById("nuevoPaciente").onclick = mostrarIngresoPaciente;
-    /* document.getElementById("altaPaciente").onclick = mostrarAltaPaciente;
-     document.getElementById("verPersonal").onclick = mostrarPersonal;
+     document.getElementById("altaPaciente").onclick = mostrarAltaPaciente;
+     /*document.getElementById("verPersonal").onclick = mostrarPersonal;
      document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
      document.getElementById("despedirPersonal").onclick = mostrarDespedirPersonal;*/
 
@@ -35,11 +35,20 @@ function ingresarPaciente() {
     document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
 }
 
-function altaPaciente (){
+function altaPaciente(){
     //cojo el campo de búsqueda
+    let inputPaciente = document.getElementsByTagName("INPUT")[0].value;
     // compruebo si existe el paciente
-    //si existe le pongo una fecha de alta
-    //si no existe digo que no existe
+    let posicion = hospitalK.buscarPaciente(inputPaciente);
+    if( posicion!== -1){
+        //si existe le pongo una fecha de alta
+        hospitalK.pacientes[posicion].fechaAlta(new Date());
+        alert("Usuario dado de alta con éxito");
+    }else{
+        //si no existe digo que no existe
+        adjuntarTexto("el usuario No existe");
+    }
+    
 }
 /**FUNCIONES QUE SE DISPARAN CON EVENTOS */
 

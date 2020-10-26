@@ -10,7 +10,7 @@ class Paciente extends Humano {
     //setters y getters
 
     fechaAlta(fecha) {
-        this.fechaAlta=new Date(fecha);
+        this.fechaAlta=fecha;
     }
     
    
