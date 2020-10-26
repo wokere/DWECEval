@@ -16,9 +16,10 @@ function cargaDatos() {
     //eventos
     document.getElementById("verPacientes").onclick = mostrarPacientes;
     document.getElementById("nuevoPaciente").onclick = mostrarIngresoPaciente;
-     document.getElementById("altaPaciente").onclick = mostrarAltaPaciente;
-     /*document.getElementById("verPersonal").onclick = mostrarPersonal;
-     document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
+    document.getElementById("altaPaciente").onclick = mostrarAltaPaciente;
+    document.getElementById("verPersonal").onclick = mostrarPersonal;
+    document.getElementById("addPersonal").onclick= mostrarAltaPersonal;
+    /*document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
      document.getElementById("despedirPersonal").onclick = mostrarDespedirPersonal;*/
 
 }
@@ -69,4 +70,13 @@ function mostrarAltaPaciente(){
     botonAltaPaciente.onclick = altaPaciente;
 
 }
+function mostrarAltaPersonal(){
+    crearFormulario(["Nombre", "Apellidos", "Especialidad"]);
+    let botonAltaForm = document.getElementById("confirmacion");
+    //botonAltaForm.onclick = altaPersonal;
+}
 
+function mostrarPersonal(){
+    let personal = hospitalK.personal; 
+   personal.length >0?crearTabla(personal):crearTexto("no hay personal");
+}

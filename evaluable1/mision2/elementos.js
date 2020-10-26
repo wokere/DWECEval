@@ -26,6 +26,11 @@ function crearFormulario(campos) {
 
 }
 
+function addRadioGroup(elementoAnterior, opciones){
+    //creamos el grupo de radios
+    //lo insertamos antes del elemento elegido
+}
+
 function crearTabla(datos) {
     //limpiamos lo que hubiere antes
     document.getElementById("datos").innerHTML = "";
