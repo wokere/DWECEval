@@ -1,10 +1,10 @@
 "use strict"
 class Paciente extends Humano {
-    constructor(nombre,apellidos,edad,enfermedad,fecha_alta,personal_asignado){
-        super(nombre,apellidos,edad);
-        this.enfermedad = enfermedad;
+    constructor(datos){
+        super(datos[0],datos[1],datos[2]);
+        this.enfermedad = datos[3];
         this.fechaIngreso= new Date();
-        this.personalAsignado=personal_asignado;
+        //this.personalAsignado=personal_asignado;
     }
 
     //setters y getters
@@ -12,4 +12,6 @@ class Paciente extends Humano {
     fechaAlta(fecha) {
         this.fechaAlta=new Date(fecha);
     }
+    
+   
 }

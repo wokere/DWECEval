@@ -4,8 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Hospitalaria</title>
+    <link rel="stylesheet" href="estilos.css">
+    
 </head>
 <body>
+    <h1 id="nombre"></h1>
+    <p>Direccion: <span id="direccion"></span></p>
+    <div>
+        <h2>Información</h2>
+        <ul>
+            <li>Numero de Pacientes:<span  id="numPacientes"> </span></li>
+            <li>Numero de personal:<span id="numPersonal"> </span> </li>
+        </ul>
+        <h2>Gestión de Pacientes</h2>
+        <div>
+            <button id="verPacientes">Mostrar Listado</button> <button id="nuevoPaciente">Nuevo Ingreso</button> <button id="altaPaciente">Alta Paciente</button>
+        </div>
+        <h2>Gestión de Personal</h2>
+        <button id="verPersonal">Mostrar Listado</button> <button id="asignarPaciente">Asignar Paciente</button> <button id="despedirPersonal">Despedir</button>
+    </div>
+    <div id="datos">
+    </div>
+    <script type="text/javascript" src="elementos.js"></script>
+    <script type="text/javascript" src="Humano.js"></script>
+    <script type="text/javascript" src="Paciente.js"></script>
+    <script type="text/javascript" src="Personal.js"></script>
+    <script type="text/javascript" src="Hospital.js"></script>
+    <script type="text/javascript" src="GestionHospitalaria.js"></script>
     
 </body>
 </html>
