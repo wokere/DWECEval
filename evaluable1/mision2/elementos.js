@@ -84,13 +84,15 @@ function crearTabla(datos) {
         //creamos las filas
         let fila = document.createElement("TR");
         //recorremos cada objeto y mostramos su información
-        for (let info of Object.values(datos[i])) {
+        for (let info of Object.entries(datos[i])) {
             let celda = document.createElement("TD");
-           
-            if (info instanceof Date){
-                info = prettyDate(info);
+            if(info[0]=="nombre"){
+                celda.id ="nombreCelda";
             }
-            celda.innerHTML = info;
+            if (info[1] instanceof Date){
+                info[1] = prettyDate(info[1]);
+            }
+            celda.innerHTML = info[1];
             fila.appendChild(celda);
         }
 
@@ -122,4 +124,11 @@ function cleanDatos(){
 function updateDatosById(datos,id){
 
     document.getElementById(id).innerHTML = datos;
+}
+function addLapizEdicion (campo,evento){
+    
+    let i = document.createElement("i");
+    i.className = "fa fa-pencil";
+    i.onclick = evento;
+    document.getElementById(campo).appendChild(i);
 }

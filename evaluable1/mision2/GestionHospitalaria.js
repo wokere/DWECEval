@@ -80,6 +80,7 @@ function ingresarDatos(tipoHumano, clase,hospital){
     updateDatosById(hospital.nPacientes,"numPacientes");
     updateDatosById(hospital.numeroPersonal,"numPersonal");  
     alert("Añadido");
+    cleanDatos();
     
 }
 function obtenerDatosFormulario(clase){
@@ -100,6 +101,15 @@ function obtenerDatosFormulario(clase){
 
 function mostrarDatos(datos){
     datos.length >0?crearTabla(datos):crearTexto("no hay datos");
+    //crear icono editar
+    addLapizEdicion("nombreCelda",editarNombre);
+}
+function editarNombre(hospital){
+    let newName = prompt("Nuevo nombre",this.parentNode.innerText);
+    this.parentNode.innerText = newName;
+    //aun hay q cambiar el nombre del objeto
+   
+    
 }
 function mostrarFormularioIngresoPaciente(hospital) {
     let datosPersonal = hospitalK.nombresPersonal;
