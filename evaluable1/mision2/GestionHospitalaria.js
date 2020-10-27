@@ -39,11 +39,16 @@ function altaPaciente(){
     }
     
 }
+//aqui el despido del personal
+function despidoPersonal(){
+
+}
 
 function ingresarDatos(tipoHumano){
     let datosHumano = obtenerDatos();
     let humano = tipoHumano ==="Paciente" ? new Paciente(datosHumano): new Personal(datosHumano);
     hospitalK.addHuman(humano);
+    //actualizo los datos en el html
     document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
     document.getElementById("numPersonal").innerHTML = hospitalK.numeroPersonal;   
 }
@@ -51,10 +56,17 @@ function obtenerDatos(){
     let inputDatos = document.getElementsByTagName("INPUT");
     let datosHumano = [];
     for (let i = 0; i < inputDatos.length; i++) {
+        //si es de radio selecciono solo el escogido
+        if(inputDatos[i].type == "radio" && !inputDatos[i].checked){
+            continue;
+        }
+        //guardo los valores
         datosHumano.push(inputDatos[i].value);
+
     }
     return datosHumano;
 }
+
 /**FUNCIONES QUE SE DISPARAN CON EVENTOS */
 
 function mostrarDatos(){
