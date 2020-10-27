@@ -1,7 +1,7 @@
 "use strict"
 
 function crearFormulario(campos,clase,funcion) {
-    document.getElementById("datos").innerHTML = "";
+    cleanDatos();
    // let formulario = document.createElement("FORM");
    let contenedor = document.getElementById("datos");
    
@@ -67,7 +67,7 @@ function addSelect(elementoAnterior,opciones,clase){
 }
 function crearTabla(datos) {
     //limpiamos lo que hubiere antes
-    document.getElementById("datos").innerHTML = "";
+    cleanDatos();
     //creamos la tabla
     let tabla = document.createElement("TABLE");
     tabla.setAttribute("border", "1");
@@ -115,4 +115,13 @@ function prettyDate(fecha){
     let year = fecha.getFullYear();
     
     return dia+"/"+mes+"/"+year;
+}
+function cleanDatos(){
+    document.getElementById("datos").innerHTML = "";
+}
+function editPropiedadesInputs(inputs){
+   //let inputs=  document.getElementsByTagName("INPUT");
+    for(let i=0;i<inputs.length;i++){
+        inputs[i].disabled = true;
+    }
 }

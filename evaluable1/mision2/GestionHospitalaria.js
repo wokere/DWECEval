@@ -1,11 +1,11 @@
 "use strict"
-window.onload = ()=>cargaDatos(hospitalK);
 
 //Datos que no cambiarán
 const NOMBREHOSPITAL = "Kanzene Hospital";
 const LOCALIDADHOSPITAL = "Kanzene";
 const RESPONSABLEHOSPITAL = "Carmencita Diego";
 let hospitalK = new Hospital(NOMBREHOSPITAL, LOCALIDADHOSPITAL, RESPONSABLEHOSPITAL);
+ window.onload = ()=>cargaDatos(hospitalK);
 
 //inicio el hospital con el que se va a trabajar. De momento sin pacientes ni personal
 function cargaDatos(hospital) {
@@ -19,28 +19,26 @@ function cargaDatos(hospital) {
     //FALTAN LOS DE MODIFICAR LOS DATOS DE LOS USUARIOS
     document.getElementById("verPacientes").onclick = ()=>mostrarDatos(hospital.pacientes);
     document.getElementById("nuevoPaciente").onclick =()=> mostrarFormularioIngresoPaciente(hospital);
-    document.getElementById("altaPaciente").onclick =() =>mostrarAltaPaciente(hospital);
+    document.getElementById("altaPaciente").onclick =() =>mostrarFormularioAltaPaciente(hospital);
     document.getElementById("verPersonal").onclick = ()=>mostrarDatos(hospital.personal);
-    document.getElementById("addPersonal").onclick= ()=>mostrarAltaPersonal(hospital);
-    document.getElementById("asignarPaciente").onclick = ()=> mostrarAsignacionPaciente(hospital);
-    document.getElementById("despedirPersonal").onclick = ()=>mostrarDespidoPersonal(hospital);
+    document.getElementById("addPersonal").onclick= ()=>mostrarFormularioAltaPersonal(hospital);
+    document.getElementById("asignarPaciente").onclick = ()=> mostrarFormularioAsignacionPaciente(hospital);
+    document.getElementById("despedirPersonal").onclick = ()=>mostrarFormularioDespidoPersonal(hospital);
 
 }
 
 function altaPaciente(hospital){
-    //cojo el campo de búsqueda
-    let inputPaciente = document.getElementsByTagName("INPUT")[0].value;
-    // compruebo si existe el paciente
-    let posicion = hospital.buscarHumano(inputPaciente, Paciente.name);
-    if( posicion!== -1){
+
+   let posicionPaciente = buscarDesdeInput(Paciente.name,hospital);
+    if( posicionPaciente!== -1){
         //si existe le pongo una fecha de alta
-        hospital.pacientes[posicion].fechaAlta(new Date());
+        hospital.pacientes[posicionPaciente].fechaAlta(new Date());
         alert("Usuario dado de alta con éxito");
         document.getElementById("numPacientes").innerHTML = hospital.nPacientes;
    
     }else{
         //si no existe digo que no existe
-        adjuntarTexto("el usuario No existe");
+        alert("el usuario No existe");
     }
     
 }
@@ -53,9 +51,8 @@ function buscarDesdeInput(tipo,hospital){
 function reAsignarPersonal(clase,posicion,hospital){
     //cojo el nombre del paciente y el nombre seleccionado
     let datosFormulario = obtenerDatosFormulario(clase);
-    console.log(hospital.pacientes[posicion].personalAsignado);
-    console.log("opcion seleccionada"+ datosFormulario[1]);
     hospital.pacientes[posicion].personalAsignado = datosFormulario[1];
+    
 }
 //aqui el despido del personal
 function despidoPersonal(hospital){
@@ -66,7 +63,7 @@ function despidoPersonal(hospital){
         adjuntarTexto("Se ha enviado el despido al trabajador");
         document.getElementById("numPersonal").innerHTML = hospital.numeroPersonal; 
     }else{
-        adjuntarTexto("no hay trabajadores con ese nombre");
+        alert("no hay trabajadores con ese nombre");
     }
 }
 
@@ -80,7 +77,6 @@ function ingresarDatos(tipoHumano, clase,hospital){
 }
 function obtenerDatosFormulario(clase){
     let inputDatos = document.getElementsByClassName(clase);
-    console.log(inputDatos.innerHTML);
     let datosHumano = [];
     for (let i = 0; i < inputDatos.length; i++) {
         //si es de radio selecciono solo el escogido
@@ -107,7 +103,7 @@ function mostrarFormularioIngresoPaciente(hospital) {
     addSelect(botonAltaForm,datosPersonal,clase);      
 }
 
-function mostrarAltaPersonal(hospital){
+function mostrarFormularioAltaPersonal(hospital){
     let clase = "altaPersonal";
     let funcion = ()=>{ingresarDatos(Personal.name,clase,hospital)};
     crearFormulario(["Nombre", "Apellidos","Edad"],clase,funcion);
@@ -115,15 +111,15 @@ function mostrarAltaPersonal(hospital){
     
     addRadioGroup(botonAltaForm,Personal.tiposEspecialidad(),clase);
 }
-function mostrarAltaPaciente(hospital){
+function mostrarFormularioAltaPaciente(hospital){
     crearFormulario(["Nombre"],"altaPaciente",()=>altaPaciente(hospital));
 }
 
-function mostrarDespidoPersonal(hospital){
+function mostrarFormularioDespidoPersonal(hospital){
     crearFormulario(["Nombre"],"despidoPersonal",()=>despidoPersonal(hospital));
    
 }
-function mostrarAsignacionPaciente(hospital){
+function mostrarFormularioAsignacionPaciente(hospital){
 
     let funcion = ()=>activarSeleccion("asignarPersonal",botonAltaPaciente,hospital);
     crearFormulario(["Nombre"],"asignarPersonal",funcion);
@@ -136,7 +132,7 @@ function activarSeleccion(clase,elemento,hospital){
         addSelect(elemento,hospital.nombresPersonal,clase);
         elemento.onclick = ()=>reAsignarPersonal(clase,posicion,hospital);
     }else{
-        adjuntarTexto("No se encuentra");
+        alert("No se encuentra");
     }
 }
 
