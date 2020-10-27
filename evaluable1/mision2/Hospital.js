@@ -1,4 +1,6 @@
 "use strict"
+const PERSONAL = Personal.name;//"Personal";
+const PACIENTE = Paciente.name;//"Paciente";
 class Hospital {
     constructor(nombre,localidad, responsable){
         this.nombre = nombre;
@@ -21,6 +23,8 @@ class Hospital {
         }
         return nombres;
     }
+    //como paso un objeto puedo filtrar por el tipo
+
     addHuman(humano){
         if(humano instanceof Paciente){
             this.pacientes.push(humano);
@@ -29,13 +33,22 @@ class Hospital {
         }
     }
 
-    buscarPaciente(nombre){
-        for (let i=0;i<this.pacientes.length;i++){
-            if(this.pacientes[i].nombre==nombre){
+    buscarHumano(nombre,tipo){
+        alert(PERSONAL);
+        let listado = (tipo === PERSONAL) ? this.personal : this.pacientes;
+        for (let i=0;i<listado.length;i++){
+            if(listado[i].nombre==nombre){
                 return i;
             }
         }
         return -1;
+    }
+   
+    borrarHumano(nombre,tipo){
+        let posicionBorrar = this.buscarHumano(nombre,tipo);
+        
+        let listado = (tipo === PERSONAL) ? this.personal: this.pacientes;
+        listado.splice(posicionBorrar,1);
     }
 
 }

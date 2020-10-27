@@ -19,8 +19,8 @@ function cargaDatos() {
     document.getElementById("altaPaciente").onclick = mostrarAltaPaciente;
     document.getElementById("verPersonal").onclick = mostrarDatos;
     document.getElementById("addPersonal").onclick= mostrarAltaPersonal;
-    /*document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
-     document.getElementById("despedirPersonal").onclick = mostrarDespedirPersonal;*/
+   // document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
+     document.getElementById("despedirPersonal").onclick = mostrarDespidoPersonal;
 
 }
 
@@ -28,11 +28,13 @@ function altaPaciente(){
     //cojo el campo de búsqueda
     let inputPaciente = document.getElementsByTagName("INPUT")[0].value;
     // compruebo si existe el paciente
-    let posicion = hospitalK.buscarPaciente(inputPaciente);
+    let posicion = hospitalK.buscarHumano(inputPaciente, Paciente.name);
     if( posicion!== -1){
         //si existe le pongo una fecha de alta
         hospitalK.pacientes[posicion].fechaAlta(new Date());
         alert("Usuario dado de alta con éxito");
+        document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
+   
     }else{
         //si no existe digo que no existe
         adjuntarTexto("el usuario No existe");
@@ -41,12 +43,20 @@ function altaPaciente(){
 }
 //aqui el despido del personal
 function despidoPersonal(){
-
+    let inputNombre = document.getElementsByTagName("INPUT")[0].value;
+    //y lo borro
+    if(hospitalK.buscarHumano(inputNombre,Personal.name) !== -1){
+        hospitalK.borrarHumano(inputNombre,Personal.name)
+        adjuntarTexto("Se ha enviado el despido al trabajador");
+        document.getElementById("numPersonal").innerHTML = hospitalK.numeroPersonal; 
+    }else{
+        adjuntarTexto("no hay trabajadores con ese nombre");
+    }
 }
 
 function ingresarDatos(tipoHumano, clase){
     let datosHumano = obtenerDatosFormulario(clase);
-    let humano = tipoHumano ==="Paciente" ? new Paciente(datosHumano): new Personal(datosHumano);
+    let humano = (tipoHumano === Paciente.name) ? new Paciente(datosHumano): new Personal(datosHumano);
     hospitalK.addHuman(humano);
     //actualizo los datos en el html
     document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
@@ -83,16 +93,11 @@ function mostrarFormularioIngresoPaciente() {
     let botonAltaForm = document.getElementById("confirmacion");
     addSelect(botonAltaForm,hospitalK.nombresPersonal,clase);
     
-    botonAltaForm.onclick = ()=>{ingresarDatos("Paciente",clase)};
+    botonAltaForm.onclick = ()=>{ingresarDatos(Paciente.name,clase)};
     
     
 }
-function mostrarAltaPaciente(){
-    crearFormulario(["Nombre"],"altaPaciente");
-    let botonAltaPaciente = document.getElementById("confirmacion");
-    botonAltaPaciente.onclick = altaPaciente;
 
-}
 function mostrarAltaPersonal(){
     let clase = "altaPersonal";
     crearFormulario(["Nombre", "Apellidos","Edad"],clase);
@@ -100,6 +105,17 @@ function mostrarAltaPersonal(){
     //añado las especialidades ¿Pero no deberian ser un attr de la clase?
     addRadioGroup(botonAltaForm,["mdico","enfermero","celador"],clase);
 
-    botonAltaForm.onclick = ()=>{ingresarDatos("Personal",clase)};
+    botonAltaForm.onclick = ()=>{ingresarDatos(Personal.name,clase)};
+}
+function mostrarAltaPaciente(){
+    crearFormulario(["Nombre"],"altaPaciente");
+    let botonAltaPaciente = document.getElementById("confirmacion");
+    botonAltaPaciente.onclick = altaPaciente;
+
+}
+function mostrarDespidoPersonal(){
+    crearFormulario(["Nombre"],"despidoPersonal");
+    let botonDespido = document.getElementById("confirmacion");
+    botonDespido.onclick = despidoPersonal;
 }
 

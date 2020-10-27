@@ -5,10 +5,9 @@ class Paciente extends Humano {
         this.enfermedad = datos[3];
         this.personalAsignado = datos[4];
         this.fechaIngreso= new Date();
-        //this.personalAsignado=personal_asignado;
     }
 
-    //setters y getters
+   
 
     fechaAlta(fecha) {
         this.fechaAlta=fecha;
