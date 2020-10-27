@@ -28,7 +28,22 @@ function crearFormulario(campos) {
 
 function addRadioGroup(elementoAnterior, opciones){
     //creamos el grupo de radios
-    //lo insertamos antes del elemento elegido
+    for(let i=0;i<opciones.length;i++){
+        //input
+        let radio = document.createElement("INPUT");
+        radio.name ="group";
+        radio.type="radio";
+        radio.id = "option"+opciones[i];
+        radio.value = opciones[i];
+        //label
+        let label = document.createElement("LABEL");
+        label.setAttribute("for",radio.id);
+        label.innerHTML = opciones[i];
+        //lo insertamos antes del elemento elegido
+        elementoAnterior.parentNode.insertBefore(radio,elementoAnterior);
+        elementoAnterior.parentNode.insertBefore(label,radio);
+    }
+    
 }
 
 function crearTabla(datos) {

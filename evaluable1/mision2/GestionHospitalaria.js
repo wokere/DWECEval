@@ -51,6 +51,29 @@ function altaPaciente(){
     }
     
 }
+function altaPersonal(){
+
+}
+
+function ingresarDatos(tipoHumano){
+    let inputDatos = document.getElementsByTagName("INPUT");
+    let datosHumano = [];
+    for (let i = 0; i < inputDatos.length; i++) {
+        datosHumano.push(inputDatos[i].value);
+    }
+    if(tipoHumano==="Paciente"){
+        let paciente = new Paciente(datosHumano);
+        hospitalK.ingresoPaciente(paciente);
+        document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
+    }else{
+        let personal = new Personal(datosHumano);
+        hospitalK.addPersonal(personal);
+        document.getElementById("numPersonal").innerHTML = hospitalK.numeroPersonal;
+        alert(hospitalK.personal[0].nombre +" "+hospitalK.personal[0].especialidad);
+    }
+  
+    
+}
 /**FUNCIONES QUE SE DISPARAN CON EVENTOS */
 
 function mostrarPacientes() {
@@ -61,7 +84,7 @@ function mostrarIngresoPaciente() {
    
     crearFormulario(["nombre", "apellidos", "edad", "enfermedad"]);
     let botonAltaForm = document.getElementById("confirmacion");
-    botonAltaForm.onclick = ingresarPaciente;
+    botonAltaForm.onclick = ()=>{ingresarDatos("Paciente")};
     
 }
 function mostrarAltaPaciente(){
@@ -71,9 +94,11 @@ function mostrarAltaPaciente(){
 
 }
 function mostrarAltaPersonal(){
-    crearFormulario(["Nombre", "Apellidos", "Especialidad"]);
+    crearFormulario(["Nombre", "Apellidos",]);
     let botonAltaForm = document.getElementById("confirmacion");
-    //botonAltaForm.onclick = altaPersonal;
+    addRadioGroup(botonAltaForm,["mdico","enfermero","celador"]);
+
+    botonAltaForm.onclick = ()=>{ingresarDatos("personal")};
 }
 
 function mostrarPersonal(){
