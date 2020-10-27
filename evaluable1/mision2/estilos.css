@@ -1,3 +1,49 @@
 *{
     margin:5px;
 }
+i{
+    font-size: 1rem !important;
+    color: black !important;
+}
+
+body {
+    background-color: azure;
+    position:relative;
+    display: block;
+    width: 75%;
+    margin:0 auto;
+    font: 
+}
+h1{
+    color:brown;
+    text-decoration: underline;
+}
+h2{
+    display: inline-block;
+}
+h2:after{
+    content:" :";
+}
+.maininfo {
+    border-bottom: 5px solid black;
+    padding: 25px;
+
+}
+.inline {
+    display: inline-block;
+}
+#numPacientes , #numPersonal {
+
+    font-size: 1.5rem;
+    color:brown;
+}
+#datos{
+    padding: 25px;
+}
+
+
+
+
+
+
+  

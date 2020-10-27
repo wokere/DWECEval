@@ -4,7 +4,7 @@ function crearFormulario(campos,clase) {
     document.getElementById("datos").innerHTML = "";
    // let formulario = document.createElement("FORM");
    let contenedor = document.getElementById("datos");
-    //let salto = document.createElement("br");
+   
     for (let i = 0; i < campos.length; i++) {
         //label
         let label = document.createElement("LABEL");
@@ -17,6 +17,8 @@ function crearFormulario(campos,clase) {
         input.type = "text";
         input.className=clase;
         contenedor.appendChild(input);
+        let salto = document.createElement("BR");
+        contenedor.appendChild(salto);
     }
     //creamos el boton
     let boton = document.createElement("BUTTON");

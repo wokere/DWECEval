@@ -5,26 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Hospitalaria</title>
     <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
 </head>
 <body>
-    <h1 id="nombre"></h1>
-    <p>Direccion: <span id="direccion"></span></p>
-    <div>
+    <h1><span id="nombre"></span><i id="nomHospital"class="fa fa-pencil"></i></h1>
+    <p>Direccion: <span id="direccion"></span><i id="nomDireccion" class="fa fa-pencil"></i></p>
+    <div class ="maininfo">
         <h2>Información</h2>
         <ul>
             <li>Numero de Pacientes:<span  id="numPacientes"> </span></li>
             <li>Numero de personal:<span id="numPersonal"> </span> </li>
         </ul>
         <h2>Gestión de Pacientes</h2>
-        <div>
-            <button id="verPacientes">Mostrar Listado</button> <button id="nuevoPaciente">Nuevo Ingreso</button> <button id="altaPaciente">Alta Paciente</button>
+        <div class ="inline">
+            <button id="verPacientes">Mostrar Listado</button><button id="asignarPaciente">Asignar Personal</button>  <button id="nuevoPaciente">Nuevo Ingreso</button> <button id="altaPaciente">Alta Paciente</button>
         </div>
+        <br>
         <h2>Gestión de Personal</h2>
-        <button id="verPersonal">Mostrar Listado</button> <button id="asignarPaciente">Asignar Paciente</button> <button id="despedirPersonal">Despedir</button> <button id="addPersonal">Alta Personal</button>
+        <button id="verPersonal">Mostrar Listado</button> <button id="despedirPersonal">Despedir</button> <button id="addPersonal">Alta Personal</button>
     </div>
     <div id="datos">
     </div>
+    
     <script type="text/javascript" src="elementos.js"></script>
     <script type="text/javascript" src="Humano.js"></script>
     <script type="text/javascript" src="Paciente.js"></script>

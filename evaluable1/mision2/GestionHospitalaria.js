@@ -14,13 +14,16 @@ function cargaDatos() {
     document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
     document.getElementById("numPersonal").innerHTML = hospitalK.numeroPersonal;
     //eventos
+   /* document.getElementById("nomHospital").onclick = mostrarCambioNombreHospital;
+    document.getElementById("nomDireccion").onclick = mostrarCambioDireccion;*/
+    //FALTAN LOS DE MODIFICAR LOS DATOS DE LOS USUARIOS
     document.getElementById("verPacientes").onclick = mostrarDatos;
     document.getElementById("nuevoPaciente").onclick = mostrarFormularioIngresoPaciente;
     document.getElementById("altaPaciente").onclick = mostrarAltaPaciente;
     document.getElementById("verPersonal").onclick = mostrarDatos;
     document.getElementById("addPersonal").onclick= mostrarAltaPersonal;
     document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
-     document.getElementById("despedirPersonal").onclick = mostrarDespidoPersonal;
+    document.getElementById("despedirPersonal").onclick = mostrarDespidoPersonal;
 
 }
 
@@ -84,10 +87,6 @@ function obtenerDatosFormulario(clase){
         if(inputDatos[i].type == "radio" && !inputDatos[i].checked){
             continue;
         }
-        //lo mismo con las option no cogidas
-        /*if(inputDatos[i].type == "select" && !inputDatos[i].selected){
-            continue;
-        }*/
         //guardo los valores
         datosHumano.push(inputDatos[i].value);
     }
