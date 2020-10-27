@@ -102,8 +102,8 @@ function mostrarAltaPersonal(){
     let clase = "altaPersonal";
     crearFormulario(["Nombre", "Apellidos","Edad"],clase);
     let botonAltaForm = document.getElementById("confirmacion");
-    //añado las especialidades ¿Pero no deberian ser un attr de la clase?
-    addRadioGroup(botonAltaForm,["mdico","enfermero","celador"],clase);
+    
+    addRadioGroup(botonAltaForm,Personal.tiposEspecialidad(),clase);
 
     botonAltaForm.onclick = ()=>{ingresarDatos(Personal.name,clase)};
 }

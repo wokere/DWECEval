@@ -6,4 +6,7 @@ class Personal extends Humano {
         this.especialidad = datos[3];
     }
     
+    static tiposEspecialidad(){
+        return ["medico","enfermero","celador"];
+    } 
 }
