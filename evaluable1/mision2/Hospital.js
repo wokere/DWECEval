@@ -4,7 +4,7 @@ const PACIENTE = Paciente.name;//"Paciente";
 
 class Hospital {
     constructor(nombre,localidad, responsable){
-        
+
         this.nombre = nombre;
         this.localidad = localidad;
         this.responsable = responsable;
@@ -25,7 +25,7 @@ class Hospital {
         }
         return nombres;
     }
-    //como paso un objeto puedo filtrar por el tipo
+  
 
     addHuman(humano){
         if(humano instanceof Paciente){
@@ -36,7 +36,6 @@ class Hospital {
     }
 
     buscarHumano(nombre,tipo){
-        alert(PERSONAL);
         let listado = (tipo === PERSONAL) ? this.personal : this.pacientes;
         for (let i=0;i<listado.length;i++){
             if(listado[i].nombre==nombre){
@@ -51,6 +50,12 @@ class Hospital {
         
         let listado = (tipo === PERSONAL) ? this.personal: this.pacientes;
         listado.splice(posicionBorrar,1);
+    }
+
+    editarPorNombre(nombreAntiguo,nombreNuevo,tipo){
+        let listado = (tipo === PERSONAL) ? this.personal: this.pacientes;
+        let posicionModificar = this.buscarHumano(nombreAntiguo,tipo);
+        listado[posicionModificar].nombre = nombreNuevo;
     }
 
 }

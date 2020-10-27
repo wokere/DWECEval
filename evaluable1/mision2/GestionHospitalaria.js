@@ -100,19 +100,20 @@ function obtenerDatosFormulario(clase){
 /**FUNCIONES QUE SE DISPARAN CON EVENTOS */
 
 function mostrarDatos(datos){
-    datos.length >0?crearTabla(datos):crearTexto("no hay datos");
-    //crear icono editar
-    addLapizEdicion("nombreCelda",editarNombre);
-}
-function editarNombre(hospital){
-    let newName = prompt("Nuevo nombre",this.parentNode.innerText);
-    this.parentNode.innerText = newName;
-    //aun hay q cambiar el nombre del objeto
-   
+    datos.length >0?crearTabla(datos,editarNombre):crearTexto("no hay datos");
     
 }
+function editarNombre(){
+    let oldName=this.parentNode.innerText;
+    let newName = prompt("Nuevo nombre",this.parentNode.innerText);
+    this.parentNode.innerText = newName;   
+    //modificar el objeto
+    hospitalK.editarPorNombre(oldName,newName,this.className);
+    
+}
+
 function mostrarFormularioIngresoPaciente(hospital) {
-    let datosPersonal = hospitalK.nombresPersonal;
+    let datosPersonal = hospital.nombresPersonal;
     let clase = "ingresoPaciente";
     let funcion = ()=>{ingresarDatos(Paciente.name,clase,hospital)};
     crearFormulario(["nombre", "apellidos", "edad", "enfermedad"],clase,funcion);
