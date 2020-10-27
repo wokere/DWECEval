@@ -44,19 +44,15 @@ function altaPaciente(){
 function buscarDesdeInput(tipo){
     let input = document.getElementsByTagName("INPUT")[0].value;
     // compruebo si existe
-    return (hospitalK.buscarHumano(input, tipo) )!== -1 ? true:false;
+    return hospitalK.buscarHumano(input, tipo) ;
 }
 //aqui la reasignacion
-function reAsignarPersonal(){
-    let inputPaciente = document.getElementsByTagName("INPUT")[0].value;
-    // compruebo si existe el paciente
-    let posicion = hospitalK.buscarHumano(inputPaciente, Paciente.name);
-    if (posicion !== -1){
-        //saco el select para reasignar
-        addSelect()
-    }else{
-        adjuntarTexto("el Paciente no existe");
-    }
+function reAsignarPersonal(clase,posicion){
+    //cojo el nombre del paciente y el nombre seleccionado
+    let datosFormulario = obtenerDatosFormulario(clase);
+    console.log(hospitalK.pacientes[posicion].personalAsignado);
+    console.log("opcion seleccionada"+ datosFormulario[1]);
+    hospitalK.pacientes[posicion].personalAsignado = datosFormulario[1];
 }
 //aqui el despido del personal
 function despidoPersonal(){
@@ -89,9 +85,9 @@ function obtenerDatosFormulario(clase){
             continue;
         }
         //lo mismo con las option no cogidas
-        if(inputDatos[i].type == "option" && !inputDatos[i].selected){
+        /*if(inputDatos[i].type == "select" && !inputDatos[i].selected){
             continue;
-        }
+        }*/
         //guardo los valores
         datosHumano.push(inputDatos[i].value);
     }
@@ -138,14 +134,15 @@ function mostrarAsignacionPaciente(){
     //busco por nombre al paciente (crear función!!)
     crearFormulario(["Nombre"],"asignarPersonal");
     let botonAltaPaciente = document.getElementById("confirmacion");
-    botonAltaPaciente.onclick = ()=>{
-        if(buscarDesdeInput(Paciente.name)){
-            addSelect(botonAltaPaciente,hospitalK.nombresPersonal,"asignarPersonal");
-            botonAltaPaciente.onclick = reAsignarPersonal;
-        }else{
-            adjuntarTexto("el Paciente no existe");
-        }
-    }
+    botonAltaPaciente.onclick = ()=>activarSeleccion("asignarPersonal",botonAltaPaciente);
 }
 
-
+function activarSeleccion(clase,elemento){
+    let posicion = buscarDesdeInput(Paciente.name);
+    if(posicion !== -1){
+        addSelect(elemento,hospitalK.nombresPersonal,"asignarPersonal");
+        elemento.onclick = ()=>reAsignarPersonal("asignarPersonal",posicion);
+    }else{
+        adjuntarTexto("el Paciente no existe");
+    }
+}

@@ -49,11 +49,12 @@ function addRadioGroup(elementoAnterior, opciones,clase){
 function addSelect(elementoAnterior,opciones,clase){
     //creamos el select
     let select = document.createElement("SELECT");
+    select.className = clase;
     //creamos las opciones
     for(let i=0;i<opciones.length;i++){
         let opcion = document.createElement("OPTION");
         opcion.value = opciones[i];
-        opcion.className = clase;
+       // opcion.className = clase;
         opcion.innerHTML = opciones[i];
         select.appendChild(opcion);
     }
