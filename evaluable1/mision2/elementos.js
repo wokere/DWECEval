@@ -119,9 +119,7 @@ function prettyDate(fecha){
 function cleanDatos(){
     document.getElementById("datos").innerHTML = "";
 }
-function editPropiedadesInputs(inputs){
-   //let inputs=  document.getElementsByTagName("INPUT");
-    for(let i=0;i<inputs.length;i++){
-        inputs[i].disabled = true;
-    }
+function updateDatosById(datos,id){
+
+    document.getElementById(id).innerHTML = datos;
 }

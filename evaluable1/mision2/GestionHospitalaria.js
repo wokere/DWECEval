@@ -10,10 +10,11 @@ let hospitalK = new Hospital(NOMBREHOSPITAL, LOCALIDADHOSPITAL, RESPONSABLEHOSPI
 //inicio el hospital con el que se va a trabajar. De momento sin pacientes ni personal
 function cargaDatos(hospital) {
     //muestro en el documento los datos del hospital y asigno los eventos
-    document.getElementById("nombre").innerHTML = hospital.nombre;
-    document.getElementById("direccion").innerHTML = hospital.responsable;
-    document.getElementById("numPacientes").innerHTML = hospital.nPacientes;
-    document.getElementById("numPersonal").innerHTML = hospital.numeroPersonal;
+    updateDatosById(hospital.nombre,"nombre");
+    updateDatosById(hospital.responsable, "direccion");
+    updateDatosById(hospital.nPacientes, "numPacientes");
+    updateDatosById(hospital.numeroPersonal,"numPersonal");
+
     //eventos
 
     //FALTAN LOS DE MODIFICAR LOS DATOS DE LOS USUARIOS
@@ -34,8 +35,8 @@ function altaPaciente(hospital){
         //si existe le pongo una fecha de alta
         hospital.pacientes[posicionPaciente].fechaAlta(new Date());
         alert("Usuario dado de alta con éxito");
-        document.getElementById("numPacientes").innerHTML = hospital.nPacientes;
-   
+        updateDatosById(hospital.nPacientes,"numPacientes");
+        mostrarDatos(hospital.pacientes);
     }else{
         //si no existe digo que no existe
         alert("el usuario No existe");
@@ -52,6 +53,8 @@ function reAsignarPersonal(clase,posicion,hospital){
     //cojo el nombre del paciente y el nombre seleccionado
     let datosFormulario = obtenerDatosFormulario(clase);
     hospital.pacientes[posicion].personalAsignado = datosFormulario[1];
+    alert("reasignacion realizada");
+    mostrarDatos(hospital.pacientes);
     
 }
 //aqui el despido del personal
@@ -61,19 +64,23 @@ function despidoPersonal(hospital){
     if(hospital.buscarHumano(inputNombre,Personal.name) !== -1){
         hospital.borrarHumano(inputNombre,Personal.name)
         adjuntarTexto("Se ha enviado el despido al trabajador");
-        document.getElementById("numPersonal").innerHTML = hospital.numeroPersonal; 
+        updateDatosById(hospital.numeroPersonal,"numPersonal"); 
     }else{
         alert("no hay trabajadores con ese nombre");
+        mostrarDatos(hospital.personal);
     }
 }
+
 
 function ingresarDatos(tipoHumano, clase,hospital){
     let datosHumano = obtenerDatosFormulario(clase);
     let humano = (tipoHumano === Paciente.name) ? new Paciente(datosHumano): new Personal(datosHumano);
     hospital.addHuman(humano);
     //actualizo los datos en el html
-    document.getElementById("numPacientes").innerHTML = hospital.nPacientes;
-    document.getElementById("numPersonal").innerHTML = hospital.numeroPersonal;   
+    updateDatosById(hospital.nPacientes,"numPacientes");
+    updateDatosById(hospital.numeroPersonal,"numPersonal");  
+    alert("Añadido");
+    
 }
 function obtenerDatosFormulario(clase){
     let inputDatos = document.getElementsByClassName(clase);
