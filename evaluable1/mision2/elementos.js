@@ -103,6 +103,7 @@ function adjuntarTexto(texto){
     bloqueTexto.innerHTML = texto;
     document.getElementById("datos").appendChild(bloqueTexto);
 }
+
 function prettyDate(fecha){
     let dia = fecha.getDate();
     let mes = fecha.getMonth()+1;

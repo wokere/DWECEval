@@ -19,7 +19,7 @@ function cargaDatos() {
     document.getElementById("altaPaciente").onclick = mostrarAltaPaciente;
     document.getElementById("verPersonal").onclick = mostrarDatos;
     document.getElementById("addPersonal").onclick= mostrarAltaPersonal;
-   // document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
+    document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
      document.getElementById("despedirPersonal").onclick = mostrarDespidoPersonal;
 
 }
@@ -40,6 +40,23 @@ function altaPaciente(){
         adjuntarTexto("el usuario No existe");
     }
     
+}
+function buscarDesdeInput(tipo){
+    let input = document.getElementsByTagName("INPUT")[0].value;
+    // compruebo si existe
+    return (hospitalK.buscarHumano(input, tipo) )!== -1 ? true:false;
+}
+//aqui la reasignacion
+function reAsignarPersonal(){
+    let inputPaciente = document.getElementsByTagName("INPUT")[0].value;
+    // compruebo si existe el paciente
+    let posicion = hospitalK.buscarHumano(inputPaciente, Paciente.name);
+    if (posicion !== -1){
+        //saco el select para reasignar
+        addSelect()
+    }else{
+        adjuntarTexto("el Paciente no existe");
+    }
 }
 //aqui el despido del personal
 function despidoPersonal(){
@@ -94,8 +111,7 @@ function mostrarFormularioIngresoPaciente() {
     addSelect(botonAltaForm,hospitalK.nombresPersonal,clase);
     
     botonAltaForm.onclick = ()=>{ingresarDatos(Paciente.name,clase)};
-    
-    
+       
 }
 
 function mostrarAltaPersonal(){
@@ -118,4 +134,18 @@ function mostrarDespidoPersonal(){
     let botonDespido = document.getElementById("confirmacion");
     botonDespido.onclick = despidoPersonal;
 }
+function mostrarAsignacionPaciente(){
+    //busco por nombre al paciente (crear función!!)
+    crearFormulario(["Nombre"],"asignarPersonal");
+    let botonAltaPaciente = document.getElementById("confirmacion");
+    botonAltaPaciente.onclick = ()=>{
+        if(buscarDesdeInput(Paciente.name)){
+            addSelect(botonAltaPaciente,hospitalK.nombresPersonal,"asignarPersonal");
+            botonAltaPaciente.onclick = reAsignarPersonal;
+        }else{
+            adjuntarTexto("el Paciente no existe");
+        }
+    }
+}
+
 
