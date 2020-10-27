@@ -14,7 +14,13 @@ class Hospital {
     get numeroPersonal(){
         return this.personal.length;
     }
-    
+    get nombresPersonal(){
+        let nombres=[];
+        for(let i=0;i<this.personal.length;i++){
+            nombres.push(this.personal[i].nombre);
+        }
+        return nombres;
+    }
     addHuman(humano){
         if(humano instanceof Paciente){
             this.pacientes.push(humano);

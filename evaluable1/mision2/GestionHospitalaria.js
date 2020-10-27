@@ -44,25 +44,29 @@ function despidoPersonal(){
 
 }
 
-function ingresarDatos(tipoHumano){
-    let datosHumano = obtenerDatos();
+function ingresarDatos(tipoHumano, clase){
+    let datosHumano = obtenerDatosFormulario(clase);
     let humano = tipoHumano ==="Paciente" ? new Paciente(datosHumano): new Personal(datosHumano);
     hospitalK.addHuman(humano);
     //actualizo los datos en el html
     document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
     document.getElementById("numPersonal").innerHTML = hospitalK.numeroPersonal;   
 }
-function obtenerDatos(){
-    let inputDatos = document.getElementsByTagName("INPUT");
+function obtenerDatosFormulario(clase){
+    let inputDatos = document.getElementsByClassName(clase);
+    console.log(inputDatos.innerHTML);
     let datosHumano = [];
     for (let i = 0; i < inputDatos.length; i++) {
         //si es de radio selecciono solo el escogido
         if(inputDatos[i].type == "radio" && !inputDatos[i].checked){
             continue;
         }
+        //lo mismo con las option no cogidas
+        if(inputDatos[i].type == "option" && !inputDatos[i].selected){
+            continue;
+        }
         //guardo los valores
         datosHumano.push(inputDatos[i].value);
-
     }
     return datosHumano;
 }
@@ -74,24 +78,28 @@ function mostrarDatos(){
     datos.length >0?crearTabla(datos):crearTexto("no hay datos");
 }
 function mostrarFormularioIngresoPaciente() {
-   
-    crearFormulario(["nombre", "apellidos", "edad", "enfermedad"]);
+    let clase = "ingresoPaciente";
+    crearFormulario(["nombre", "apellidos", "edad", "enfermedad"],clase);
     let botonAltaForm = document.getElementById("confirmacion");
-    botonAltaForm.onclick = ()=>{ingresarDatos("Paciente")};
+    addSelect(botonAltaForm,hospitalK.nombresPersonal,clase);
+    
+    botonAltaForm.onclick = ()=>{ingresarDatos("Paciente",clase)};
+    
     
 }
 function mostrarAltaPaciente(){
-    crearFormulario(["Nombre"]);
+    crearFormulario(["Nombre"],"altaPaciente");
     let botonAltaPaciente = document.getElementById("confirmacion");
     botonAltaPaciente.onclick = altaPaciente;
 
 }
 function mostrarAltaPersonal(){
-
-    crearFormulario(["Nombre", "Apellidos","Edad"]);
+    let clase = "altaPersonal";
+    crearFormulario(["Nombre", "Apellidos","Edad"],clase);
     let botonAltaForm = document.getElementById("confirmacion");
-    addRadioGroup(botonAltaForm,["mdico","enfermero","celador"]);
+    //añado las especialidades ¿Pero no deberian ser un attr de la clase?
+    addRadioGroup(botonAltaForm,["mdico","enfermero","celador"],clase);
 
-    botonAltaForm.onclick = ()=>{ingresarDatos("Personal")};
+    botonAltaForm.onclick = ()=>{ingresarDatos("Personal",clase)};
 }
 

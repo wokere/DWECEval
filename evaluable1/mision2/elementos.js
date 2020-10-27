@@ -1,6 +1,6 @@
 "use strict"
 
-function crearFormulario(campos) {
+function crearFormulario(campos,clase) {
     document.getElementById("datos").innerHTML = "";
    // let formulario = document.createElement("FORM");
    let contenedor = document.getElementById("datos");
@@ -15,6 +15,7 @@ function crearFormulario(campos) {
         let input = document.createElement("INPUT");
         input.id = campos[i];
         input.type = "text";
+        input.className=clase;
         contenedor.appendChild(input);
     }
     //creamos el boton
@@ -26,7 +27,7 @@ function crearFormulario(campos) {
 
 }
 
-function addRadioGroup(elementoAnterior, opciones){
+function addRadioGroup(elementoAnterior, opciones,clase){
     //creamos el grupo de radios
     for(let i=0;i<opciones.length;i++){
         //input
@@ -35,6 +36,7 @@ function addRadioGroup(elementoAnterior, opciones){
         radio.type="radio";
         radio.id = "option"+opciones[i];
         radio.value = opciones[i];
+        radio.className = clase; 
         //label
         let label = document.createElement("LABEL");
         label.setAttribute("for",radio.id);
@@ -45,7 +47,20 @@ function addRadioGroup(elementoAnterior, opciones){
     }
     
 }
+function addSelect(elementoAnterior,opciones,clase){
+    //creamos el select
+    let select = document.createElement("SELECT");
+    //creamos las opciones
+    for(let i=0;i<opciones.length;i++){
+        let opcion = document.createElement("OPTION");
+        opcion.value = opciones[i];
+        opcion.className = clase;
+        opcion.innerHTML = opciones[i];
+        select.appendChild(opcion);
+    }
+    elementoAnterior.parentNode.insertBefore(select,elementoAnterior);
 
+}
 function crearTabla(datos) {
     //limpiamos lo que hubiere antes
     document.getElementById("datos").innerHTML = "";
