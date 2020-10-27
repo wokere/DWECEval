@@ -15,14 +15,12 @@ class Hospital {
         return this.personal.length;
     }
     
-    
-    ingresoPaciente(paciente){
-        this.pacientes.push(paciente);
-    }
-
-
-    addPersonal(personal){
-        this.personal.push(personal);
+    addHuman(humano){
+        if(humano instanceof Paciente){
+            this.pacientes.push(humano);
+        }else{
+            this.personal.push(humano);
+        }
     }
 
     buscarPaciente(nombre){

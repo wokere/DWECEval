@@ -14,26 +14,14 @@ function cargaDatos() {
     document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
     document.getElementById("numPersonal").innerHTML = hospitalK.numeroPersonal;
     //eventos
-    document.getElementById("verPacientes").onclick = mostrarPacientes;
-    document.getElementById("nuevoPaciente").onclick = mostrarIngresoPaciente;
+    document.getElementById("verPacientes").onclick = mostrarDatos;
+    document.getElementById("nuevoPaciente").onclick = mostrarFormularioIngresoPaciente;
     document.getElementById("altaPaciente").onclick = mostrarAltaPaciente;
-    document.getElementById("verPersonal").onclick = mostrarPersonal;
+    document.getElementById("verPersonal").onclick = mostrarDatos;
     document.getElementById("addPersonal").onclick= mostrarAltaPersonal;
     /*document.getElementById("asignarPaciente").onclick = mostrarAsignacionPaciente;
      document.getElementById("despedirPersonal").onclick = mostrarDespedirPersonal;*/
 
-}
-
-function ingresarPaciente() {
-    let inputPaciente = document.getElementsByTagName("INPUT");
-    let datosPaciente = [];
-    for (let i = 0; i < inputPaciente.length; i++) {
-        datosPaciente.push(inputPaciente[i].value);
-    }
-    let paciente = new Paciente(datosPaciente);
-    hospitalK.ingresoPaciente(paciente);
-  
-    document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
 }
 
 function altaPaciente(){
@@ -51,36 +39,29 @@ function altaPaciente(){
     }
     
 }
-function altaPersonal(){
-
-}
 
 function ingresarDatos(tipoHumano){
+    let datosHumano = obtenerDatos();
+    let humano = tipoHumano ==="Paciente" ? new Paciente(datosHumano): new Personal(datosHumano);
+    hospitalK.addHuman(humano);
+    document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
+    document.getElementById("numPersonal").innerHTML = hospitalK.numeroPersonal;   
+}
+function obtenerDatos(){
     let inputDatos = document.getElementsByTagName("INPUT");
     let datosHumano = [];
     for (let i = 0; i < inputDatos.length; i++) {
         datosHumano.push(inputDatos[i].value);
     }
-    if(tipoHumano==="Paciente"){
-        let paciente = new Paciente(datosHumano);
-        hospitalK.ingresoPaciente(paciente);
-        document.getElementById("numPacientes").innerHTML = hospitalK.nPacientes;
-    }else{
-        let personal = new Personal(datosHumano);
-        hospitalK.addPersonal(personal);
-        document.getElementById("numPersonal").innerHTML = hospitalK.numeroPersonal;
-        alert(hospitalK.personal[0].nombre +" "+hospitalK.personal[0].especialidad);
-    }
-  
-    
+    return datosHumano;
 }
 /**FUNCIONES QUE SE DISPARAN CON EVENTOS */
 
-function mostrarPacientes() {
-   let pacientes = hospitalK.pacientes; 
-   pacientes.length >0?crearTabla(pacientes):crearTexto("no hay pacientes");
+function mostrarDatos(){
+    let datos = this.id =="verPersonal" ?  hospitalK.personal : hospitalK.pacientes;
+    datos.length >0?crearTabla(datos):crearTexto("no hay datos");
 }
-function mostrarIngresoPaciente() {
+function mostrarFormularioIngresoPaciente() {
    
     crearFormulario(["nombre", "apellidos", "edad", "enfermedad"]);
     let botonAltaForm = document.getElementById("confirmacion");
@@ -94,14 +75,11 @@ function mostrarAltaPaciente(){
 
 }
 function mostrarAltaPersonal(){
-    crearFormulario(["Nombre", "Apellidos",]);
+
+    crearFormulario(["Nombre", "Apellidos","Edad"]);
     let botonAltaForm = document.getElementById("confirmacion");
     addRadioGroup(botonAltaForm,["mdico","enfermero","celador"]);
 
-    botonAltaForm.onclick = ()=>{ingresarDatos("personal")};
+    botonAltaForm.onclick = ()=>{ingresarDatos("Personal")};
 }
 
-function mostrarPersonal(){
-    let personal = hospitalK.personal; 
-   personal.length >0?crearTabla(personal):crearTexto("no hay personal");
-}
