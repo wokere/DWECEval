@@ -1,6 +1,6 @@
 "use strict"
 
-function crearFormulario(campos,clase) {
+function crearFormulario(campos,clase,funcion) {
     document.getElementById("datos").innerHTML = "";
    // let formulario = document.createElement("FORM");
    let contenedor = document.getElementById("datos");
@@ -24,6 +24,8 @@ function crearFormulario(campos,clase) {
     let boton = document.createElement("BUTTON");
     boton.innerHTML = "Confirmar";
     boton.id = "confirmacion";
+    boton.onclick = funcion;
+   // boton.onclick=evento;
     contenedor.appendChild(boton);
 
 }
