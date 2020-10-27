@@ -6,9 +6,7 @@ class Paciente extends Humano {
         this.personalAsignado = datos[4];
         this.fechaIngreso= new Date();
     }
-
-   
-
+  
     fechaAlta(fecha) {
         this.fechaAlta=fecha;
     }

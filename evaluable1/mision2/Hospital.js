@@ -1,8 +1,10 @@
 "use strict"
 const PERSONAL = Personal.name;//"Personal";
 const PACIENTE = Paciente.name;//"Paciente";
+
 class Hospital {
     constructor(nombre,localidad, responsable){
+        
         this.nombre = nombre;
         this.localidad = localidad;
         this.responsable = responsable;

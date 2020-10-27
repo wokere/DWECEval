@@ -23,7 +23,6 @@ function crearFormulario(campos,clase) {
     boton.innerHTML = "Confirmar";
     boton.id = "confirmacion";
     contenedor.appendChild(boton);
-    //document.getElementById("datos").appendChild(formulario);
 
 }
 
@@ -82,6 +81,10 @@ function crearTabla(datos) {
         //recorremos cada objeto y mostramos su información
         for (let info of Object.values(datos[i])) {
             let celda = document.createElement("TD");
+           
+            if (info instanceof Date){
+                info = prettyDate(info);
+            }
             celda.innerHTML = info;
             fila.appendChild(celda);
         }
@@ -99,4 +102,11 @@ function adjuntarTexto(texto){
     let bloqueTexto = document.createElement("p");
     bloqueTexto.innerHTML = texto;
     document.getElementById("datos").appendChild(bloqueTexto);
+}
+function prettyDate(fecha){
+    let dia = fecha.getDate();
+    let mes = fecha.getMonth()+1;
+    let year = fecha.getFullYear();
+    
+    return dia+"/"+mes+"/"+year;
 }
