@@ -1,41 +1,40 @@
 "use strict"
 
-//inicio el hospital con el que se va a trabajar. De momento sin pacientes ni personal
+//clase que comunica el navegador con el hospital
 class GestionHospital {
-    //meter aqui el manejo de elemetos?
+    //El atributo del gestor es el hospital
+    //(y los elementos????)
     constructor(hospitalAGestionar) {
 
         this.hospital = hospitalAGestionar;
-        
-    }
-    lanzarGestion(){
-    updateDatosById(this.hospital.nombre, "nombre");
-    updateDatosById(this.hospital.responsable, "direccion");
-    updateDatosById(this.hospital.nPacientes, "numPacientes");
-    updateDatosById(this.hospital.numeroPersonal, "numPersonal");
 
-    document.getElementById("verPacientes").onclick = () => this.mostrarDatos(this.hospital.pacientes);
-    document.getElementById("nuevoPaciente").onclick = () => this.mostrarFormularioIngresoPaciente();
-    document.getElementById("altaPaciente").onclick = () => this.mostrarFormularioAltaPaciente();
-    document.getElementById("verPersonal").onclick = () => this.mostrarDatos(this.hospital.personal);
-    document.getElementById("addPersonal").onclick = () => this.mostrarFormularioAltaPersonal();
-    document.getElementById("asignarPaciente").onclick = () => this.mostrarFormularioAsignacionPaciente();
-    document.getElementById("despedirPersonal").onclick = () => this.mostrarFormularioDespidoPersonal();
     }
+    //metodo que coge las ids indicadas e introduce los datos.
+    lanzarGestion() {
+        updateDatosById(this.hospital.nombre, "nombre");
+        updateDatosById(this.hospital.responsable, "direccion");
+        updateDatosById(this.hospital.nPacientes, "numPacientes");
+        updateDatosById(this.hospital.numeroPersonal, "numPersonal");
+    }
+    //metodo que añade las funciones manejadoras de eventos principales
+    lanzarEventosPrincipales() {
+        document.getElementById("verPacientes").onclick = () => this.mostrarDatos(this.hospital.pacientes);
+        document.getElementById("nuevoPaciente").onclick = () => this.mostrarFormularioIngresoPaciente();
+        document.getElementById("altaPaciente").onclick = () => this.mostrarFormularioAltaPaciente();
+        document.getElementById("verPersonal").onclick = () => this.mostrarDatos(this.hospital.personal);
+        document.getElementById("addPersonal").onclick = () => this.mostrarFormularioAltaPersonal();
+        document.getElementById("asignarPaciente").onclick = () => this.mostrarFormularioAsignacionPaciente();
+        document.getElementById("despedirPersonal").onclick = () => this.mostrarFormularioDespidoPersonal();
+    }
+    //metodo que busca el humano (tipo paciente/personal) que obtiene del input del documento
+    //devuelve la posicion del usuario en su coleccion de datos(-1 si no está)
     buscarDesdeInput(tipo) {
         let input = document.getElementsByTagName("INPUT")[0].value;
         // compruebo si existe
         return this.hospital.buscarHumano(input, tipo);
     }
-    //aqui la reasignacion
-    reAsignarPersonal(clase, posicion) {
-        //cojo el nombre del paciente y el nombre seleccionado
-        let datosFormulario = this.obtenerDatosFormulario(clase);
-        this.hospital.pacientes[posicion].personalAsignado = datosFormulario[1];
-        alert("reasignacion realizada");
-        this.mostrarDatos(this.hospital.pacientes);
-    }
-
+    //Dado un tipo  y una clase obtiene los datos del formulario para generar un Paciente o un personal
+    // y añadirlo al hospital, asi como actualizar el documento
     ingresarDatos(tipoHumano, clase) {
         let datosHumano = this.obtenerDatosFormulario(clase);
         let humano = (tipoHumano === Paciente.name) ? new Paciente(datosHumano) : new Personal(datosHumano);
@@ -47,7 +46,7 @@ class GestionHospital {
         cleanDatos();
 
     }
-    //esto gestiona elementos...
+    //Dada una clase busca todos los elementos con las misma y los devuelve como un array de datos
     obtenerDatosFormulario(clase) {
         let inputDatos = document.getElementsByClassName(clase);
         let datosHumano = [];
@@ -62,30 +61,31 @@ class GestionHospital {
         return datosHumano;
     }
 
-    /**FUNCIONES QUE SE DISPARAN CON EVENTOS */
-    //esta gestiona elementos también
+    //Dada una coleccion de datos crea una tabla para mostrarlas. 
+    //Además, añade en los campos elegidos un icono de lapiz y un evento para editarlos
     mostrarDatos(datos) {
         datos.length > 0 ? crearTabla(datos) : crearTexto("no hay datos");
-        //añado el evento
+        //cojo los campos i y les añado el evento
         let icons = document.getElementsByTagName("i");
-        for (let i=0;i<icons.length;i++){
+        for (let i = 0; i < icons.length; i++) {
             icons[i].onclick = () => {
-                let campos = this.obtenerCamposDesdeLapiz(icons[i]);
-                this.hospital.editarPorNombre(campos[0],campos[1],campos[2])
+                let campos = this.obtenerCamposCambioNombre(icons[i]);
+                this.hospital.editarPorNombre(campos[0], campos[1], campos[2])
             };
         }
     }
-    //esto podria estar mejor creo
-    obtenerCamposDesdeLapiz(campo) {
+    //Obtiene los datos necesarios para el cambio de nombre (antiguo, nuevo y el nombre de la clase)
+    //y los devuelve en un array. 
+    obtenerCamposCambioNombre(campo) {
         let oldName = campo.parentNode.innerText;
+        //el nuevo nombre lo obtiene de un prompt
         let newName = prompt("Nuevo nombre", campo.parentNode.innerText);
         campo.parentNode.innerText = newName;
         let nombreDeClase = document.getElementsByTagName("td")[0].classList.value;
-        //let campos = camposEdicionNombre();
-       return [oldName,newName,nombreDeClase];
-
+        
+        return [oldName, newName, nombreDeClase];
     }
-
+    // Crea y Muestra el formulario de ingreso del paciente
     mostrarFormularioIngresoPaciente() {
         let datosPersonal = this.hospital.nombresPersonal;
         let clase = "ingresoPaciente";
@@ -94,7 +94,7 @@ class GestionHospital {
         let botonAltaForm = document.getElementById("confirmacion");
         addSelect(botonAltaForm, datosPersonal, clase);
     }
-
+    //Crea y muestra el formulario de alta de personal
     mostrarFormularioAltaPersonal() {
         let clase = "altaPersonal";
         let funcion = () => { this.ingresarDatos(Personal.name, clase) };
@@ -103,12 +103,15 @@ class GestionHospital {
 
         addRadioGroup(botonAltaForm, Personal.tiposEspecialidad(), clase);
     }
+    //Crea y muestra el formulario de alta del paciente
     mostrarFormularioAltaPaciente() {
-        crearFormulario(["Nombre"], "altaPaciente", ()=>{
+        crearFormulario(["Nombre"], "altaPaciente", () => {
             let posicion = this.buscarDesdeInput("Paciente");
-            this.altaPaciente(posicion)});
+            this.altaPaciente(posicion)
+        });
     }
-      
+    //dada una posicion establece la fecha actual como fecha de alta y actualiza el documento.
+    //en caso de recibir -1 como posicion avisa de q ese usuario no existe
     altaPaciente(posicionPaciente) {
 
         if (posicionPaciente !== -1) {
@@ -123,15 +126,16 @@ class GestionHospital {
         }
 
     }
+    
 
     mostrarFormularioDespidoPersonal() {
-        console.log("pero aqui es"+this.hospital);
-        crearFormulario(["Nombre"], "despidoPersonal", ()=>this.despidoPersonal(this.hospital));
+        console.log("pero aqui es" + this.hospital);
+        crearFormulario(["Nombre"], "despidoPersonal", () => this.despidoPersonal(this.hospital));
 
     }
-     //aqui el despido del personal
-     despidoPersonal(hospital) {
-        console.log("aqui this hiospital es"+this.hospital);
+    //aqui el despido del personal
+    despidoPersonal(hospital) {
+        console.log("aqui this hiospital es" + this.hospital);
         let inputNombre = document.getElementsByTagName("INPUT")[0].value;
         //y lo borro
         if (hospital.buscarHumano(inputNombre, Personal.name) !== -1) {
@@ -149,7 +153,13 @@ class GestionHospital {
         crearFormulario(["Nombre"], "asignarPersonal", funcion);
         let botonAltaPaciente = document.getElementById("confirmacion");
     }
-
+    reAsignarPersonal(clase, posicion) {
+        //cojo el nombre del paciente y el nombre seleccionado
+        let datosFormulario = this.obtenerDatosFormulario(clase);
+        this.hospital.pacientes[posicion].personalAsignado = datosFormulario[1];
+        alert("reasignacion realizada");
+        this.mostrarDatos(this.hospital.pacientes);
+    }
     activarSeleccion(clase, elemento) {
         let posicion = this.buscarDesdeInput(Paciente.name);
         if (posicion !== -1) {
