@@ -100,16 +100,16 @@ function obtenerDatosFormulario(clase){
 /**FUNCIONES QUE SE DISPARAN CON EVENTOS */
 
 function mostrarDatos(datos){
-    datos.length >0?crearTabla(datos,editarNombre):crearTexto("no hay datos");
+    datos.length >0?crearTabla(datos,editarNombreDesdeLapiz):crearTexto("no hay datos");
     
 }
-function editarNombre(){
+function editarNombreDesdeLapiz(){
     let oldName=this.parentNode.innerText;
     let newName = prompt("Nuevo nombre",this.parentNode.innerText);
-    this.parentNode.innerText = newName;   
-    //modificar el objeto
-    hospitalK.editarPorNombre(oldName,newName,this.className);
-    
+    this.parentNode.innerText = newName;  
+    let nombreDeClase= document.getElementsByTagName("td")[0].classList.value;
+    hospitalK.editarPorNombre(oldName,newName,nombreDeClase);
+      
 }
 
 function mostrarFormularioIngresoPaciente(hospital) {

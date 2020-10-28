@@ -90,7 +90,6 @@ function crearTabla(datos,eventoEditar) {
                 celda.id ="nombreCelda"+info[1];
                 //me saca el tipo de clase
                 celda.className = datos[i].constructor.name;
-                alert(celda.className);
                 addLapizEdicion(celda,eventoEditar);
             }
             if (info[1] instanceof Date){
@@ -100,6 +99,7 @@ function crearTabla(datos,eventoEditar) {
             let texto = document.createTextNode(info[1]);
             //lo inserta aunque no exista i
             celda.insertBefore(texto,document.getElementById("i"));
+            
             fila.appendChild(celda);
         }
 
@@ -107,6 +107,7 @@ function crearTabla(datos,eventoEditar) {
         tabla.appendChild(fila);
     }
     document.getElementById("datos").appendChild(tabla);
+    console.log(datos.length);
 }
 function crearTexto(texto){
     document.getElementById("datos").innerHTML = texto;

@@ -35,14 +35,38 @@ class Hospital {
         }
     }
 
-    buscarHumano(nombre,tipo){
-        let listado = (tipo === PERSONAL) ? this.personal : this.pacientes;
-        for (let i=0;i<listado.length;i++){
-            if(listado[i].nombre==nombre){
+    buscarHumano(nombreBuscar,tipo){
+        console.log("El nombre es"+nombreBuscar);
+        console.log("el tipo"+tipo);
+        console.log(tipo===PERSONAL);
+        console.log(document.getElementsByTagName("td")[0].classList.value);
+        if(tipo === PERSONAL){
+           return  this.buscarPersonal(nombreBuscar);
+            
+        }else{
+            return this.buscarPaciente(nombreBuscar);
+        }
+    }
+
+    buscarPersonal(nombreBuscar){
+
+        for (let i=0;i<this.personal.length;i++){
+            if(this.personal[i].nombre==nombreBuscar){
                 return i;
             }
         }
         return -1;
+
+    }
+
+    buscarPaciente(nombreBuscar){
+        for (let i=0;i<this.pacientes.length;i++){
+            if(this.pacientes[i].nombre==nombreBuscar){
+                return i;
+            }
+        }
+        return -1;
+
     }
    
     borrarHumano(nombre,tipo){
@@ -53,8 +77,18 @@ class Hospital {
     }
 
     editarPorNombre(nombreAntiguo,nombreNuevo,tipo){
+       console.log(PERSONAL == tipo);
+       console.log(PERSONAL);
+       console.log(tipo);
+       //hasta aqui bien todo
         let listado = (tipo === PERSONAL) ? this.personal: this.pacientes;
+        console.log(listado);
+        //NO BUSCA BIEN!!!
         let posicionModificar = this.buscarHumano(nombreAntiguo,tipo);
+        alert("NOMBRE ANTIGUO ES"+nombreAntiguo);
+        alert(posicionModificar);
+        alert(this.personal.nombre);
+        alert("esro"+listado.nombre);
         listado[posicionModificar].nombre = nombreNuevo;
     }
 
