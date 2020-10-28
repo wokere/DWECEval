@@ -126,14 +126,17 @@ class GestionHospital {
         }
 
     }
-    
 
+    //crea y muestra el formulario de despido
     mostrarFormularioDespidoPersonal() {
-        console.log("pero aqui es" + this.hospital);
+        
         crearFormulario(["Nombre"], "despidoPersonal", () => this.despidoPersonal(this.hospital));
 
     }
-    //aqui el despido del personal
+
+    //Dado un hospital , recaba el dato del imput y borra el personal de la coleccion 
+    //y actualiza los daos.
+    //en caso contrario avisa de que no hay trabajadores con ese nombre
     despidoPersonal(hospital) {
         console.log("aqui this hiospital es" + this.hospital);
         let inputNombre = document.getElementsByTagName("INPUT")[0].value;
@@ -147,12 +150,16 @@ class GestionHospital {
             this.mostrarDatos(hospital.personal);
         }
     }
+    //muestra y crea el formulario de asignacion de un personal al paciente
     mostrarFormularioAsignacionPaciente() {
 
         let funcion = () => this.activarSeleccion("asignarPersonal", botonAltaPaciente);
         crearFormulario(["Nombre"], "asignarPersonal", funcion);
         let botonAltaPaciente = document.getElementById("confirmacion");
     }
+    //metodo para la reasignacion de un personal al paciente. 
+    //obtiene datos dada una clase y actualiza el campo personalAsignado del paciente
+    //con la posicion que se le pasa.
     reAsignarPersonal(clase, posicion) {
         //cojo el nombre del paciente y el nombre seleccionado
         let datosFormulario = this.obtenerDatosFormulario(clase);
@@ -160,6 +167,9 @@ class GestionHospital {
         alert("reasignacion realizada");
         this.mostrarDatos(this.hospital.pacientes);
     }
+    //Si la busqueda desde el input devuelve > -1 añade un campo select
+    //al formulario y añade el manejador de evento para reasignar el personal.
+    //Si la busqueda no es correcta lanza un aviso
     activarSeleccion(clase, elemento) {
         let posicion = this.buscarDesdeInput(Paciente.name);
         if (posicion !== -1) {
