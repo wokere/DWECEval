@@ -2,12 +2,26 @@
 
 //inicio el hospital con el que se va a trabajar. De momento sin pacientes ni personal
 class GestionHospital {
+    //meter aqui el manejo de elemetos?
     constructor(hospitalAGestionar) {
 
         this.hospital = hospitalAGestionar;
-    }
         
+    }
+    lanzarGestion(){
+    updateDatosById(this.hospital.nombre, "nombre");
+    updateDatosById(this.hospital.responsable, "direccion");
+    updateDatosById(this.hospital.nPacientes, "numPacientes");
+    updateDatosById(this.hospital.numeroPersonal, "numPersonal");
 
+    document.getElementById("verPacientes").onclick = () => this.mostrarDatos(this.hospital.pacientes);
+    document.getElementById("nuevoPaciente").onclick = () => this.mostrarFormularioIngresoPaciente();
+    document.getElementById("altaPaciente").onclick = () => this.mostrarFormularioAltaPaciente();
+    document.getElementById("verPersonal").onclick = () => this.mostrarDatos(this.hospital.personal);
+    document.getElementById("addPersonal").onclick = () => this.mostrarFormularioAltaPersonal();
+    document.getElementById("asignarPaciente").onclick = () => this.mostrarFormularioAsignacionPaciente();
+    document.getElementById("despedirPersonal").onclick = () => this.mostrarFormularioDespidoPersonal();
+    }
     buscarDesdeInput(tipo) {
         let input = document.getElementsByTagName("INPUT")[0].value;
         // compruebo si existe
@@ -21,9 +35,6 @@ class GestionHospital {
         alert("reasignacion realizada");
         this.mostrarDatos(this.hospital.pacientes);
     }
-
-   
-
 
     ingresarDatos(tipoHumano, clase) {
         let datosHumano = this.obtenerDatosFormulario(clase);
