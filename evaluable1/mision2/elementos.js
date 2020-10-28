@@ -1,4 +1,10 @@
 "use strict"
+
+/**
+ * 
+ * PARA FUNCIONES AUXILIARES
+ */
+
 //dado un campo, una clase y un evento crea un formulario y le asigna esos datos antes de mostrarlo.
 function crearFormulario(campos, clase, funcion) {
     //limpiamos lo que hubiere en los elementos con id datos
