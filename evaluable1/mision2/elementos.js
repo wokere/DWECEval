@@ -65,7 +65,7 @@ function addSelect(elementoAnterior,opciones,clase){
     elementoAnterior.parentNode.insertBefore(select,elementoAnterior);
 
 }
-function crearTabla(datos,eventoEditar) {
+function crearTabla(datos) {
     //limpiamos lo que hubiere antes
     cleanDatos();
     //creamos la tabla
@@ -90,7 +90,7 @@ function crearTabla(datos,eventoEditar) {
                 celda.id ="nombreCelda"+info[1];
                 //me saca el tipo de clase
                 celda.className = datos[i].constructor.name;
-                addLapizEdicion(celda,eventoEditar);
+                addLapizEdicion(celda);
             }
             if (info[1] instanceof Date){
                 info[1] = prettyDate(info[1]);
@@ -133,10 +133,18 @@ function updateDatosById(datos,id){
 
     document.getElementById(id).innerHTML = datos;
 }
-function addLapizEdicion (campo,evento){
+function addLapizEdicion (campo){
     
     let i = document.createElement("i");
     i.className = "fa fa-pencil";
-    i.onclick = evento;
     campo.appendChild(i);
+}
+function camposEdicionNombre(){
+    let oldName = this.parentNode.innerText;
+    let newName = prompt("Nuevo nombre", this.parentNode.innerText);
+    this.parentNode.innerText = newName;
+    let nombreDeClase = document.getElementsByTagName("td")[0].classList.value;
+   /// objeto.editarPorNombre(oldName, newName, nombreDeClase);
+    return [oldName,newName,nombreDeClase];
+
 }
