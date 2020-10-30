@@ -9,10 +9,11 @@ class visualGame{
     }
 
     asignarCartas(){
+        alert("done");
         this.juegoActual.barajarCartas();
         for(let i=0;i<this.imagenesCartas.length;i++){
-            this.imagenesCartas[i].src = this.juegoActual.cartas[i].imagenPath;
-            this.imagenesCartas[i].setAttribute("alt",this.juegoActual.cartas[i].nombre);
+            this.imagenesCartas[i].src = this.juegoActual.coleccionCartas[i].imagenPath;
+            this.imagenesCartas[i].setAttribute("alt",this.juegoActual.coleccionCartas[i].nombre);
         }
     }
 
