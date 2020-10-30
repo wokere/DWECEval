@@ -12,7 +12,8 @@ class visualGame{
         alert("done");
         this.juegoActual.barajarCartas();
         for(let i=0;i<this.imagenesCartas.length;i++){
-            this.imagenesCartas[i].src = this.juegoActual.coleccionCartas[i].imagenPath;
+            //se le asigna siempre el path reverso
+            this.imagenesCartas[i].src = this.juegoActual.coleccionCartas[i].imageBack;
             this.imagenesCartas[i].setAttribute("alt",this.juegoActual.coleccionCartas[i].nombre);
         }
     }
