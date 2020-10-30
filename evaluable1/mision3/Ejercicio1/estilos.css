@@ -1,0 +1,57 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing: content-box;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    text-align:center;
+}
+h1{
+    color:red;
+    padding:5px;
+}
+p{
+    padding: 15px;
+}
+#dataContainer{
+    width: 30vw;
+    position:relative;
+    margin-left: 35vw;
+    margin-top:10vh;
+}
+button{
+    padding: 25px;
+    margin-top:5vh;
+    background-color: brown;
+    color:white;
+    font-weight: bolder;
+}
+#matrizCartas {
+    position:relative;
+    width: 30vw;
+    margin-left: 35vw;
+    margin-top: 5vh;
+    
+}
+#matrizCartas > img {
+    margin:20px;
+    border: 3px solid black;
+    border-radius:15px;
+
+}
+
+#matrizCartas > img.acertada{
+    border-color:green;
+    opacity:50%;
+}
+.puntuacion{
+    font-weight: bolder;
+}
+.negativa{
+    color:red;
+}
+.positiva{
+    color:green;
+}
