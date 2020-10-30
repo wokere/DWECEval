@@ -1,7 +1,8 @@
 class Juego{
-    constructor(cartas){
+    constructor(cartas,descripcion){
         this.coleccionCartas = cartas;
         this.puntuacion =0;
+        this.descripcion = descripcion;
     }
 
     acierto(){
@@ -18,7 +19,7 @@ class Juego{
         //si esa funcion es una que te de un numero aleatorio... las posiciones
         //del array serán aleatorias (eso dice en internet https://javascript.info/task/shuffle)
         //this.coleccionCartas.sort(() => Math.random() - 0.5);
-        //pero como me parece que es copiar lo voy a hacer a mano... xD
+        //pero como me parece que es copiar lo voy a hacer pensando... xD
 
         let arrayBarajado =[];
         let arrayCopia = [];
@@ -47,10 +48,5 @@ class Juego{
     }
 
 }
-
-let game = new Juego(["as","alfil","reina","caballo"]);
-console.log(game.coleccionCartas);
-game.barajarCartas();
-console.log(game.coleccionCartas);
 
 
