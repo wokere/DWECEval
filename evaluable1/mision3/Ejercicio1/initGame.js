@@ -29,7 +29,8 @@ function  empezarPartida(partida){
     //y sacamos el tablero de puntuacion
     partida.actualizarPuntuacion();
     partida.botonEmpezar.innerHTML = "Empezar de Nuevo";
-    partida.botonEmpezar.onclick = ()=> partida.resetPartida();
+    //si
+    partida.botonEmpezar.onclick = ()=>partida.resetPartida();
     
 }
 
@@ -42,4 +43,8 @@ function  deshabilitarOnClick(partida){
     for(let i=0;i<partida.imagenesCartas.length;i++){
         partida.imagenesCartas[i].onclick = null;
     }
+}
+
+function checkClickImagenes(partida){
+    return partida.imagenesCartas[0].onclick === null;
 }

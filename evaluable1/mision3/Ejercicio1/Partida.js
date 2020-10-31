@@ -170,7 +170,7 @@ class Partida {
     checkFinPartida() {
         if (this.juegoActual.esFinJuego()) {
             alert("FIN DEL JUEGO, puntuación:" + this.juegoActual.puntuacion);
-            resetPartida();
+            this.resetPartida();
         }
     }
     //deja la partida lista para volver a empezar.
@@ -180,6 +180,10 @@ class Partida {
         this.actualizarPuntuacion();
         this.quitarClase(this.imagenesCartas,"acertada");
         this.quitarClase(this.imagenesCartas,"noacertada");
+        if(checkClickImagenes(this)){
+            eventoSeleccionCarta(this);
+        }
+        clearTimeout();
     }
 
 
