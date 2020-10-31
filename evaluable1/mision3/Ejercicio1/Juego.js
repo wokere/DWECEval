@@ -44,7 +44,10 @@ class Juego{
         if(carta1.nombre===carta2.nombre){
             carta1.emparejada = true;
             carta2.emparejada = true;
+            carta1.mostrarCarta();
+            carta2.mostrarCarta();
         }
+    
     }
 
 }

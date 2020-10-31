@@ -46,6 +46,13 @@ button{
     border-color:green;
     opacity:50%;
 }
+#matrizCartas > img.seleccionada{
+    border-color:blue !important; 
+}
+#matrizCartas > img.noacertada{
+    border-color:red; 
+}
+
 .puntuacion{
     font-weight: bolder;
 }
