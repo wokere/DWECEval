@@ -68,7 +68,6 @@ class Partida {
 
     //comprueba si el texto alternativo de dos imagenes es el mismo y devuelve true/false
     comprobarCartas(imgCarta1, imgCarta2) {
-        console.log(imgCarta1.alt === imgCarta2.alt);
         return imgCarta1.alt === imgCarta2.alt;
     }
     //metodo que se encarga de coomprobar si las imagenes son iguales y actualizar el tablero en consecuencia
@@ -86,7 +85,7 @@ class Partida {
             //valora si se ha acabado la partida.
             this.checkFinPartida();
             //reactivamos el clic
-            eventoSeleccionCarta(this);
+            habilitarSeleccionCarta(this);
 
         } else {
             //decrementa la puntuacion
@@ -95,6 +94,7 @@ class Partida {
             this.addClase([carta1,carta2],"noacertada");
             //se oculataran en 3 segundos
             setTimeout(() => this.ocultarSeleccionadas(carta1, carta2), 3000);
+            
         }
 
         //en 3 segundos ocultara la pareja que no ha sido emparejada correctamente
@@ -124,7 +124,7 @@ class Partida {
         
         this.quitarClase([imagenCarta1,imagenCarta2],"noacertada");
         //CUANDO SE OCULTEN VUELVO A DEJAR  QUE HAGAN CLICK. 
-        eventoSeleccionCarta(this);
+        habilitarSeleccionCarta(this);
 
     }
     //elimina los dos elementos que debe tener el atributo ImagenesSeleccionadas
@@ -166,25 +166,15 @@ class Partida {
         }
     }
 
-    //comprueba si ha acabado la partida y si es asi lanza un alert con los puntos y resetea los datos de la partida
+    //comprueba si ha acabado la partida y si es asi lanza un alert con los puntos .
     checkFinPartida() {
         if (this.juegoActual.esFinJuego()) {
+            this.actualizarPuntuacion();
             alert("FIN DEL JUEGO, puntuación:" + this.juegoActual.puntuacion);
-            this.resetPartida();
         }
     }
     //deja la partida lista para volver a empezar.
-    resetPartida() {
-        this.juegoActual.resetJuego();
-        this.asignarCartas();
-        this.actualizarPuntuacion();
-        this.quitarClase(this.imagenesCartas,"acertada");
-        this.quitarClase(this.imagenesCartas,"noacertada");
-        if(checkClickImagenes(this)){
-            eventoSeleccionCarta(this);
-        }
-        clearTimeout();
-    }
+
 
 
 }

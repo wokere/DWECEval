@@ -20,7 +20,8 @@ window.onload = () => {
     let vg = new Partida(juego,elementoImagen,parrafoPuntos,botonStart,parrafoDescripcion);
 
     vg.botonEmpezar.onclick = ()=>empezarPartida(vg);
-    eventoSeleccionCarta(vg);
+    habilitarSeleccionCarta(vg);
+    
 }
 
 function  empezarPartida(partida){
@@ -28,20 +29,21 @@ function  empezarPartida(partida){
     partida.asignarCartas();
     //y sacamos el tablero de puntuacion
     partida.actualizarPuntuacion();
-    partida.botonEmpezar.innerHTML = "Empezar de Nuevo";
-    //si
-    partida.botonEmpezar.onclick = ()=>partida.resetPartida();
-    
+    //partida.botonEmpezar.innerHTML = "Empezar de Nuevo";
+    //si    
+    partida.botonEmpezar.style.display="none";
 }
 
-function eventoSeleccionCarta(partida){
+function habilitarSeleccionCarta(partida){
     for(let i=0;i<partida.imagenesCartas.length;i++){
         partida.imagenesCartas[i].onclick = ()=> partida.cuandoHacenClicAImagen(i);
+        console.log( partida.imagenesCartas[i].onclick===null);
     }
 }
 function  deshabilitarOnClick(partida){
     for(let i=0;i<partida.imagenesCartas.length;i++){
         partida.imagenesCartas[i].onclick = null;
+        
     }
 }
 
