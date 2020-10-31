@@ -11,7 +11,7 @@ class Partida {
         this.imagenesSeleccionadas = [];
 
     }
-   //metodo para asignar a cada  elemento imagen los datos del objeto carta
+    //metodo para asignar a cada  elemento imagen los datos del objeto carta
     asignarCartas() {
 
         this.juegoActual.barajarCartas();
@@ -19,133 +19,170 @@ class Partida {
             //se le asigna siempre el path reverso
             this.imagenesCartas[i].src = this.juegoActual.coleccionCartas[i].ocultarCarta();
             this.imagenesCartas[i].setAttribute("alt", this.juegoActual.coleccionCartas[i].nombre);
-            this.imagenesCartas[i].id = "carta"+i;
+            this.imagenesCartas[i].id = "carta" + i;
         }
     }
-//metodo que dada una posicion añande la id del elemento imagen seleccionado al atributo ImagenesSeleccionadas
-//y cambia la imagen para que se vea qué carta es
+    //metodo que dada una posicion añande la id del elemento imagen seleccionado al atributo ImagenesSeleccionadas
+    //y cambia la imagen para que se vea qué carta es
     seleccionarCarta(posicion) {
-       
+
         this.imagenesSeleccionadas.push(this.imagenesCartas[posicion].id);
         this.imagenesCartas[posicion].classList.add("seleccionada");
         //la muestro cuando la selecciono
         this.imagenesCartas[posicion].src = this.juegoActual.coleccionCartas[posicion].mostrarCarta();
     }
-//dad una posicion devuelve si la posición si la carta esta seleccionada o -1 si no
-//buscando su id en el attr de imagenes selccionadas
+    //dad una posicion devuelve si la posición si la carta esta seleccionada o -1 si no
+    //buscando su id en el attr de imagenes selccionadas
     estaSeleccionada(posicion) {
-        
+
         return this.imagenesSeleccionadas.indexOf(this.imagenesCartas[posicion].id);
     }
-//dada una posicion busca en el objeto Carta si está emparejada
+    //dada una posicion busca en el objeto Carta del que el elemto imagen toma los datos si está emparejada
     estaEmparejada(posicion) {
+        //el texto alternativo de la imagen equivale a la posicion de la carta en coleccion de cartas del juego
         return this.juegoActual.coleccionCartas[this.imagenesCartas[posicion].alt].emparejada;
     }
 
+    //manejador del click de la imagen. LA posicion es la posición del array de imagenes.
     cuandoHacenClicAImagen(posicion) {
-        
+        //si no está emparejada y no está seleccionada entonces se selecciona.
         if (!this.estaEmparejada(posicion) && this.estaSeleccionada(posicion) == -1) {
-           
+
             this.seleccionarCarta(posicion);
         }
 
-        //si ya se han seleccionado dos se comprueba
+        //si se han seleccionado dos se deshabilita el evento click para que no puedan
+        //seguir hasta que se haya comprobado todo. Y actualiza el tablero y los datos de juego
         if (this.imagenesSeleccionadas.length == 2) {
-            //DESHABILITAR EVENTOS!!!
+
             deshabilitarOnClick(this);
-           
+
             let cartaSeleccionada1 = document.getElementById(this.imagenesSeleccionadas[0]);
             let cartaSeleccionada2 = document.getElementById(this.imagenesSeleccionadas[1]);
 
-            this.actualizarTablero(cartaSeleccionada1,cartaSeleccionada2);
-            
+            this.actualizarTablero(cartaSeleccionada1, cartaSeleccionada2);
+
         }
 
     }
 
-    //comprueba si el texto alternativo de dos imagenes es el mismo
+    //comprueba si el texto alternativo de dos imagenes es el mismo y devuelve true/false
     comprobarCartas(imgCarta1, imgCarta2) {
-        console.log( imgCarta1.alt === imgCarta2.alt);
+        console.log(imgCarta1.alt === imgCarta2.alt);
         return imgCarta1.alt === imgCarta2.alt;
     }
-
+    //metodo que se encarga de coomprobar si las imagenes son iguales y actualizar el tablero en consecuencia
+    // recibe dos cartas.
     actualizarTablero(carta1, carta2) {
-       
+
+        //si son iguales
         if (this.comprobarCartas(carta1, carta2)) {
-            //aumento la puntuacion
+            //aumenta la puntuacion
             this.juegoActual.acierto();
-            carta1.classList.add("acertada");
-            carta2.classList.add("acertada");
-            //esta emparejando el objeto y no el nombre
-            this.juegoActual.emparejarCartas(this.imagenACarta(carta1), this.imagenACarta(carta2)); 
+            //les añade la clase acertada que les dará un borde verde y algo de opacidad.
+            this.addClase([carta1,carta2],"acertada");
+            //cambia el objeto del cual toma los datos la imagen para ponerlo como emparejado.
+            this.juegoActual.emparejarCartas(this.imagenACarta(carta1), this.imagenACarta(carta2));
+            //valora si se ha acabado la partida.
             this.checkFinPartida();
-            
+
         } else {
+            //decrementa la puntuacion
             this.juegoActual.fallo();
-            carta1.classList.add("noacertada");
-            carta2.classList.add("noacertada");
-            //sacar a funcion con un delay or something
-            //al retrasar la ocultacion ... 
+            //le cambia la clase
+            this.addClase([carta1,carta2],"noacertada");
+           
+
         }
-        setTimeout(()=>this.ocultarSeleccionadasNoEmparejadas(carta1,carta2),3000); 
-        this.quitarClase(this.imagenesSeleccionadas,"seleccionada");
+        //en 3 segundos ocultara la pareja que no ha sido emparejada correctamente
+        setTimeout(() => this.ocultarSeleccionadasNoEmparejadas(carta1, carta2), 3000);
+        // quita la clase seleccionada 
+        this.quitarClase(this.imagenesSeleccionadas, "seleccionada");
+        //vuelve a dejar a 0 las imagenesSeleccionadas
         this.vaciarSeleccionadas();
+        //actualiza la puntuación
         this.actualizarPuntuacion();
     }
-
+    //dada una posicion te devuelve el elemento imagen de ImagenesCartas
     posicionImagenAElemento(posicion) {
 
         return this.imagenesCartas[posicion];
     }
-
-    imagenACarta(imagen){
+    //dado un elemento imagen te devuelve el objeto carta del cual toma los datos
+    imagenACarta(imagen) {
         return this.juegoActual.coleccionCartas[imagen.alt];
     }
 
-    ocultarSeleccionadasNoEmparejadas(carta1,carta2){
-        if(!this.imagenACarta(carta1).emparejada) {
-            carta1.src = this.juegoActual.coleccionCartas[carta1.alt].ocultarCarta();
+    //dadas dos imagenes comprueba si no stán emparejadas y las oculta.
+    //tras quitar la clase "noacertada" vuelve a habilitar el manejador de seleccion de carta
+    //ya que se da por concluída la ronda
+
+    ocultarSeleccionadasNoEmparejadas(imagenCarta1, imagenCarta2) {
+        if (!this.imagenACarta(imagenCarta1).emparejada) {
+            imagenCarta1.src = this.juegoActual.coleccionCartas[imagenCarta1.alt].ocultarCarta();
         }
-        if(!this.imagenACarta(carta1).emparejada){
-            carta2.src = this.juegoActual.coleccionCartas[carta2.alt].ocultarCarta();
+        if (!this.imagenACarta(imagenCarta2).emparejada) {
+            imagenCarta2.src = this.juegoActual.coleccionCartas[imagenCarta2.alt].ocultarCarta();
         }
-       
-        carta1.classList.remove("noacertada");
-        carta2.classList.remove("noacertada");
-        //CUANDO SE OCULTEN VUELVO A DEJAR  QUE HAGAN CLICk
+        
+        this.quitarClase([imagenCarta1,imagenCarta2],"noacertada");
+        //CUANDO SE OCULTEN VUELVO A DEJAR  QUE HAGAN CLICK. 
         eventoSeleccionCarta(this);
 
     }
-
-    vaciarSeleccionadas(){
+    //elimina los dos elementos que debe tener el atributo ImagenesSeleccionadas
+    vaciarSeleccionadas() {
         this.imagenesSeleccionadas.pop();
         this.imagenesSeleccionadas.pop();
     }
-
+    //actualiza el documento con la puntacion del juego
     actualizarPuntuacion() {
         this.elementoPuntuacion.innerHTML = "PUNTUACION: " + this.juegoActual.puntuacion;
     }
-    quitarClase(elementos,clase){
-        for(let i=0;i<elementos.length;i++){
-         document.getElementById(elementos[i]).classList.remove(clase);
+
+    //quita la clase a un conjunto de ids. Dependiendo de si recibe una imagen o un string pasa un argumento u otro
+
+    quitarClase(elementos, clase) {
+
+        for (let i = 0; i < elementos.length; i++) {
+            if(elementos[i].constructor.name === "HTMLImageElement"){
+                //aqui paso el id de la imagen
+                document.getElementById(elementos[i].id).classList.remove(clase);
+            }else{
+                //aqui el texto
+                document.getElementById(elementos[i]).classList.remove(clase);
+            }
+            
         }
     }
-    addClase(elementos,clase){
-        for(let i=0;i<elementos.length;i++){
-            document.getElementById(elementos[i]).classList.add(clase);
-           }
+    //añade la clase a un conjunto de ids, funciona como la anterior
+    
+    addClase(elementos, clase) {
+        for (let i = 0; i < elementos.length; i++) {
+            if(elementos[i].constructor.name === "HTMLImageElement"){
+                //aqui paso el id de la imagen
+                document.getElementById(elementos[i].id).classList.add(clase);
+            }else{
+                //aqui el texto
+                document.getElementById(elementos[i]).classList.add(clase);
+            }
+        }
     }
-    checkFinPartida(){
-        if(this.juegoActual.esFinJuego()){
-            alert("FIN DEL JUEGO");
+    //comprueba si ha acabado la partida y si es asi lanza un alert con los puntos y resetea los datos de la partida
+    checkFinPartida() {
+        if (this.juegoActual.esFinJuego()) {
+            alert("FIN DEL JUEGO, puntuación:" + this.juegoActual.puntuacion);
+            resetPartida();
         }
     }
 
-    resetPartida(){
+    resetPartida() {
         this.juegoActual.resetJuego();
         this.asignarCartas();
         this.actualizarPuntuacion();
+        this.quitarClase(this.imagenesCartas,"acertada");
+        this.quitarClase(this.imagenesCartas,"noacertada");
     }
-     
+
 
 }
