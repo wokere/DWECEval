@@ -57,10 +57,10 @@ class Partida {
 
             Partida.deshabilitarOnClick(this);
 
-            let cartaSeleccionada1 = document.getElementById(this.imagenesSeleccionadas[0]);
-            let cartaSeleccionada2 = document.getElementById(this.imagenesSeleccionadas[1]);
+            let imgCartaSeleccionada1 = document.getElementById(this.imagenesSeleccionadas[0]);
+            let imgCartaSeleccionada2 = document.getElementById(this.imagenesSeleccionadas[1]);
 
-            this.actualizarTablero(cartaSeleccionada1, cartaSeleccionada2);
+            this.actualizarTablero(imgCartaSeleccionada1, imgCartaSeleccionada2);
 
         }
 
@@ -72,16 +72,16 @@ class Partida {
     }
     //metodo que se encarga de coomprobar si las imagenes son iguales y actualizar el tablero en consecuencia
     // recibe dos cartas.
-    actualizarTablero(carta1, carta2) {
+    actualizarTablero(imagenaCarta1, imagenCarta2) {
 
         //si son iguales
-        if (this.comprobarCartas(carta1, carta2)) {
+        if (this.comprobarCartas(imagenaCarta1, imagenCarta2)) {
             //aumenta la puntuacion
             this.juegoActual.acierto();
             //les añade la clase acertada que les dará un borde verde y algo de opacidad.
-            this.addClase([carta1,carta2],"acertada");
+            this.addClase([imagenaCarta1,imagenCarta2],"acertada");
             //cambia el objeto del cual toma los datos la imagen para ponerlo como emparejado.
-            this.juegoActual.emparejarCartas(this.imagenACarta(carta1), this.imagenACarta(carta2));
+            this.juegoActual.emparejarCartas(this.imagenACarta(imagenaCarta1), this.imagenACarta(imagenCarta2));
             //valora si se ha acabado la partida.
             this.checkFinPartida();
             //reactivamos el clic
@@ -91,9 +91,9 @@ class Partida {
             //decrementa la puntuacion
             this.juegoActual.fallo();
             //le cambia la clase
-            this.addClase([carta1,carta2],"noacertada");
+            this.addClase([imagenaCarta1,imagenCarta2],"noacertada");
             //se oculataran en 3 segundos
-            this.timeOut = setTimeout(() => this.ocultarSeleccionadas(carta1, carta2), 3000);
+            this.timeOut = setTimeout(() => this.ocultarSeleccionadas(imagenaCarta1, imagenCarta2), 3000);
             
         }
 
