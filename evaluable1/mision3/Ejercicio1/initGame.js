@@ -29,7 +29,8 @@ function  empezarPartida(partida){
     //y sacamos el tablero de puntuacion
     partida.actualizarPuntuacion();
     partida.botonEmpezar.innerHTML = "Empezar de Nuevo";
-   // partida.botonEmpezar.onclick = new Partida();
+    partida.botonEmpezar.onclick = ()=> partida.resetPartida();
+    
 }
 
 function eventoSeleccionCarta(partida){

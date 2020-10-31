@@ -3,6 +3,7 @@ class Juego{
         this.coleccionCartas = cartas;
         this.puntuacion =0;
         this.descripcion = descripcion;
+        this.emparejadas =0;
     }
 
     acierto(){
@@ -44,10 +45,18 @@ class Juego{
         if(carta1.nombre===carta2.nombre){
             carta1.emparejada = true;
             carta2.emparejada = true;
-            carta1.mostrarCarta();
-            carta2.mostrarCarta();
+            this.emparejadas++;
         }
     
+    }
+
+    esFinJuego(){
+        return this.emparejadas === this.coleccionCartas.length/2;
+    }
+
+    resetJuego(){
+        this.puntuacion =0;
+        this.emparejadas =0;
     }
 
 }

@@ -1,5 +1,6 @@
-/**AQUI LA INTEREACCION DEL DOCUMENTO CON EL JUEGO */
+//Clase que tiene el desarrollo de una partida
 class Partida {
+    //las partidas necesitan un objeto juego y los elementos del documento con los que van a interaccionar
     constructor(juego, eImagenesCartas, ePuntuacion, botonEmpezar, pDescripcion) {
 
         this.juegoActual = juego;
@@ -10,7 +11,7 @@ class Partida {
         this.imagenesSeleccionadas = [];
 
     }
-
+   //metodo para asignar a cada  elemento imagen los datos del objeto carta
     asignarCartas() {
 
         this.juegoActual.barajarCartas();
@@ -21,7 +22,8 @@ class Partida {
             this.imagenesCartas[i].id = "carta"+i;
         }
     }
-
+//metodo que dada una posicion añande la id del elemento imagen seleccionado al atributo ImagenesSeleccionadas
+//y cambia la imagen para que se vea qué carta es
     seleccionarCarta(posicion) {
        
         this.imagenesSeleccionadas.push(this.imagenesCartas[posicion].id);
@@ -29,12 +31,13 @@ class Partida {
         //la muestro cuando la selecciono
         this.imagenesCartas[posicion].src = this.juegoActual.coleccionCartas[posicion].mostrarCarta();
     }
-
+//dad una posicion devuelve si la posición si la carta esta seleccionada o -1 si no
+//buscando su id en el attr de imagenes selccionadas
     estaSeleccionada(posicion) {
         
         return this.imagenesSeleccionadas.indexOf(this.imagenesCartas[posicion].id);
     }
-
+//dada una posicion busca en el objeto Carta si está emparejada
     estaEmparejada(posicion) {
         return this.juegoActual.coleccionCartas[this.imagenesCartas[posicion].alt].emparejada;
     }
@@ -58,7 +61,6 @@ class Partida {
             
         }
 
-
     }
 
     //comprueba si el texto alternativo de dos imagenes es el mismo
@@ -76,8 +78,7 @@ class Partida {
             carta2.classList.add("acertada");
             //esta emparejando el objeto y no el nombre
             this.juegoActual.emparejarCartas(this.imagenACarta(carta1), this.imagenACarta(carta2)); 
-            eventoSeleccionCarta(this);
-            //deberian poder mostrarse siempre...tengo q evitar q se seleccione si el taaño es 2
+            this.checkFinPartida();
             
         } else {
             this.juegoActual.fallo();
@@ -134,7 +135,17 @@ class Partida {
             document.getElementById(elementos[i]).classList.add(clase);
            }
     }
+    checkFinPartida(){
+        if(this.juegoActual.esFinJuego()){
+            alert("FIN DEL JUEGO");
+        }
+    }
 
+    resetPartida(){
+        this.juegoActual.resetJuego();
+        this.asignarCartas();
+        this.actualizarPuntuacion();
+    }
      
 
 }
