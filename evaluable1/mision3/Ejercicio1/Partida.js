@@ -85,17 +85,19 @@ class Partida {
             this.juegoActual.emparejarCartas(this.imagenACarta(carta1), this.imagenACarta(carta2));
             //valora si se ha acabado la partida.
             this.checkFinPartida();
+            //reactivamos el clic
+            eventoSeleccionCarta(this);
 
         } else {
             //decrementa la puntuacion
             this.juegoActual.fallo();
             //le cambia la clase
             this.addClase([carta1,carta2],"noacertada");
-           
-
+            //se oculataran en 3 segundos
+            setTimeout(() => this.ocultarSeleccionadas(carta1, carta2), 3000);
         }
+
         //en 3 segundos ocultara la pareja que no ha sido emparejada correctamente
-        setTimeout(() => this.ocultarSeleccionadasNoEmparejadas(carta1, carta2), 3000);
         // quita la clase seleccionada 
         this.quitarClase(this.imagenesSeleccionadas, "seleccionada");
         //vuelve a dejar a 0 las imagenesSeleccionadas
@@ -113,17 +115,12 @@ class Partida {
         return this.juegoActual.coleccionCartas[imagen.alt];
     }
 
-    //dadas dos imagenes comprueba si no stán emparejadas y las oculta.
+    //Dadas dos imagenes les pone como SRC la cara trasera del objeto Carta del q toma los datos
     //tras quitar la clase "noacertada" vuelve a habilitar el manejador de seleccion de carta
     //ya que se da por concluída la ronda
-
-    ocultarSeleccionadasNoEmparejadas(imagenCarta1, imagenCarta2) {
-        if (!this.imagenACarta(imagenCarta1).emparejada) {
+    ocultarSeleccionadas(imagenCarta1, imagenCarta2) {
             imagenCarta1.src = this.juegoActual.coleccionCartas[imagenCarta1.alt].ocultarCarta();
-        }
-        if (!this.imagenACarta(imagenCarta2).emparejada) {
             imagenCarta2.src = this.juegoActual.coleccionCartas[imagenCarta2.alt].ocultarCarta();
-        }
         
         this.quitarClase([imagenCarta1,imagenCarta2],"noacertada");
         //CUANDO SE OCULTEN VUELVO A DEJAR  QUE HAGAN CLICK. 
@@ -156,7 +153,7 @@ class Partida {
         }
     }
     //añade la clase a un conjunto de ids, funciona como la anterior
-    
+
     addClase(elementos, clase) {
         for (let i = 0; i < elementos.length; i++) {
             if(elementos[i].constructor.name === "HTMLImageElement"){
@@ -168,6 +165,7 @@ class Partida {
             }
         }
     }
+
     //comprueba si ha acabado la partida y si es asi lanza un alert con los puntos y resetea los datos de la partida
     checkFinPartida() {
         if (this.juegoActual.esFinJuego()) {
@@ -175,7 +173,7 @@ class Partida {
             resetPartida();
         }
     }
-
+    //deja la partida lista para volver a empezar.
     resetPartida() {
         this.juegoActual.resetJuego();
         this.asignarCartas();
