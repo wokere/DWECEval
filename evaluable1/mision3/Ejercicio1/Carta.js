@@ -1,4 +1,5 @@
-
+"use strict"
+//clase de donde las imagenes sacan toda la información para mostrarse
 class Carta{
     constructor(img,nombre,imageBack){
         this.imagenPath = img;

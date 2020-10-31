@@ -19,34 +19,9 @@ window.onload = () => {
     let parrafoDescripcion = document.getElementById("descripcionJuego");
     let vg = new Partida(juego,elementoImagen,parrafoPuntos,botonStart,parrafoDescripcion);
 
-    vg.botonEmpezar.onclick = ()=>empezarPartida(vg);
-    habilitarSeleccionCarta(vg);
-    
+    vg.botonEmpezar.onclick = ()=>Partida.empezarPartida(vg);
+    Partida.habilitarSeleccionCarta(vg);
 }
 
-function  empezarPartida(partida){
-    //barajamos las fichas
-    partida.asignarCartas();
-    //y sacamos el tablero de puntuacion
-    partida.actualizarPuntuacion();
-    //partida.botonEmpezar.innerHTML = "Empezar de Nuevo";
-    //si    
-    partida.botonEmpezar.style.display="none";
-}
 
-function habilitarSeleccionCarta(partida){
-    for(let i=0;i<partida.imagenesCartas.length;i++){
-        partida.imagenesCartas[i].onclick = ()=> partida.cuandoHacenClicAImagen(i);
-        console.log( partida.imagenesCartas[i].onclick===null);
-    }
-}
-function  deshabilitarOnClick(partida){
-    for(let i=0;i<partida.imagenesCartas.length;i++){
-        partida.imagenesCartas[i].onclick = null;
-        
-    }
-}
 
-function checkClickImagenes(partida){
-    return partida.imagenesCartas[0].onclick === null;
-}

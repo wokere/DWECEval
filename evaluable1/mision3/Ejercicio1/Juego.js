@@ -1,3 +1,4 @@
+//clase que guarda los datos del juego
 class Juego{
     constructor(cartas,descripcion){
         this.coleccionCartas = cartas;
@@ -5,15 +6,15 @@ class Juego{
         this.descripcion = descripcion;
         this.emparejadas =0;
     }
-
+    //sube el marcador si acierta
     acierto(){
         this.puntuacion++;
     }
-
+    //baja si falla
     fallo(){
         this.puntuacion--;
     }
-
+    //mezcla la coleccion de cartas
     barajarCartas(){
         //sort puede tener como parametro una funcion que devuelva + o - 
         //y determinar el orden de los componentes del array.
@@ -39,7 +40,8 @@ class Juego{
         this.coleccionCartas = arrayBarajado;
         
     }
-
+    //cambia el estado de las cartas que se le pasan y aumenta el
+    //marcador de cartas emparejadas
     emparejarCartas(carta1,carta2){
 
         if(carta1.nombre===carta2.nombre){
@@ -49,14 +51,17 @@ class Juego{
         }
     
     }
-
+    //comprueba si se han emparejado todas las cartas
     esFinJuego(){
         return this.emparejadas === this.coleccionCartas.length/2;
     }
-
+    //pone el juego a valores iniciales
     resetJuego(){
         this.puntuacion =0;
         this.emparejadas =0;
+        for(let i=0;i<this.coleccionCartas.length;i++){
+           this.coleccionCartas[i].emparejada = false;
+        }
     }
 
 }

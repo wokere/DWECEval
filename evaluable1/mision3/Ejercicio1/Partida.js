@@ -9,6 +9,7 @@ class Partida {
         this.botonEmpezar = botonEmpezar;
         this.parrafoDescripcion = pDescripcion;
         this.imagenesSeleccionadas = [];
+        this.timeOut=null;
 
     }
     //metodo para asignar a cada  elemento imagen los datos del objeto carta
@@ -34,7 +35,6 @@ class Partida {
     //dad una posicion devuelve si la posición si la carta esta seleccionada o -1 si no
     //buscando su id en el attr de imagenes selccionadas
     estaSeleccionada(posicion) {
-
         return this.imagenesSeleccionadas.indexOf(this.imagenesCartas[posicion].id);
     }
     //dada una posicion busca en el objeto Carta del que el elemto imagen toma los datos si está emparejada
@@ -55,7 +55,7 @@ class Partida {
         //seguir hasta que se haya comprobado todo. Y actualiza el tablero y los datos de juego
         if (this.imagenesSeleccionadas.length == 2) {
 
-            deshabilitarOnClick(this);
+            Partida.deshabilitarOnClick(this);
 
             let cartaSeleccionada1 = document.getElementById(this.imagenesSeleccionadas[0]);
             let cartaSeleccionada2 = document.getElementById(this.imagenesSeleccionadas[1]);
@@ -85,7 +85,7 @@ class Partida {
             //valora si se ha acabado la partida.
             this.checkFinPartida();
             //reactivamos el clic
-            habilitarSeleccionCarta(this);
+            Partida.habilitarSeleccionCarta(this);
 
         } else {
             //decrementa la puntuacion
@@ -93,7 +93,7 @@ class Partida {
             //le cambia la clase
             this.addClase([carta1,carta2],"noacertada");
             //se oculataran en 3 segundos
-            setTimeout(() => this.ocultarSeleccionadas(carta1, carta2), 3000);
+            this.timeOut = setTimeout(() => this.ocultarSeleccionadas(carta1, carta2), 3000);
             
         }
 
@@ -124,7 +124,7 @@ class Partida {
         
         this.quitarClase([imagenCarta1,imagenCarta2],"noacertada");
         //CUANDO SE OCULTEN VUELVO A DEJAR  QUE HAGAN CLICK. 
-        habilitarSeleccionCarta(this);
+        Partida.habilitarSeleccionCarta(this);
 
     }
     //elimina los dos elementos que debe tener el atributo ImagenesSeleccionadas
@@ -166,15 +166,59 @@ class Partida {
         }
     }
 
-    //comprueba si ha acabado la partida y si es asi lanza un alert con los puntos .
+    //comprueba si ha acabado la partida y si es asi lanza un alert con los puntos y resetea los datos de la partida
     checkFinPartida() {
         if (this.juegoActual.esFinJuego()) {
-            this.actualizarPuntuacion();
             alert("FIN DEL JUEGO, puntuación:" + this.juegoActual.puntuacion);
+            this.resetPartida();
         }
     }
     //deja la partida lista para volver a empezar.
+    resetPartida() {
+        this.vaciarSeleccionadas();
+        this.juegoActual.resetJuego();
+        this.asignarCartas();
+        this.actualizarPuntuacion();
+        //quito todas las clases de acierto/fallo
+        this.quitarClase(this.imagenesCartas,"acertada");
+        this.quitarClase(this.imagenesCartas,"noacertada");
+        this.quitarClase(this.imagenesCartas,"seleccionada")
+      //rehabilito el click si estaba deshabilitado
+        if(Partida.checkClickImagenes(this)){
+            Partida.habilitarSeleccionCarta(this);
+        }
+        //si no has fallado nada no se ha establecido el timeout.
+       if(this.timeOut !== null){
+         clearTimeout(this.timeOut);  
+       } 
+    
+    }
 
+    /**Metodos estaticos que inicializan la partida y los eventos */
+    static habilitarSeleccionCarta(partida){
+        for(let i=0;i<partida.imagenesCartas.length;i++){
+            partida.imagenesCartas[i].onclick = ()=> partida.cuandoHacenClicAImagen(i);
+        }
+    }
+    static  deshabilitarOnClick(partida){
+        for(let i=0;i<partida.imagenesCartas.length;i++){
+            partida.imagenesCartas[i].onclick = null;
+        }
+    }
+    
+    static checkClickImagenes(partida){
+        return partida.imagenesCartas[0].onclick === null;
+    }
+    static  empezarPartida(partida){
+        //barajamos las fichas
+        partida.asignarCartas();
+        //y sacamos el tablero de puntuacion
+        partida.actualizarPuntuacion();
+        partida.botonEmpezar.innerHTML = "Empezar de Nuevo";
+        //si
+        partida.botonEmpezar.onclick = ()=>partida.resetPartida();
+        
+    }
 
 
 }
