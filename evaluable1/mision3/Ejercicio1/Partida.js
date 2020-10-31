@@ -169,6 +169,7 @@ class Partida {
     //comprueba si ha acabado la partida y si es asi lanza un alert con los puntos y resetea los datos de la partida
     checkFinPartida() {
         if (this.juegoActual.esFinJuego()) {
+            this.actualizarPuntuacion();
             alert("FIN DEL JUEGO, puntuación:" + this.juegoActual.puntuacion);
             this.resetPartida();
         }
