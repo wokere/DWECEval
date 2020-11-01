@@ -2,10 +2,12 @@ window.onload = () => {
 
     let f = crearFormulario("forGes");
 
-    let identificador = crearInputText("[a-z]", "identificador", "Identificador",true, "1 letra, 8 cifras y 1 letra. Obligatorio");
+    let regExID = "[a-zA-Z]{1}\\d{8}[a-zA-Z]{1}";
+    let identificador = crearInputText(regExID, "identificador", "Identificador", true, "1 letra, 8 cifras y 1 letra. Obligatorio");
     f.appendChild(identificador);
 
-    let inp = crearInputText("[a-z]", "nombre", "nombre y apellidos",true, "Máximo 50 Caracteres");
+    let regExName = "[a-zA-Z|' ']{1,50}";
+    let inp = crearInputText(regExName, "nombre", "nombre y apellidos", true, "Máximo 50 Caracteres");
     f.appendChild(inp);
 
     let fecha = crearInputDate();
@@ -14,10 +16,11 @@ window.onload = () => {
     /*let labelFecha = crearLabel("Fecha",fecha.id);
     f.appendChild(labelFecha);*/
     let regExMail = "[^@]{1,20}@{1}[a-zA-Z]{1,20}\.{1}[a-zA-Z]{2,3}";
-    let inputEmail = crearInputText(regExMail, "email", "Correo electrónico",true, "Email válido");
+    let inputEmail = crearInputText(regExMail, "email", "Correo electrónico", false, "Email válido");
     f.appendChild(inputEmail);
 
-    let inputTel = crearInputText("[]", "tel", "Teléfono");
+    let regExTel = "\\+\\d{2,3}-\\d{9}";
+    let inputTel = crearInputText(regExTel, "tel", "Teléfono", false, "+pais-telefono");
     f.appendChild(inputTel);
 
     let selectEdad = crearSelect(["niño", "adulto", "jubilado"], "Edad");
@@ -36,18 +39,25 @@ window.onload = () => {
     f.onsubmit = validarFormulario;
 
 }
-function validarFormulario(){
+function validarFormulario() {
     //limpiar los avisos anteriores!!
+    borrarSpans();
     let camposAValidar = document.getElementsByTagName("input");
     let valido = true;
     //comprobar que cumpla todo lo que dice cada campo (menos el ultimo q es el submit)
-    for(let i=0;i<camposAValidar.length-1;i++){
-        //falta apañar la fecha
-        if(!validarInputText(camposAValidar[i].id,camposAValidar[i].getAttribute("regexp"),camposAValidar[i].getAttribute("obligatorio"))){
-            camposAValidar[i].style.borderColor ="red";
-            let nodeText = document.createTextNode(camposAValidar[i].title);
-            camposAValidar[i].parentNode.insertBefore(nodeText,camposAValidar[i]);
-            valido = false;
+    for (let i = 0; i < camposAValidar.length; i++) {
+        console.log(i);
+        if ((camposAValidar[i].type !== "radio" && camposAValidar[i].type !== "submit")) {
+            let span = document.createElement("span");
+            if (!validarInputText(camposAValidar[i].id, camposAValidar[i].getAttribute("regexp"), camposAValidar[i].getAttribute("obligatorio"))) {
+                camposAValidar[i].style.borderColor = "red";
+                span.innerHTML = camposAValidar[i].title;
+                span.style.color = "red";
+                camposAValidar[i].parentNode.insertBefore(span, camposAValidar[i]);
+                valido = false;
+            }else{
+                camposAValidar[i].removeAttribute("style");
+            }
         }
     }
     return valido;
@@ -56,35 +66,39 @@ function validarFormulario(){
 function datosClubSki() {
     //para prevenir que se le de una y otra vez.
     this.disabled = true;
-    let nSocio = crearInputText("[1-9]", "socio", "Número de socio");
+    let regExSocio = "[1-9][0-9]{4}";
+    let nSocio = crearInputText(regExSocio, "socio", "Número de socio", false, "Tu numero de socio de 5 cifras");
+    //cambiar donde se adjuntan
     this.parentNode.appendChild(nSocio);
     createRadioGroup(["infantil", "juvenil", "senior"], "categoria", this.parentNode);
 }
 function crearFormulario(id) {
     let formulario = document.createElement("form");
     formulario.id = id;
-    formulario.action ="validado.php"
+    formulario.action = "validado.php"
     document.body.appendChild(formulario);
     return formulario;
 }
 
-function crearInputText(regExp, id, ph, requerido,titulo) {
+function crearInputText(regExp, id, ph, requerido, titulo) {
 
     let input = document.createElement("INPUT");
-    input.title=titulo;
+    input.title = titulo;
     input.type = "text";
     input.id = id;
     input.placeholder = ph;
-    input.setAttribute("regexp",regExp);
-    input.setAttribute("obligatorio",requerido);
-    
+    input.setAttribute("regexp", regExp);
+    input.setAttribute("obligatorio", requerido);
+
     return input;
 }
 function crearInputDate() {
     let input = document.createElement("INPUT");
     input.type = "date";
     input.id = "fecha";
-    input.title ="mm/dd/aaaa"
+    input.title = "dd/mm/aaaa"
+    input.setAttribute("regexp", "\\d{4}\-\\d{1,2}\-\\d{1,2}");
+    input.setAttribute("obligatorio", true);
     return input;
 }
 
@@ -132,21 +146,38 @@ function createRadioGroup(options, name, parent) {
 
     }
 }
-function crearSubmit(){
-    let boton =  document.createElement("input");
-    boton.type ="submit";
+function crearSubmit() {
+    let boton = document.createElement("input");
+    boton.type = "submit";
     return boton;
 }
 
-function validarInputText(id,regExp,obligatorio){
+function validarInputText(id, regExp, obligatorio) {
+
     let regExpInput = new RegExp(regExp);
-    if(obligatorio){
-        return regExpInput.test(document.getElementById(id).value);  
-    }else{
+
+    if (obligatorio) {
+
+        return regExpInput.test(document.getElementById(id).value);
+
+    } else {
         //si no es obligatorio y no hay nada escrito es valido
         return document.getElementById(id).value.length > 0 ? regExpInput.test(document.getElementById(id).value) : true;
     }
 }
+//noborrabien
+function borrarSpans() {
+    let spans = document.getElementsByTagName("SPAN");
+    console.log("se han creado "+spans.length);
+    if (spans.length > 0) {
+        for (let i = 0; i < spans.length; i++) {
+            console.log("borrado "+spans[i].innerHTML);
+            spans[i].innerHTML="";
+            spans[i].parentNode.removeChild(spans[i]);
+        }
+    }
+}
+
 
 
 
