@@ -1,6 +1,8 @@
 window.onload = () => {
-
+    //creamos el formulario y sus elementos inciales
     let f = crearFormulario("forGes");
+    
+    f.appendChild(crearSubmit());
 
     let regExID = "[a-zA-Z]{1}\\d{8}[a-zA-Z]{1}";
     let identificador = crearInputText(regExID, "identificador", "Identificador", true, "1 letra, 8 cifras y 1 letra. Obligatorio");
@@ -15,6 +17,7 @@ window.onload = () => {
 
     /*let labelFecha = crearLabel("Fecha",fecha.id);
     f.appendChild(labelFecha);*/
+
     let regExMail = "[^@]{1,20}@{1}[a-zA-Z]{1,20}\.{1}[a-zA-Z]{2,3}";
     let inputEmail = crearInputText(regExMail, "email", "Correo electrónico", false, "Email válido");
     f.appendChild(inputEmail);
@@ -32,39 +35,39 @@ window.onload = () => {
     let labelCheck = crearLabel(check.id, check.id);
     f.appendChild(labelCheck);
 
-    f.appendChild(crearSubmit());
-
     //añadimos eventos
     check.onchange = datosClubSki;
     f.onsubmit = validarFormulario;
 
 }
+//valida el formulario. Limpia los textos de error antes de revisarlos de nuevo
 function validarFormulario() {
     //limpiar los avisos anteriores!!
    emptySpans();
     let camposAValidar = document.getElementsByTagName("input");
     let valido = true;
-    //comprobar que cumpla todo lo que dice cada campo (menos el ultimo q es el submit)
+    //comprobar que cumpla todo lo que dice cada campo input text y date
     for (let i = 0; i < camposAValidar.length; i++) {
         if (camposAValidar[i].type =="text" || camposAValidar[i].type =="date") {
-            let span = document.createElement("span");
+           //si no se validan se cambia el color a rojo y se añade el mensaje de ayuda
             if (!validarInputText(camposAValidar[i].id, camposAValidar[i].getAttribute("regexp"), camposAValidar[i].getAttribute("obligatorio"))) {
+                let span = document.createElement("span");
                 camposAValidar[i].style.borderColor = "red";
                 span.innerHTML = camposAValidar[i].title;
                 span.style.color = "red";
                 camposAValidar[i].parentNode.insertBefore(span, camposAValidar[i]);
-                console.log("hay algo false" +  camposAValidar[i].id);
                 valido = false;
             }else{
+                //si esta bien quitamos el atributo style
                 camposAValidar[i].removeAttribute("style");
             }
         }
     }
-    console.log(valido);
-
+    //devuelve si es valido o no
     return valido;
 
 }
+//saca los datos del club de ski
 function datosClubSki() {
     //para prevenir que se le de una y otra vez.
     this.disabled = true;
@@ -74,6 +77,7 @@ function datosClubSki() {
     this.parentNode.appendChild(nSocio);
     createRadioGroup(["infantil", "juvenil", "senior"], "categoria", this.parentNode);
 }
+//crea el formulario con la id indicada  y lo devuelve
 function crearFormulario(id) {
     let formulario = document.createElement("form");
     formulario.id = id;
@@ -81,7 +85,7 @@ function crearFormulario(id) {
     document.body.appendChild(formulario);
     return formulario;
 }
-
+//crea el input tipo texto con su expresionRegular, id, placeHolder, si es obligatorio y un titulo y lo devuelve
 function crearInputText(regExp, id, ph, requerido, titulo) {
 
     let input = document.createElement("INPUT");
@@ -94,6 +98,7 @@ function crearInputText(regExp, id, ph, requerido, titulo) {
 
     return input;
 }
+//crea el input tipo date y lo devuelve
 function crearInputDate() {
     let input = document.createElement("INPUT");
     input.type = "date";
@@ -103,13 +108,16 @@ function crearInputDate() {
     input.setAttribute("obligatorio", true);
     return input;
 }
-
+//crea un label pasandole el campo for y el texto
+//y lo devuelve
 function crearLabel(forId, texto) {
     let label = document.createElement("LABEL");
     label.innerHTML = texto;
     label.setAttribute("for", forId);
     return label;
 }
+//crea el select con las opciones. A modo de placeholder se añade como opcion seleccionada y deshabilitada
+//y si, lo devuelve
 function crearSelect(options, placeholder) {
     let select = document.createElement("SELECT");
     let optionPH = document.createElement("option");
@@ -125,13 +133,16 @@ function crearSelect(options, placeholder) {
     select.selectedIndex = 0;
     return select;
 }
+//crea el checkbox con la opcion pasada y lo devuelve
 function crearCheckBox(option) {
     let check = document.createElement("INPUT");
     check.type = "checkbox";
     check.id = option;
     return check;
 }
-
+//crea el grupo de radios asociados a un nombre  y lo inserta en el
+//elemento que se le dice.
+//no devuelve nada xD
 function createRadioGroup(options, name, parent) {
     for (let i = 0; i < options.length; i++) {
 
@@ -148,12 +159,14 @@ function createRadioGroup(options, name, parent) {
 
     }
 }
+//crea el submit
 function crearSubmit() {
     let boton = document.createElement("input");
     boton.type = "submit";
     return boton;
 }
-
+//valida los input tipo texto en funcion de si son obligatorios o no 
+//pasandoles su expresion regular . Devuelve true o false
 function validarInputText(id, regExp, obligatorio) {
 
     let regExpInput = new RegExp(regExp);
@@ -167,7 +180,7 @@ function validarInputText(id, regExp, obligatorio) {
         return document.getElementById(id).value.length > 0 ? regExpInput.test(document.getElementById(id).value) : true;
     }
 }
-//noborrabien
+//vacia los spans, porque cuando lo hacia con el parentNode.. removeChild no lo hacia.
 function emptySpans() {
     let spans = document.getElementsByTagName("SPAN");
     if (spans.length > 0) {
