@@ -122,7 +122,7 @@ function inicio() {
 
     let regExCompos ="^(\\d+\\g([a-zA-Z]{1,2}\\d?){1,2})$";
     let textCompos = "Cantidad en gramos seguida de dos conjuntos de una o dos letras seguidas o no de numero";
-    crearConjunto(regexCompos, validarEnvio, "Composicion", textCompos);
+    crearConjunto(regExCompos, validarEnvio, "Composicion", textCompos);
 }
 
 window.onload = inicio;
