@@ -101,21 +101,28 @@ function validarEnvio() {
 }
 
 function inicio() {
+
+    //si, deberia haber cuadrado mas con que el mes no fuera mas de 12, la hora no mas de 23,... 
+    let regExpDate = "^(\\d{2}\\/\\d{2}\\/\\d{4}[' ']\\d{2}[:]\\d{2})$"
     let texto = "Fecha y hora de creación: en formato dd/mm/aaaa hh:mm";
-    crearConjunto("[a-z]", validarEnvio, "fecha", texto);
+    crearConjunto(regExpDate, validarEnvio, "fecha", texto);
 
+    let regExpCook = "^([A-Z]{2}\\W\\d{4})$";
     let textCocinero = "Nombre en clave formado por dos letras en mayuscula, un simbolo y 4 dígitos";
-    crearConjunto("[a-z]", validarEnvio, "Cocinero", textCocinero);
+    crearConjunto(regExpCook, validarEnvio, "Cocinero", textCocinero);
 
+    let regExpDest = "^([A-Z]{2,3}\\_[a-z]+\\:\\d{4})$";
     let textDestino = "Destino formado por dos/tres letras mayúsculas, un guión bajo, el nombre de la ciudad en Minúsculas," +
         " dos puntos y el codigo de distrito de 4 dígitos.";
-    crearConjunto("[a-z]", validarEnvio, "Destino", textDestino);
+    crearConjunto(regExpDest, validarEnvio, "Destino", textDestino);
 
+    let regExpGram = "^([1-4]\\d{3})|([5][0]{3})$";
     let textGramos = "Entre 1000 y 5000";
-    crearConjunto("[a-z]", validarEnvio, "Gramos", textGramos);
+    crearConjunto(regExpGram, validarEnvio, "Gramos", textGramos);
 
+    let regExCompos ="^(\\d+\\g([a-zA-Z]{1,2}\\d?){1,2})$";
     let textCompos = "Cantidad en gramos seguida de dos conjuntos de una o dos letras seguidas o no de numero";
-    crearConjunto("[a-z]", validarEnvio, "Composicion", textCompos);
+    crearConjunto(regexCompos, validarEnvio, "Composicion", textCompos);
 }
 
 window.onload = inicio;
