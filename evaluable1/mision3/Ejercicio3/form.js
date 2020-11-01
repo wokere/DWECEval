@@ -1,3 +1,4 @@
+//dado un texto devuelve un elemeto parrafo
 function crearParrafo(texto) {
 
     let parrafo = document.createElement("P");
@@ -15,18 +16,17 @@ function crearLabel(forId, texto) {
     return label;
 }
 
-//crea el input tipo texto con su expresionRegular, id, placeHolder, si es obligatorio y un titulo y lo devuelve
-function crearInputText(regExp, id) {
+//crea el input tipo texto con su expresionRegular, className, placeHolder, si es obligatorio y un titulo y lo devuelve
+function crearInputText(regExp, clase) {
 
     let input = document.createElement("INPUT");
     input.type = "text";
-    input.id = id;
-    input.className = id;
+    input.className = clase;
     input.setAttribute("regexp", regExp);
 
     return input;
 }
-
+//crea un submit con un evento y una clase y lo deuelve
 function crearSubmit(evento, clase) {
     let boton = document.createElement("button");
     boton.onclick = evento;
@@ -34,7 +34,7 @@ function crearSubmit(evento, clase) {
     boton.className = clase;
     return boton;
 }
-
+//crea y devuelve una imagen a partir de una ruta, un texto alternativa y una clase
 function crearImagen(ruta, alt, clase) {
     let img = document.createElement("img");
     img.src = ruta;
@@ -42,7 +42,8 @@ function crearImagen(ruta, alt, clase) {
     img.className = clase;
     return img;
 }
-
+//Dada una expresion, un evento una clase y un texto crea un conjunto de
+//elementos identificados por la clase
 function crearConjunto(regExp, evento, clase, texto) {
 
     let parrafo = crearParrafo(texto);
@@ -56,11 +57,14 @@ function crearConjunto(regExp, evento, clase, texto) {
     document.body.appendChild(boton);
 
 }
+//añade una imagen ANTES del lugar que se le indica
+//limpia cualquier otra que hubiera en ese segmento
 function addImageBefore(donde, imagen) {
     cleanImg(donde);
     donde.parentNode.insertBefore(imagen, donde);
 }
-
+//recorre una coleccion de elementos y busca si hay alguna imagen.
+//devuelve su posicion o -1 si no la encuentra. Devuelve solo la primera ocurrencia.
 function hayImagen(coleccion) {
     for (let i = 0; i < coleccion.length; i++) {
         if (coleccion[i].tagName == "IMG") {
@@ -69,7 +73,8 @@ function hayImagen(coleccion) {
     }
     return -1;
 }
-
+// A partir de un elemento coge todos los de la misma clase , busca si hay alguna imagen y borra 
+//la posicion de la misma.
 function cleanImg(donde) {
 
     let claseCompartida = document.getElementsByClassName(donde.className);
@@ -77,8 +82,10 @@ function cleanImg(donde) {
     if (posicion !== -1) {
         donde.parentNode.removeChild(claseCompartida[1]);
     }
-
 }
+
+//manejador de los botones. Coge los datos por la clase del elemento en el que se ha hecho clic 
+//y tras comprobar si cumple el input con la expresión regular crea una imagen u otra
 function validarEnvio() {
 
     let datos = document.getElementsByClassName(this.className);
