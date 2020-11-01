@@ -4,11 +4,11 @@ window.onload = () => {
     
     f.appendChild(crearSubmit());
 
-    let regExID = "[a-zA-Z]{1}\\d{8}[a-zA-Z]{1}";
+    let regExID = "^([a-zA-Z]{1}\\d{8}[a-zA-Z]{1})$";
     let identificador = crearInputText(regExID, "identificador", "Identificador", true, "1 letra, 8 cifras y 1 letra. Obligatorio");
     f.appendChild(identificador);
 
-    let regExName = "[a-zA-Z|' ']{1,50}";
+    let regExName = "^[a-zA-Z|' ']{1,50}$";
     let inp = crearInputText(regExName, "nombre", "nombre y apellidos", true, "Máximo 50 Caracteres");
     f.appendChild(inp);
 
@@ -18,11 +18,11 @@ window.onload = () => {
     /*let labelFecha = crearLabel("Fecha",fecha.id);
     f.appendChild(labelFecha);*/
 
-    let regExMail = "[^@]{1,20}@{1}[a-zA-Z]{1,20}\.{1}[a-zA-Z]{2,3}";
+    let regExMail = "^[^@]{1,20}@{1}[a-zA-Z]{1,20}\.{1}[a-zA-Z]{2,3}$";
     let inputEmail = crearInputText(regExMail, "email", "Correo electrónico", false, "Email válido");
     f.appendChild(inputEmail);
 
-    let regExTel = "\\+\\d{2,3}-\\d{9}";
+    let regExTel = "^\\+\\d{2,3}-\\d{9}$";
     let inputTel = crearInputText(regExTel, "tel", "Teléfono", false, "+pais-telefono");
     f.appendChild(inputTel);
 
@@ -71,7 +71,7 @@ function validarFormulario() {
 function datosClubSki() {
     //para prevenir que se le de una y otra vez.
     this.disabled = true;
-    let regExSocio = "[1-9][0-9]{4}";
+    let regExSocio = "^[1-9][0-9]{4}$";
     let nSocio = crearInputText(regExSocio, "socio", "Número de socio", false, "Tu numero de socio de 5 cifras");
     //cambiar donde se adjuntan
     this.parentNode.appendChild(nSocio);
