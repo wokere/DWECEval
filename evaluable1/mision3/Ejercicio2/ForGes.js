@@ -41,25 +41,27 @@ window.onload = () => {
 }
 function validarFormulario() {
     //limpiar los avisos anteriores!!
-    borrarSpans();
+   emptySpans();
     let camposAValidar = document.getElementsByTagName("input");
     let valido = true;
     //comprobar que cumpla todo lo que dice cada campo (menos el ultimo q es el submit)
     for (let i = 0; i < camposAValidar.length; i++) {
-        console.log(i);
-        if ((camposAValidar[i].type !== "radio" && camposAValidar[i].type !== "submit")) {
+        if (camposAValidar[i].type =="text" || camposAValidar[i].type =="date") {
             let span = document.createElement("span");
             if (!validarInputText(camposAValidar[i].id, camposAValidar[i].getAttribute("regexp"), camposAValidar[i].getAttribute("obligatorio"))) {
                 camposAValidar[i].style.borderColor = "red";
                 span.innerHTML = camposAValidar[i].title;
                 span.style.color = "red";
                 camposAValidar[i].parentNode.insertBefore(span, camposAValidar[i]);
+                console.log("hay algo false" +  camposAValidar[i].id);
                 valido = false;
             }else{
                 camposAValidar[i].removeAttribute("style");
             }
         }
     }
+    console.log(valido);
+
     return valido;
 
 }
@@ -166,14 +168,12 @@ function validarInputText(id, regExp, obligatorio) {
     }
 }
 //noborrabien
-function borrarSpans() {
+function emptySpans() {
     let spans = document.getElementsByTagName("SPAN");
-    console.log("se han creado "+spans.length);
     if (spans.length > 0) {
         for (let i = 0; i < spans.length; i++) {
-            console.log("borrado "+spans[i].innerHTML);
             spans[i].innerHTML="";
-            spans[i].parentNode.removeChild(spans[i]);
+            
         }
     }
 }
