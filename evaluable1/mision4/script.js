@@ -52,26 +52,29 @@ function seHaEscritoNada(){
 function muestraDatosUsuarioLogueado() {
 
     formulario.parentNode.removeChild(formulario);
-
-    let inputNombre = crearInputText("[a-z]","virus","Nombre del Investigador");
-    let inputNumero =crearInputText("[a-z]","virus", "Número de investigador");
-    let inputID= crearInputText("[a-z]","virus","ID de la firma del virus");
-    let inputFirma = crearInputText("[a-z]","virus","Firma");
-    let button = crearSubmit("virus");
+    let clase = "virus";
+    let inputNombre = crearInputText("^.{2,32}$",clase,"Nombre del Investigador");
+    let inputNumero =crearInputText("^\\d{8}[a-zA-Z]$",clase, "Número de investigador");
+    let inputID= crearInputText("^\\d{1,10}$",clase,"ID de la firma del virus");
+    let inputFirma = crearInputText("^(S4ND1EG0).{0,50}$",clase,"Firma");
+    let button = crearSubmit(clase);
     let f = crearFormulario([inputNombre,inputNumero,inputID,inputFirma,button]);
     document.getElementById("miOtroForm").appendChild(f);
    
     f.onsubmit= validarEnvio;
-    timeOutLoader();
-    inputFirma.onfocus =()=>insertTextSiNoCumple("S4ND1EG0",inputFirma,8);
+    let cuentaAtras = setTimeout(mensajeAtencion,4000);
+    timeOutKeyPressLoader(cuentaAtras);
+    inputFirma.onfocus =()=>{insertTextSiNoCumple("S4ND1EG0",inputFirma,8); clearTimeout(cuentaAtras)};
  
 }
 
-function timeOutLoader(){
-    let cuentaAtras = setTimeout(mensajeAtencion,4000);
+function timeOutKeyPressLoader(timeout){
     let elementos = document.getElementsByTagName("input");
+    //podria sacar al id del evento keypress porque antes de poder pulsar 
+    //siempre ha ganado el foco y se ha escrito lo de sandiego...
     for(let i=0;i<elementos.length-1;i++){
-        elementos[i].onkeypress = ()=> clearTimeout(cuentaAtras);
+        elementos[i].onkeypress = ()=> clearTimeout(timeout);
     }
+    
 
 }
