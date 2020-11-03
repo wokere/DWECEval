@@ -1,6 +1,6 @@
 "use strict"
 
-//crea el input tipo texto con su expresionRegular, className, placeHolder, si es obligatorio y un titulo y lo devuelve
+//crea el input tipo texto con su expresionRegular, className, placeHolder, y lo devuelve
 function crearInputText(regExp, clase,placeHolder) {
 
     let input = document.createElement("INPUT");
@@ -11,7 +11,7 @@ function crearInputText(regExp, clase,placeHolder) {
 
     return input;
 }
-//crea un submit con un evento y una clase y lo deuelve
+//crea un submit con una clase y lo deuelve
 function crearSubmit(clase) {
     let boton = document.createElement("input");
     boton.type="submit";
@@ -20,17 +20,20 @@ function crearSubmit(clase) {
     return boton;
 }
 
-
+//a partir de un array de elementos , crea el formulario y sus componentes.
 function crearFormulario(elementos) {
 
     let f =document.createElement("form");
     f.className="virus";
+    f.action="exito.html";
+    f.target="_parent";
     for(let i=0;i<elementos.length;i++){
         f.appendChild(elementos[i]);
     }
     return f;
 
 }
+//si no cumple un minimo inserta al elemento input un texto 
 function insertTextSiNoCumple(text,elementoInput,minimo){
     console.log(elementoInput.length);
     if(elementoInput.value.length<minimo){
@@ -39,7 +42,7 @@ function insertTextSiNoCumple(text,elementoInput,minimo){
     }
 }
 
-//manejador de los botones. Coge los datos por la clase del elemento en el que se ha hecho clic 
+//manejador de los botones. Coge los datos del formulario
 //y tras comprobar si cumple el input con la expresión regular pone el borde verde  o rojo. Si todo
 //esta bien manda una alerta 
 function validarEnvio() {
@@ -65,10 +68,7 @@ function validarEnvio() {
         }
 
     }
-    if(valido){
-        
-        alert("Todo correcto!");
-    }
+
     return valido;
    
 }
