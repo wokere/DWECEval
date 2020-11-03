@@ -31,6 +31,13 @@ function crearFormulario(elementos) {
     return f;
 
 }
+function insertTextSiNoCumple(text,elementoInput,minimo){
+    console.log(elementoInput.length);
+    if(elementoInput.value.length<minimo){
+        
+        elementoInput.value = text;
+    }
+}
 
 //manejador de los botones. Coge los datos por la clase del elemento en el que se ha hecho clic 
 //y tras comprobar si cumple el input con la expresión regular pone el borde verde  o rojo. Si todo

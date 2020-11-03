@@ -37,10 +37,6 @@ function mensajeAtencion(){
 
     alert("Ponte a trabajar, no seas Jessie Pinkman");
 }
-function cancelTimeOut(timeOut){
-    clearTimeout(timeOut);
-    
-}
 
 function seHaEscritoNada(){
     let inputs = document.getElementsByTagName("input");
@@ -63,15 +59,16 @@ function muestraDatosUsuarioLogueado() {
     let inputFirma = crearInputText("[a-z]","virus","Firma");
     let button = crearSubmit("virus");
     let f = crearFormulario([inputNombre,inputNumero,inputID,inputFirma,button]);
-     document.getElementById("miOtroForm").appendChild(f);
+    document.getElementById("miOtroForm").appendChild(f);
    
     f.onsubmit= validarEnvio;
     timeOutLoader();
+    inputFirma.onfocus =()=>insertTextSiNoCumple("S4ND1EG0",inputFirma,8);
  
 }
 
 function timeOutLoader(){
-    let cuentaAtras = setTimeout(mensajeAtencion,2000);
+    let cuentaAtras = setTimeout(mensajeAtencion,4000);
     let elementos = document.getElementsByTagName("input");
     for(let i=0;i<elementos.length-1;i++){
         elementos[i].onkeypress = ()=> clearTimeout(cuentaAtras);
