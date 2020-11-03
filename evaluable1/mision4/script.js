@@ -33,20 +33,48 @@ function validateUserPW() {
 
     }
 }
+function mensajeAtencion(){
+
+    alert("Ponte a trabajar, no seas Jessie Pinkman");
+}
+function cancelTimeOut(timeOut){
+    clearTimeout(timeOut);
+    
+}
+
+function seHaEscritoNada(){
+    let inputs = document.getElementsByTagName("input");
+    for(let i=0;i<inputs.length-1;i++){
+        console.log(inputs[i].value);
+        if(inputs[i].value!==""){
+            return false;
+        }
+    }
+    return true;
+}
 
 function muestraDatosUsuarioLogueado() {
 
-    formulario.parentNode.removeChild(formulario)
+    formulario.parentNode.removeChild(formulario);
+
     let inputNombre = crearInputText("[a-z]","virus","Nombre del Investigador");
     let inputNumero =crearInputText("[a-z]","virus", "Número de investigador");
     let inputID= crearInputText("[a-z]","virus","ID de la firma del virus");
     let inputFirma = crearInputText("[a-z]","virus","Firma");
     let button = crearSubmit("virus");
     let f = crearFormulario([inputNombre,inputNumero,inputID,inputFirma,button]);
-
-    document.getElementById("miOtroForm").appendChild(f);
-
-    
+     document.getElementById("miOtroForm").appendChild(f);
+   
     f.onsubmit= validarEnvio;
+    timeOutLoader();
+ 
 }
 
+function timeOutLoader(){
+    let cuentaAtras = setTimeout(mensajeAtencion,2000);
+    let elementos = document.getElementsByTagName("input");
+    for(let i=0;i<elementos.length-1;i++){
+        elementos[i].onkeypress = ()=> clearTimeout(cuentaAtras);
+    }
+
+}
