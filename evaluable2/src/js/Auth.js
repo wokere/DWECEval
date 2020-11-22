@@ -2,7 +2,6 @@ class Auth
 {
     constructor(url,data,propierty,method){
         this.url = url;
-        console.log("aqui toy");
         this.data = data;
         this.method = method;
         this.prop = propierty;
@@ -15,6 +14,7 @@ class Auth
         })
         .done(callbackOk)
     }
+    //formateamos la propiedad y los datos en un objeto
     formatData(){
         const objData = {};
         objData[this.prop] = this.data;

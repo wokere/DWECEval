@@ -9,8 +9,8 @@ module.exports = {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
     },
-    mode: 'production',
-    //devtool: 'eval-source-map',
+    mode: 'development',
+    devtool: 'eval-source-map',
     devServer: {
         publicPath: "/",
         hot: true,
