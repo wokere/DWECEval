@@ -66,12 +66,15 @@ class Juego {
     ocultarElemento(elemento) {
         elemento.addClass("oculto");
     }
+    //renombrar a empezarRonda
     movimientosPosibles() {
+        //mover a partida , metodo movimientos posibles
         let tirada = this.cambiaImagenDado();
         //poraquinosvamos
         this.partida.calcularMovimientos(tirada);
     }
-
+    //mover a partida/dado??
+    //img dado tambien??
     cambiaImagenDado() {
         let tirada = this.partida.dado.lanzaDado();
         let rutaDado = "dado/" + tirada + ".png";
