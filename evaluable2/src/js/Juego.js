@@ -9,14 +9,13 @@ class Juego {
 
         this.records = records;
         this.partida = partida;
-        // this.autorizacion = autorizacion;
 
         //ELEMENTOS DEL DOM A MODIFICAR!
 
         this.divAuth = $("#form");
         this.divJuego = $("#juego");
         this.divTablero = $("#tablero");
-        //const INPUTUSERID = "#username";
+
         this.inputUserNameID = "#username" ;
         this.nombreHeroe = $("#nombreHeroe");
 
@@ -68,13 +67,16 @@ class Juego {
         elemento.addClass("oculto");
     }
     movimientosPosibles() {
-        this.cambiaImagenDado();
+        let tirada = this.cambiaImagenDado();
+        //poraquinosvamos
+        this.partida.calcularMovimientos(tirada);
     }
 
     cambiaImagenDado() {
         let tirada = this.partida.dado.lanzaDado();
         let rutaDado = "dado/" + tirada + ".png";
         this.imgDado.attr("src", rutaDado);
+        return tirada;
     }
     deshabilitarBoton(id) {
         $(id).attr("disabled", "true");
