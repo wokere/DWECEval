@@ -31,6 +31,7 @@ class Juego {
 
         this.loginButton.click(()=> this.autorizacionJuego());
         this.jugarButton.click(()=> this.empezarPartida());
+        //este deberia ser de la partida y no del juego
         this.dadoButton.click(()=> this.movimientosPosibles());
     }
 
