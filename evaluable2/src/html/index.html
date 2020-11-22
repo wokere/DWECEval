@@ -4,11 +4,156 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <script src="main.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
-  <script ​src​=​"http://code.jquery.com/jquery-3.5.1.slim.js"​ integrity​=​"sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="​ crossorigin​=​"anonymous"​></script>
+  <script ​src​=​"http://code.jquery.com/jquery-3.5.1.slim.js"​
+    integrity​=​"sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="​ crossorigin​=​" anonymous"​></script>
 </head>
 
 <body>
-  
+  <div id="form">
+    <input placeholder="Inserta Nombre de Usuario" type="text" id="username">
+    <input type="button" id ="loginButton" value="Introducir Nombre">
+  </div>
+  <div id="confirmacion">
+    <p>¡A Luchar Héroe!</p>
+    <button id="jugarButton">Jugar</button>
+
+  </div>
+  <div id="juego">
+    <h1>Empieza el juego!</h1>
+    
+    <img id="dado" src="dado/1.png" alt="dado"/>
+    <button id="tirarDado">Tirar Dado</button>
+
+    <p>--------------</p>
+    <p>¡Ayuda a Kitty a llegar a su comida!</p>
+    <div id="tablero">
+      <table>
+        <tr>
+          <td class="hero"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+        </tr>
+        <tr>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles tiles-permitidas"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="tiles"></td>
+          <td class="cofre"></td>
+        </tr>
+      </table>
+    
+    </div>
+  </div>
+  Tile icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+   </div>
 </body>
 
 

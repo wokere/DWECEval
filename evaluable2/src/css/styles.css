@@ -1,0 +1,27 @@
+table{
+    border-collapse: collapse;
+}
+body{
+   /**centrar*/
+}
+td{
+    width: 64px;
+    height: 64px;
+}
+.tiles{
+    background-image: url('tile.png');
+    background-repeat: no-repeat;
+    opacity:0.6;
+}
+.tiles-permitidas{
+   background-color: red;
+   opacity:1;
+}
+.hero{
+    background-image: url('kitty.png');
+   
+}
+.cofre{
+    background-image: url('cat-food.png');
+
+}
