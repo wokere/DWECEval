@@ -1,121 +1,46 @@
-class Partida{
-    constructor(dado,claseHeroe,clasePosiblesMovimientos,claseCofre,claseSuelo){
-        this.dado =dado;
-        this.tiradasRealizadas =0;
-        this.claseHeroe = claseHeroe;
-        this.clasePosiblesMovimientos = clasePosiblesMovimientos;
-        this.claseCofre = claseCofre;
-        this.claseSuelo = claseSuelo;
-        this.posicionActualHeroe;
-        //añadir el size del tablero!
-    }
-    generarTablero(size){
-        let tabla = document.createElement("TABLE");
-        let counter =1;
-        for (let i=0;i<size;i++){
-            let fila = document.createElement("TR");
-            fila.id = i;
-            for (let j=0;j<size;j++){
-                let celda = document.createElement("TD");
-                celda.className = this.generaElementosTablero(i,j,size);
-                celda.id = counter;
-                counter++;
-                fila.appendChild(celda);
-            }
-            tabla.appendChild(fila);
-        }
-       return tabla;
-    }
-     generaElementosTablero(i,j,size){
-        if (i==0 && j == 0){
-            return this.claseHeroe;
-        }else if(i == size-1 && j==size-1){
-            return this.claseCofre;
-        }else{
-           return this.claseSuelo;
-        }
-    }
+import Tablero from "./Tablero.js";
 
-    calcularMovimientos(numero){
-
-       //let posicionActualHeroe = document.getElementsByClassName(this.claseHeroe)[0].id;
-       this.actualizarPosicionActualHeroe();
-       let limites = this.posicionEnLimites(this.posicionActualHeroe);
-
-       let dcha = parseInt(this.posicionActualHeroe)+numero;
-       let izq = parseInt(this.posicionActualHeroe)-numero;
-       let up = parseInt(this.posicionActualHeroe)-(numero*10);
-       let down = parseInt(this.posicionActualHeroe)+(numero*10);
-
-       let coordenadas = {izquierda :izq, derecha: dcha, arriba: up, abajo:down}
-
-       return this.coordenadasEnLimites(coordenadas,limites);
+class Partida {
+    constructor(dado, tablero) {
+        this.dado = dado;
+        this.tablero = tablero;
+        this.tiradasRealizadas = 0;
+        //iny
+        this.divTablero = $("#tablero");
+        this.dadoButton = $("#tirarDado");
+        this.imgDado = $("#dado");
 
     }
+    //cambiar a ronda
+    ronda() {
 
-    coordenadasEnLimites(puntos,limites){
-        let coords = [];
-        for ( let [posicion,valorPosicion] of Object.entries(puntos)){
-            //no es mejor usar hasownpropiertys? 
-           if (posicion == "izquierda" && (valorPosicion>limites.izquierda)){
-                coords.push(valorPosicion);
-           }else if(posicion == "derecha" && valorPosicion<limites.derecha){
-                coords.push(valorPosicion);
-           }else if (posicion == "arriba" && valorPosicion>limites.arriba){
-                   coords.push(valorPosicion);
-           }else if (posicion == "abajo" && valorPosicion<limites.abajo){
-                    coords.push(valorPosicion);
-           }
-        } 
-        return coords;
+        this.tiradasRealizadas++;
+        //mover a partida , metodo movimientos posibles
+        let tirada = this.cambiaImagenDado();
+        //poraquinosvamos
+        this.tablero.habilitaPosiblesMovimientos(tirada);
+        //habilito evento
     }
 
-    habilitaPosiblesMovimientos(numero){
-        
-       let posiciones = this.calcularMovimientos(numero);
-       for(let i=0;i<posiciones.length;i++){
-            document.getElementById(posiciones[i]).classList.add(this.clasePosiblesMovimientos);
-        }
-        let elementosPermitidos = '.'+this.clasePosiblesMovimientos;
-        $(elementosPermitidos).on("click",(ev)=>this.moverHeroe(ev));
+    cambiaImagenDado() {
+        let tirada = this.dado.lanzaDado();
+        let rutaDado = "dado/" + tirada + ".png";
+        this.imgDado.attr("src", rutaDado);
+        return tirada;
     }
 
+    empezarPartida() {
+
+        this.divTablero.html(this.tablero.generarTablero(10));
+        this.dadoButton.click(() => this.ronda());
+        this.tiradasRealizadas = 0;
+    }
     
-    limpiarPosiblesMovimientos(){
-        let elementosPermitidos = '.'+this.clasePosiblesMovimientos;
-        $(elementosPermitidos).off("click");
-        $(elementosPermitidos).removeClass(this.clasePosiblesMovimientos);
-    }
-    cambiaPosicionHeroe(idAMover){
-        //si idAMover no tiene el cofre
-        this.limpiarPosiblesMovimientos();
-
-        document.getElementById(idAMover).classList.remove(this.claseSuelo);
-        document.getElementById(idAMover).classList.add(this.claseHeroe);
-        
-        document.getElementById(this.posicionActualHeroe).classList.remove(this.claseHeroe);
-        document.getElementById(this.posicionActualHeroe).classList.add(this.claseSuelo);
-        this.actualizarPosicionActualHeroe();
-
+    finalPartida(){
+        //aqui se rellena el record y demas
+        alert("has ganado en " + this.tiradasRealizadas + " movimientos!");
+        return this.tiradasRealizadas;
     }
 
-    posicionEnLimites(){
-        //los limites son respecto la fila
-        let fila = document.getElementById(this.posicionActualHeroe).parentNode.id;
-        let limiteIzdaX= fila*10;//el 10 es el size
-        let limiteDchaX= limiteIzdaX+11;
-        let limiteYUp= -((fila*10)-parseInt(this.posicionActualHeroe));
-        let limiteYDown = ((100-(fila*10))+parseInt(this.posicionActualHeroe));
-        return {izquierda: limiteIzdaX,derecha: limiteDchaX,arriba:limiteYUp,abajo:limiteYDown};
-    }
-
-    moverHeroe(ev){
-        if(ev.target.classList.contains(this.clasePosiblesMovimientos)){
-            this.cambiaPosicionHeroe(ev.target.id,this.posicionActualHeroe);
-        }
-    }
-    actualizarPosicionActualHeroe(){
-        this.posicionActualHeroe = document.getElementsByClassName(this.claseHeroe)[0].id;
-    }
 }
 export default Partida;

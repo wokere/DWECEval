@@ -28,3 +28,7 @@ td{
 .oculto {
     display:none;
 }
+.win{
+    background-image: url('winner.jpg') !important;
+    background-size: contain;
+}

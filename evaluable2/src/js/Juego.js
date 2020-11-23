@@ -3,8 +3,8 @@ import Auth from "./Auth.js";
 import Partida from "./Partida.js";
 
 class Juego {
-    
-    
+
+
     constructor(records, partida) {
 
         this.records = records;
@@ -14,25 +14,27 @@ class Juego {
 
         this.divAuth = $("#form");
         this.divJuego = $("#juego");
-        this.divTablero = $("#tablero");
 
-        this.inputUserNameID = "#username" ;
+        this.inputUserNameID = "#username";
         this.nombreHeroe = $("#nombreHeroe");
-
-        this.imgDado = $("#dado");
 
         //BOTONES
         this.loginButton = $("#loginButton");
         this.jugarButton = $("#jugarButton");
-        this.dadoButton = $("#tirarDado");
+
     }
 
     lanzarEventos() {
 
-        this.loginButton.click(()=> this.autorizacionJuego());
-        this.jugarButton.click(()=> this.empezarPartida());
-        //este deberia ser de la partida y no del juego
-        this.dadoButton.click(()=> this.movimientosPosibles());
+        this.loginButton.click(() => this.autorizacionJuego());
+        this.jugarButton.click(() => this.lanzarPartida());
+    }
+
+    lanzarPartida(){
+        
+        this.divJuego.removeClass("oculto");
+        this.ocultarElemento(this.divAuth);
+        this.partida.empezarPartida();
     }
 
     autorizacionJuego() {
@@ -42,7 +44,7 @@ class Juego {
             let prop = "nombre";
             let method = "POST";
             let datosAuth = new Auth(url, data, prop, method);
-            datosAuth.autorizar((msg)=> this.continuaSiPermiteJuego(msg));
+            datosAuth.autorizar((msg) => this.continuaSiPermiteJuego(msg));
         } else {
             this.deshabilitarBoton("#jugarButton");
             alert("El nombre ha de tener 4 letras o mas");
@@ -54,40 +56,16 @@ class Juego {
             let name = $(this.inputUserNameID).val();
             this.nombreHeroe.html(": " + name);
             this.jugarButton.removeAttr("disabled");
+            
         } else {
             this.deshabilitarBoton(this.jugarButton);
             alert("El numero de letras ha de ser impar");
         }
     }
-    empezarPartida() {
-        this.divJuego.removeClass("oculto");
-        this.ocultarElemento(this.divAuth);
-        this.divTablero.html(this.partida.generarTablero(10));
-    }
     ocultarElemento(elemento) {
         elemento.addClass("oculto");
     }
-    //renombrar a empezarRonda
-    movimientosPosibles() {
-        this.partida.tiradasRealizadas++;
-        console.log(this.partida.tiradasRealizadas);
 
-        //mover a partida , metodo movimientos posibles
-        let tirada = this.cambiaImagenDado();
-
-        //poraquinosvamos
-        this.partida.habilitaPosiblesMovimientos(tirada);
-        //habilito evento
-       
-    }
-    //mover a partida/dado??
-    //img dado tambien??
-    cambiaImagenDado() {
-        let tirada = this.partida.dado.lanzaDado();
-        let rutaDado = "dado/" + tirada + ".png";
-        this.imgDado.attr("src", rutaDado);
-        return tirada;
-    }
     deshabilitarBoton(id) {
         $(id).attr("disabled", "true");
     }
