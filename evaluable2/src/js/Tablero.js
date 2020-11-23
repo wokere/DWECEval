@@ -6,8 +6,14 @@ class Tablero {
         this.claseSuelo = claseSuelo;
         this.claseGanador = claseGanador;
         this.posicionActualHeroe;
+        this.finRonda="";
     }
-
+    get posicionCofre(){
+        return document.getElementsByClassName(this.claseCofre)[0];
+    }
+    set evFinRonda(txt){
+        this.finRonda = txt;
+    }
     actualizarPosicionActualHeroe() {
         this.posicionActualHeroe = document.getElementsByClassName(this.claseHeroe)[0].id;
     }
@@ -106,7 +112,8 @@ class Tablero {
 
             destino.classList.remove(this.claseSuelo);
             destino.classList.add(this.claseHeroe);
-
+            //aqui se debe reactivar el dado
+            $(destino).parent().trigger(this.finRonda);
         } else {
 
             destino.classList.remove(this.claseCofre);

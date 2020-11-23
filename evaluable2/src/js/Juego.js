@@ -30,6 +30,7 @@ class Juego {
 
         this.loginButton.click(() => this.autorizacionJuego());
         this.jugarButton.click(() => this.lanzarPartida());
+       // this.jugarButton.on("restart",this.partida.empezarPartida);
     }
 
     lanzarPartida(){
@@ -81,16 +82,16 @@ class Juego {
        let msj;
         if(this.recordsStorage !=null && this.recordsStorage > this.partida.tiradasRealizadas){
             //comprobar
-             msj = "<p> héroe, has establecido un NUEVO récord de tiradas con "+this.partida.tiradasRealizadas+" tiradas</p>";
+             msj = "Héroe, has establecido un NUEVO récord de tiradas con "+this.partida.tiradasRealizadas+" tiradas";
             localStorage.setItem(this.records,this.partida.tiradasRealizadas);
         }else if(this.recordsStorage < this.partida.tiradasRealizadas){
-             msj = "<p>Record No superado, el actual record es "+this.recordsStorage+"</p>";
+             msj = "Record No superado, el actual record es "+this.recordsStorage;
         }else{
-
-            msj = "<p> héroe, has establecido un récord de tiradas con "+this.partida.tiradasRealizadas+" tiradas</p>";
+            msj = "Héroe, has establecido un récord de tiradas con "+this.partida.tiradasRealizadas+" tiradas";
             localStorage.setItem(this.records,this.partida.tiradasRealizadas);
         }
-        this.divJuego.html(msj);
+        alert(msj);
+        
     }
 }
 
