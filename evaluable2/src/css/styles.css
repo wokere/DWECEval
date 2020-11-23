@@ -19,6 +19,9 @@ td{
 }
 .hero{
     background-image: url('kitty.png');
+    /*transition: all 1s ease;*/
+    transition: transform 3s ease;
+    transform : rotate(40deg);
    
 }
 .cofre{
@@ -31,8 +34,10 @@ td{
 .win{
     background-image: url('winner.jpg') !important;
     background-size: contain;
+ 
 }
 .centro{
     margin-left:30vw;
 }
 
+}
