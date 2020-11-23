@@ -72,7 +72,7 @@ class Juego {
         //mover a partida , metodo movimientos posibles
         let tirada = this.cambiaImagenDado();
         //poraquinosvamos
-        this.partida.calcularMovimientos(tirada);
+        this.partida.muestraPosiblesMovimientos(tirada);
     }
     //mover a partida/dado??
     //img dado tambien??
