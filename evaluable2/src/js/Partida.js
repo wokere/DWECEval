@@ -1,10 +1,13 @@
 import Tablero from "./Tablero.js";
 
 class Partida {
-    constructor(dado, tablero) {
+    constructor(dado, tablero, finRonda,finPartida) {
         this.dado = dado;
+        this.finRonda = finRonda;
+        this.finalPartida = finPartida;
         this.tablero = tablero;
-        this.tablero.evFinRonda ="finRonda";
+        this.tablero.evFinRonda = this.finRonda;
+        this.tablero.evFinPartida = this.finalPartida;
         this.tiradasRealizadas = 0;
         //iny
         this.divTablero = $("#tablero");
@@ -17,7 +20,7 @@ class Partida {
     ronda() {
         this.tiradasRealizadas++;
         let tirada = this.cambiaImagenDado();
-        this.tablero.habilitaPosiblesMovimientos(tirada);
+        this.tablero.movimientosPosibles(tirada);
     }
   
 
@@ -33,14 +36,14 @@ class Partida {
     empezarPartida() {
 
         this.divTablero.html(this.tablero.generarTablero(10));
-        $(this.tablero.posicionCofre).on("finPartida",()=>this.finPartida());
-        this.divTablero.on("finRonda",()=>this.activaElementoDado());
+        $(this.tablero.posicionCofre).on(this.finalPartida,()=>this.finPartida());
+        this.divTablero.on(this.finRonda,()=>this.activaElementoDado());
         this.activaElementoDado();
         this.tiradasRealizadas = 0;
     }
     
     finPartida(){
-        const mensaje = "Héroe, has llegado al cofre en "+this.tiradasRealizadas+" tiraddas";
+        const mensaje = "Héroe, has llegado al cofre en "+this.tiradasRealizadas+" tiradas";
         alert(mensaje);
         this.desactivaElementoDado();
     }

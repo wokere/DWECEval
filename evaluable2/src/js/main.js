@@ -8,7 +8,7 @@ $(document).ready( function(){
     let recordsItemName = "recordTiradas";
     let dado  = new Dado (1,6);
     let tablero = new Tablero("hero","tiles-permitidas","cofre","tiles","win");
-    let partida = new Partida(dado,tablero);
+    let partida = new Partida(dado,tablero,"finRonda","finPartida");
     let game = new Juego(recordsItemName, partida);
     game.init();
 })

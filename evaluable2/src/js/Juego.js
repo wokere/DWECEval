@@ -1,6 +1,4 @@
-import Dado from "./Dado.js";
 import Auth from "./Auth.js";
-import Partida from "./Partida.js";
 
 
 class Juego {
@@ -30,7 +28,6 @@ class Juego {
 
         this.loginButton.click(() => this.autorizacionJuego());
         this.jugarButton.click(() => this.lanzarPartida());
-       // this.jugarButton.on("restart",this.partida.empezarPartida);
     }
 
     lanzarPartida(){
@@ -38,11 +35,11 @@ class Juego {
         this.divJuego.removeClass("oculto");
         this.ocultarElemento(this.divAuth);
         this.partida.empezarPartida();
-        $("td").on("finPartida",()=>this.actualizarRecord());
-
+        $(this.partida.tablero.posicionCofre).on(this.partida.finalPartida,()=>this.actualizarRecord());
     }
 
     autorizacionJuego() {
+        
         let data = $(this.inputUserNameID).val();
         if (this.minimoLetras(data)) {
             let url = "https://apuntesfpinformatica.es/DWEC/entregable1-2.php";

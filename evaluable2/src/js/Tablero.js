@@ -7,12 +7,16 @@ class Tablero {
         this.claseGanador = claseGanador;
         this.posicionActualHeroe;
         this.finRonda="";
+        this.finPartida="";
     }
     get posicionCofre(){
         return document.getElementsByClassName(this.claseCofre)[0];
     }
     set evFinRonda(txt){
         this.finRonda = txt;
+    }
+    set evFinPartida(txt){
+        this.finPartida = txt;
     }
     actualizarPosicionActualHeroe() {
         this.posicionActualHeroe = document.getElementsByClassName(this.claseHeroe)[0].id;
@@ -83,15 +87,20 @@ class Tablero {
         }
         return coords;
     }
-    habilitaPosiblesMovimientos(numero) {
+    movimientosPosibles(numero) {
 
         let posiciones = this.calcularMovimientos(numero);
 
+        if(posiciones.length>0){
         for (let i = 0; i < posiciones.length; i++) {
             document.getElementById(posiciones[i]).classList.add(this.clasePosiblesMovimientos);
         }
         let elementosPermitidos = '.' + this.clasePosiblesMovimientos;
         $(elementosPermitidos).on("click", (ev) => this.moverHeroe(ev));
+        }else{
+            //si no movimientos posibles se acaba la ronda
+            $("#"+this.posicionActualHeroe).parent().trigger(this.finRonda);
+        }
     }
 
     limpiarPosiblesMovimientos() {
