@@ -15,8 +15,8 @@ class Tablero {
     moverHeroe(ev) {
         if (ev.target.classList.contains(this.clasePosiblesMovimientos)) {
             this.cambiaPosicionHeroe(ev.target.id, this.posicionActualHeroe);
+            
         }
-       // this.cambiaPosicionHeroe(ev.target.id, this.posicionActualHeroe);
     }
     generarTablero(size) {
         let tabla = document.createElement("TABLE");
@@ -47,7 +47,6 @@ class Tablero {
 
     calcularMovimientos(numero) {
 
-        //let posicionActualHeroe = document.getElementsByClassName(this.claseHeroe)[0].id;
         this.actualizarPosicionActualHeroe();
         let limites = this.posicionEnLimites(this.posicionActualHeroe);
 
@@ -100,6 +99,8 @@ class Tablero {
         this.limpiarPosiblesMovimientos();
 
         let destino = document.getElementById(idAMover);
+        document.getElementById(this.posicionActualHeroe).classList.remove(this.claseHeroe);
+        document.getElementById(this.posicionActualHeroe).classList.add(this.claseSuelo);
 
         if (!destino.classList.contains(this.claseCofre)) {
 
@@ -111,10 +112,11 @@ class Tablero {
             destino.classList.remove(this.claseCofre);
             destino.classList.add(this.claseGanador);
             destino.classList.add(this.claseHeroe);
+            ///acabo la partida y lanzo ese evento!
+            $(".win").trigger("finPartida");
         }
 
-        document.getElementById(this.posicionActualHeroe).classList.remove(this.claseHeroe);
-        document.getElementById(this.posicionActualHeroe).classList.add(this.claseSuelo);
+       
 
         this.actualizarPosicionActualHeroe();
         //habilitar evento de nuevo
@@ -131,5 +133,6 @@ class Tablero {
         let limiteYDown = ((100 - (fila * 10)) + parseInt(this.posicionActualHeroe));
         return { izquierda: limiteIzdaX, derecha: limiteDchaX, arriba: limiteYUp, abajo: limiteYDown };
     }
+
 }
 export default Tablero;

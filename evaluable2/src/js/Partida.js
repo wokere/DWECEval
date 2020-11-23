@@ -32,14 +32,19 @@ class Partida {
     empezarPartida() {
 
         this.divTablero.html(this.tablero.generarTablero(10));
+        //deberia meterle el elemento donde está el cofre y va a aparecer el heroe
+        $("td").on("finPartida",()=>this.finPartida());
         this.dadoButton.click(() => this.ronda());
         this.tiradasRealizadas = 0;
     }
     
-    finalPartida(){
-        //aqui se rellena el record y demas
-        alert("has ganado en " + this.tiradasRealizadas + " movimientos!");
-        return this.tiradasRealizadas;
+    finPartida(){
+        
+        const mensaje = "Héroe, has llegado al cofre en "+this.tiradasRealizadas+" tiraddas";
+        //endpartida
+        alert(mensaje);
+        //localstorage
+        //deshabilitar dado!
     }
 
 }
