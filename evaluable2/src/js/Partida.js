@@ -39,12 +39,9 @@ class Partida {
     }
     
     finPartida(){
-        
         const mensaje = "Héroe, has llegado al cofre en "+this.tiradasRealizadas+" tiraddas";
-        //endpartida
         alert(mensaje);
-        //localstorage
-        //deshabilitar dado!
+       
     }
 
 }

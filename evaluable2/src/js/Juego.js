@@ -2,12 +2,14 @@ import Dado from "./Dado.js";
 import Auth from "./Auth.js";
 import Partida from "./Partida.js";
 
+
 class Juego {
 
 
     constructor(records, partida) {
 
-        this.records = records;
+        this.records=records;
+        this.recordsStorage = parseInt(localStorage.getItem(records));
         this.partida = partida;
 
         //ELEMENTOS DEL DOM A MODIFICAR!
@@ -24,17 +26,19 @@ class Juego {
 
     }
 
-    lanzarEventos() {
+    init() {
 
         this.loginButton.click(() => this.autorizacionJuego());
         this.jugarButton.click(() => this.lanzarPartida());
     }
 
     lanzarPartida(){
-        
+
         this.divJuego.removeClass("oculto");
         this.ocultarElemento(this.divAuth);
         this.partida.empezarPartida();
+        $("td").on("finPartida",()=>this.actualizarRecord());
+
     }
 
     autorizacionJuego() {
@@ -71,6 +75,22 @@ class Juego {
     }
     minimoLetras(palabra) {
         return palabra.length >= 4;
+    }
+
+    actualizarRecord(){
+       let msj;
+        if(this.recordsStorage !=null && this.recordsStorage > this.partida.tiradasRealizadas){
+            //comprobar
+             msj = "<p> héroe, has establecido un NUEVO récord de tiradas con "+this.partida.tiradasRealizadas+" tiradas</p>";
+            localStorage.setItem(this.records,this.partida.tiradasRealizadas);
+        }else if(this.recordsStorage < this.partida.tiradasRealizadas){
+             msj = "<p>Record No superado, el actual record es "+this.recordsStorage+"</p>";
+        }else{
+
+            msj = "<p> héroe, has establecido un récord de tiradas con "+this.partida.tiradasRealizadas+" tiradas</p>";
+            localStorage.setItem(this.records,this.partida.tiradasRealizadas);
+        }
+        this.divJuego.html(msj);
     }
 }
 
