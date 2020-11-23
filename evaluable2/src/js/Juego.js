@@ -69,10 +69,16 @@ class Juego {
     }
     //renombrar a empezarRonda
     movimientosPosibles() {
+        this.partida.tiradasRealizadas++;
+        console.log(this.partida.tiradasRealizadas);
+
         //mover a partida , metodo movimientos posibles
         let tirada = this.cambiaImagenDado();
+
         //poraquinosvamos
-        this.partida.muestraPosiblesMovimientos(tirada);
+        this.partida.habilitaPosiblesMovimientos(tirada);
+        //habilito evento
+       
     }
     //mover a partida/dado??
     //img dado tambien??

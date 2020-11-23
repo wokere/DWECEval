@@ -6,6 +6,7 @@ class Partida{
         this.clasePosiblesMovimientos = clasePosiblesMovimientos;
         this.claseCofre = claseCofre;
         this.claseSuelo = claseSuelo;
+        this.posicionActualHeroe;
         //añadir el size del tablero!
     }
     generarTablero(size){
@@ -37,24 +38,23 @@ class Partida{
 
     calcularMovimientos(numero){
 
-       let posicionActualHeroe = document.getElementsByClassName(this.claseHeroe)[0].id;
-       let limites = this.posicionEnLimites(posicionActualHeroe);
+       //let posicionActualHeroe = document.getElementsByClassName(this.claseHeroe)[0].id;
+       this.actualizarPosicionActualHeroe();
+       let limites = this.posicionEnLimites(this.posicionActualHeroe);
 
-       let dcha = parseInt(posicionActualHeroe)+numero;
-       let izq = parseInt(posicionActualHeroe)-numero;
-       let up = parseInt(posicionActualHeroe)-(numero*10);
-       let down = parseInt(posicionActualHeroe)+(numero*10);
+       let dcha = parseInt(this.posicionActualHeroe)+numero;
+       let izq = parseInt(this.posicionActualHeroe)-numero;
+       let up = parseInt(this.posicionActualHeroe)-(numero*10);
+       let down = parseInt(this.posicionActualHeroe)+(numero*10);
 
        let coordenadas = {izquierda :izq, derecha: dcha, arriba: up, abajo:down}
 
        return this.coordenadasEnLimites(coordenadas,limites);
-      
 
     }
 
     coordenadasEnLimites(puntos,limites){
         let coords = [];
-        console.log(puntos);
         for ( let [posicion,valorPosicion] of Object.entries(puntos)){
             //no es mejor usar hasownpropiertys? 
            if (posicion == "izquierda" && (valorPosicion>limites.izquierda)){
@@ -68,45 +68,54 @@ class Partida{
            }
         } 
         return coords;
-       
     }
 
-    muestraPosiblesMovimientos(numero){
-        //bucle
+    habilitaPosiblesMovimientos(numero){
+        
        let posiciones = this.calcularMovimientos(numero);
        for(let i=0;i<posiciones.length;i++){
-        document.getElementById(posiciones[i]).classList.add(this.clasePosiblesMovimientos);
-       }
-      /* document.getElementById(derecha).classList.add(this.clasePosiblesMovimientos);
-       document.getElementById(izquierda).classList.add(this.clasePosiblesMovimientos);
-       document.getElementById(arriba).classList.add(this.clasePosiblesMovimientos);
-       document.getElementById(abajo).classList.add(this.clasePosiblesMovimientos);*/
+            document.getElementById(posiciones[i]).classList.add(this.clasePosiblesMovimientos);
+        }
+        let elementosPermitidos = '.'+this.clasePosiblesMovimientos;
+        $(elementosPermitidos).on("click",(ev)=>this.moverHeroe(ev));
     }
+
     
-
-    cambiaPosicionHeroe(idAMover,posicionActualHeroe){
+    limpiarPosiblesMovimientos(){
+        let elementosPermitidos = '.'+this.clasePosiblesMovimientos;
+        $(elementosPermitidos).off("click");
+        $(elementosPermitidos).removeClass(this.clasePosiblesMovimientos);
+    }
+    cambiaPosicionHeroe(idAMover){
         //si idAMover no tiene el cofre
-        document.getElementById(idAMover).classList.remove(this.clasePosiblesMovimientos);
+        this.limpiarPosiblesMovimientos();
+
         document.getElementById(idAMover).classList.remove(this.claseSuelo);
-        document.getElemtnById(idAMover).classList.add(this.claseHeroe);
+        document.getElementById(idAMover).classList.add(this.claseHeroe);
         
-        document.getElementById(posicionActualHeroe).remove(this.claseHeroe);
-        document.getElementById(posicionActualHeroe).add(this.claseSuelo);
+        document.getElementById(this.posicionActualHeroe).classList.remove(this.claseHeroe);
+        document.getElementById(this.posicionActualHeroe).classList.add(this.claseSuelo);
+        this.actualizarPosicionActualHeroe();
 
     }
 
-    posicionEnLimites(posicionActualHeroe){
+    posicionEnLimites(){
         //los limites son respecto la fila
-        let fila = document.getElementById(posicionActualHeroe).parentNode.id;
+        let fila = document.getElementById(this.posicionActualHeroe).parentNode.id;
         let limiteIzdaX= fila*10;//el 10 es el size
         let limiteDchaX= limiteIzdaX+11;
-        let limiteYUp= -((fila*10)-posicionActualHeroe);
-        let limiteYDown = (100-(fila*10))+posicionActualHeroe;
+        let limiteYUp= -((fila*10)-parseInt(this.posicionActualHeroe));
+        let limiteYDown = ((100-(fila*10))+parseInt(this.posicionActualHeroe));
         return {izquierda: limiteIzdaX,derecha: limiteDchaX,arriba:limiteYUp,abajo:limiteYDown};
     }
 
-
-    //calcular horizontal(X)
-    //cambiarposicionheroe
+    moverHeroe(ev){
+        if(ev.target.classList.contains(this.clasePosiblesMovimientos)){
+            this.cambiaPosicionHeroe(ev.target.id,this.posicionActualHeroe);
+        }
+    }
+    actualizarPosicionActualHeroe(){
+        this.posicionActualHeroe = document.getElementsByClassName(this.claseHeroe)[0].id;
+    }
 }
 export default Partida;
