@@ -27,7 +27,8 @@ class Juego {
     init() {
 
         this.loginButton.click(() => this.autorizacionJuego());
-        this.jugarButton.click(() => this.lanzarPartida());
+        //solo una vez
+        this.jugarButton.one("click",() => this.lanzarPartida());
     }
 
     lanzarPartida(){

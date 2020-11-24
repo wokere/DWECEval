@@ -20,7 +20,6 @@ class Partida {
     //metodo que desarrolla cada ronda. 
     ronda() {
         this.tiradasRealizadas++;
-        console.log(this.tiradasRealizadas);
         let tirada = this.cambiaImagenDado();
         this.tablero.movimientosPosibles(tirada);
     }
