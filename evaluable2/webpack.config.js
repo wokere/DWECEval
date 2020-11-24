@@ -9,7 +9,7 @@ module.exports = {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
     },
-    mode: 'development',
+    mode: 'production',//'development',
     devtool: 'eval-source-map',
     devServer: {
         publicPath: "/",
