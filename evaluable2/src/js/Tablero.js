@@ -121,7 +121,7 @@ class Tablero {
 
             destino.classList.remove(this.claseSuelo);
             destino.classList.add(this.claseHeroe);
-            //aqui se debe reactivar el dado
+            //aqui se debe reactivar el dado //
             $(destino).parent().trigger(this.finRonda);
         } else {
 

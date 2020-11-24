@@ -36,6 +36,7 @@ class Juego {
         this.ocultarElemento(this.divAuth);
         this.partida.empezarPartida();
         $(this.partida.tablero.posicionCofre).on(this.partida.finalPartida,()=>this.actualizarRecord());
+     
     }
 
     autorizacionJuego() {
