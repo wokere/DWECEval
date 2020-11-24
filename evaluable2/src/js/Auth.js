@@ -1,3 +1,4 @@
+//clase que se encarga de hacer las peticiones al servidor
 class Auth
 {
     constructor(url,data,propierty,method){

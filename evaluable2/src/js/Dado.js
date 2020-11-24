@@ -1,3 +1,4 @@
+//clase que genera el dado, con un metodo para lanzarlo
 class Dado{
     constructor(min,max){
         this.min = min;
