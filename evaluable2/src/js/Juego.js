@@ -28,11 +28,12 @@ class Juego {
 
         this.loginButton.click(() => this.autorizacionJuego());
         //solo una vez
-        this.jugarButton.one("click",() => this.lanzarPartida());
+        this.jugarButton.on("click",() => this.lanzarPartida(function hola(){return caracola}));
+        
     }
 
-    lanzarPartida(){
 
+    lanzarPartida(){
         this.divJuego.removeClass("oculto");
         this.ocultarElemento(this.divAuth);
         this.partida.empezarPartida();

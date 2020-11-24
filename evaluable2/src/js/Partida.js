@@ -10,6 +10,7 @@ class Partida {
         this.tablero.evFinRonda = this.finRonda;
         this.tablero.evFinPartida = this.finalPartida;
         this.tiradasRealizadas = 0;
+        this.enCurso = false;
         // elementos del dom involucrados en la partida
         this.divTablero = $("#tablero");
         this.dadoButton = $("#tirarDado");
@@ -38,30 +39,40 @@ class Partida {
     //genera el tablero y añade los manejadores de eventos. 
     //Pone las tiradas a 0.
     empezarPartida() {
-
+        this.enCurso=true;
         this.divTablero.html(this.tablero.generarTablero(10));
+        this.eventosPartida();
+        this.tiradasRealizadas = 0;
+    }
+
+    eventosPartida(){
+
         //la partida solo acaba una vez asi que le ponemos one
         $(this.tablero.posicionCofre).one(this.finalPartida,()=>this.finPartida());
         //esto previene que se dispare varias veces seguidas (porque le estoy añadiendo el manejador cada vez q empiezo la partida)
         this.divTablero.off(this.finRonda).on(this.finRonda,()=>this.activaElementoDado());
         this.activaElementoDado();
-        this.tiradasRealizadas = 0;
     }
  
     //manda un mensaje con el numero de tiradas y desactiva el dado
     finPartida(){
         const mensaje = "Héroe, has llegado al cofre en "+this.tiradasRealizadas+" tiradas";
         alert(mensaje);
+        this.enCurso=false;
+       
     }
+
     //metodo que añade el manejador al evento clic del boton tirar dado
     //y lo activa
     activaElementoDado(){
+
         //solo queremos que se dispare una vez
-        this.dadoButton.one("click",() => this.ronda());
+        this.dadoButton.off("click").one("click",() => this.ronda());
         this.dadoButton.removeAttr("disabled");
     }
     //metodo que desactiva el elemento dado y le quita el manejador
     desactivaElementoDado(){
+        this.dadoButton.off("click");
         this.dadoButton.attr("disabled", "true");
     }
 
