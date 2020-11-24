@@ -3,7 +3,7 @@ import Partida from "./Partida.js";
 import Juego from "./Juego.js";
 import Tablero from "./Tablero.js";
 
-
+/*creamos los objetos y variables necesarios para q funcione el juego*/ 
 $(document).ready( function(){
     let recordsItemName = "recordTiradas";
     let dado  = new Dado (1,6);

@@ -1,21 +1,21 @@
 class Tablero {
-    constructor(claseHeroe,clasePosiblesMovimientos,claseCofre,claseSuelo,claseGanador){
+    constructor(claseHeroe, clasePosiblesMovimientos, claseCofre, claseSuelo, claseGanador) {
         this.claseHeroe = claseHeroe;
         this.clasePosiblesMovimientos = clasePosiblesMovimientos;
         this.claseCofre = claseCofre;
         this.claseSuelo = claseSuelo;
         this.claseGanador = claseGanador;
         this.posicionActualHeroe;
-        this.finRonda="";
-        this.finPartida="";
+        this.finRonda = "";
+        this.finPartida = "";
     }
-    get posicionCofre(){
+    get posicionCofre() {
         return document.getElementsByClassName(this.claseCofre)[0];
     }
-    set evFinRonda(txt){
+    set evFinRonda(txt) {
         this.finRonda = txt;
     }
-    set evFinPartida(txt){
+    set evFinPartida(txt) {
         this.finPartida = txt;
     }
     actualizarPosicionActualHeroe() {
@@ -25,7 +25,7 @@ class Tablero {
     moverHeroe(ev) {
         if (ev.target.classList.contains(this.clasePosiblesMovimientos)) {
             this.cambiaPosicionHeroe(ev.target.id, this.posicionActualHeroe);
-            
+
         }
     }
     generarTablero(size) {
@@ -91,15 +91,15 @@ class Tablero {
 
         let posiciones = this.calcularMovimientos(numero);
 
-        if(posiciones.length>0){
-        for (let i = 0; i < posiciones.length; i++) {
-            document.getElementById(posiciones[i]).classList.add(this.clasePosiblesMovimientos);
-        }
-        let elementosPermitidos = '.' + this.clasePosiblesMovimientos;
-        $(elementosPermitidos).on("click", (ev) => this.moverHeroe(ev));
-        }else{
+        if (posiciones.length > 0) {
+            for (let i = 0; i < posiciones.length; i++) {
+                document.getElementById(posiciones[i]).classList.add(this.clasePosiblesMovimientos);
+            }
+            let elementosPermitidos = '.' + this.clasePosiblesMovimientos;
+            $(elementosPermitidos).on("click", (ev) => this.moverHeroe(ev));
+        } else {
             //si no movimientos posibles se acaba la ronda
-            $("#"+this.posicionActualHeroe).parent().trigger(this.finRonda);
+            $("#" + this.posicionActualHeroe).parent().trigger(this.finRonda);
         }
     }
 
@@ -132,7 +132,7 @@ class Tablero {
             $(".win").trigger("finPartida");
         }
 
-       
+
 
         this.actualizarPosicionActualHeroe();
         //habilitar evento de nuevo
