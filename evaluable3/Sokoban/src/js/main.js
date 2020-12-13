@@ -1,6 +1,6 @@
 const { Timer } = require("phaser-ce");
 
-let game = new Phaser.Game(320, 360, Phaser.CANVAS, "", { preload: preload, create: create, update: update });
+let game = new Phaser.Game(320, 360, Phaser.CANVAS, "", { preload: preload, create: create });
 // elementos del juego
 let EMPTY = 0;
 let WALL = 1;
@@ -126,18 +126,16 @@ function create() {
     TEMPORIZADOR.start();
 
 }
-function update(){
-    //si el tiempo es 0 se acabo el juego
-    if(tiemporestante<=0){
-        COUNTDOWNTEXT.text= "¡GAME OVER!";
-        TEMPORIZADOR.stop();
-    }
-    
-}
+
 //actualiza el marcador
 function updateMarcador(){
     tiemporestante--;
     COUNTDOWNTEXT.text = "tiempo restante: "+tiemporestante;
+    //si el tiempo es 0 se acabo el juego
+    if(tiemporestante<=0){
+        endGame();
+    }
+    
 }
 function updatePasos(){
     PASOS++;
@@ -212,8 +210,7 @@ function move(deltaX, deltaY) {
     //añadimos lo que pasa si es un cactus, es decir, game over
     if(isCactus(player.posX +deltaX , player.posY+deltaY)){
         movePlayer(deltaX, deltaY);
-        COUNTDOWNTEXT.text= "¡GAME OVER!";
-        TEMPORIZADOR.stop();
+       endGame();
     }
 }
 
@@ -269,4 +266,10 @@ function moveCrate(deltaX, deltaY) {
     level[player.posY + 2 * deltaY][player.posX + 2 * deltaX] += CRATE;
     // changing crate frame accordingly  
     crates[player.posY + 2 * deltaY][player.posX + 2 * deltaX].frame = level[player.posY + 2 * deltaY][player.posX + 2 * deltaX];
+}
+function endGame(){
+    COUNTDOWNTEXT.text= "¡GAME OVER!";
+    TEMPORIZADOR.stop();
+    player.kill();
+    //parar eventos de raton y teclado tambien
 }
