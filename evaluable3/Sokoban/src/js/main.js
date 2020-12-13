@@ -61,7 +61,7 @@ function create() {
                 //4
                 case PLAYER:
                 case PLAYER + SPOT:
-                    //4+2
+                    //frame 6
                     // player creation
                     player = game.add.sprite(40 * i, 40 * j, "tiles");
                     // assigning the player the proper frame
@@ -73,14 +73,15 @@ function create() {
                     movingGroup.add(player);
                     // since the player is on the floor, I am also creating the floor tile
                     tile = game.add.sprite(40 * i, 40 * j, "tiles");
-                    tile.frame = level[j][i] - PLAYER;
+                    // 6 - 4 = 2 vector suelo 2
+                    tile.frame = level[j][i] - PLAYER; 
                     // floor does not move so I am adding it to fixedGroup
                     fixedGroup.add(tile);
                     break;
                     //3
                 case CRATE:
                 case CRATE + SPOT:
-                    //3+2
+                    //3+2,5
                     // crate creation, both as a sprite and as a crates array item
                     crates[j][i] = game.add.sprite(40 * i, 40 * j, "tiles");
                     // assigning the crate the proper frame
@@ -94,12 +95,14 @@ function create() {
                     fixedGroup.add(tile);
                     break;
                 case CACTUS:
+                    //añadimos el cactus al mundo
                     cact = game.add.sprite(40*i,40*j,"cactus");
                     cact.frame = level [j][i];
                     cact.tint = 0x00FFF00;
+                    //con la tile debajo, que no es un agujero negro
                     tile = game.add.sprite(40 * i, 40 * j, "tiles");
-                    tile.frame = level[j][i];
                     fixedGroup.add(tile);
+                    //fixedGroup.add(cact);
                     break;                    
                 default:
                     // creation of a simple tile ->0
@@ -113,6 +116,7 @@ function create() {
     // once the level has been created, we wait for the player to touch or click, then we call
     // beginSwipe function
     game.input.onDown.add(beginSwipe, this);
+    //crecion de los textos de tiempo y puntuacion
     COUNTDOWNTEXT = game.add.text(10,10,"tiempo restante: "+tiemporestante, { fontSize: '16px', fill: '#FFF' });
     PASOSTEXT = game.add.text (game.world.width-100,10,"0 Pasos",{ fontSize: '16px', fill: '#FFF' });
     //temporizador que se autodestruye
@@ -205,17 +209,27 @@ function move(deltaX, deltaY) {
             movePlayer(deltaX, deltaY);
         }
     }
+    //añadimos lo que pasa si es un cactus, es decir, game over
+    if(isCactus(player.posX +deltaX , player.posY+deltaY)){
+        movePlayer(deltaX, deltaY);
+        COUNTDOWNTEXT.text= "¡GAME OVER!";
+        TEMPORIZADOR.stop();
+    }
 }
 
 // a tile is walkable when it's an empty tile or a spot tile
 function isWalkable(posX, posY) {
     //añado cactus a los walkables
-    return level[posY][posX] == EMPTY || level[posY][posX] == SPOT || level[posY][posX] == CACTUS;
+    return level[posY][posX] == EMPTY || level[posY][posX] == SPOT;
 }
 
 // a tile is a crate when it's a... guess what? crate, or it's a crate on its spot
 function isCrate(posX, posY) {
     return level[posY][posX] == CRATE || level[posY][posX] == CRATE + SPOT;
+}
+// check si se mueve al cactus 
+function isCactus(posX,posY){
+    return level[posY][posX] == CACTUS;
 }
 
 // function to move the player
