@@ -15,7 +15,7 @@ module.exports = {
   },
 
   mode: 'development',//'production',
-  //devtool: 'eval-source-map',
+  devtool: 'eval-source-map',
   devServer: {
     publicPath: "/",
     hot: true,
