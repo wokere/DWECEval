@@ -8,7 +8,7 @@ let game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 
 function preload() {
 
-    game.load.image('sky', 'assets/sky.png');
+    game.load.image('sky', 'assets/bg.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
     //cargamos el bonus
@@ -30,6 +30,8 @@ let cursors;
 let stars;
 let starPoints = 100;
 
+const EVILSTAR = "evilStar";
+
 let score = 0;
 let scoreText;
 
@@ -44,7 +46,8 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
+    let fondo = game.add.sprite(0, 0, 'sky');
+    fondo.scale.setTo(2.5, 2.5);
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -110,30 +113,21 @@ function create() {
     //  Here we'll create 12 of them evenly spaced apart
     for (let i = 0; i < 12; i++)
     {
-        //  Create a star inside of the 'stars' group. LET
-        let star = stars.create(i * 70, 0, 'star');
-        //  Let gravity do its thing
-       // star.body.gravity.y = 300;
-        //  This just gives each star a slightly random bounce value
-        //star.body.bounce.y = 0.7 + Math.random() * 0.2;
+         stars.create(i * 70, 0, 'star');
+      
     }
     //Estrellas malas, q por todo lo demas son estrellas igual
     for (let i=0 ;i<6;i++){
-        let evilStar = stars.create(i*145,0,'star');
+        let evilStar = stars.create(i*155,0,'star');
         //le cambiamos el color
         evilStar.tint = 0xFF0000;
-       // evilStar.body.gravity.y =300;
-        //son muy malas y tardan en parar de saltar
-       // evilStar.body.bounce.y = 1;
+        evilStar.key = EVILSTAR;
     }
     //les aplicamos el mismo gravity y la misma regla de rebote a todas las stars
-    
     for (let astro of stars.children){
         astro.body.gravity.y=300;
         astro.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
-
-
 
     //ajustamos los puntos de las estrellas
     let intervaloActualizacionPuntos = setInterval(()=> {
@@ -236,10 +230,16 @@ function update() {
 function collectStar (player,star) {
 
     // Removes the star from the screen
-    star.kill();
+   star.kill();
+   //si es mala , quita puntos, si es buena suma puntos.
+   if(star.key === EVILSTAR){
+       score = score-100;
+   }else{
+        score += starPoints;
+   }
 
-    //  Add and update the score
-    score += starPoints;
+    // and update the score
+   
     scoreText.text = 'Score: ' + score;
 }
 //dado un body y una direccion mueve al elemento hacia esa misma.
