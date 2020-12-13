@@ -20,6 +20,9 @@ function preload() {
 }
 
 let player;
+let saltoDobleActivado;
+let saltosDisponibles;
+
 //el malo con u, que es bonito.
 let buddie;
 let direccionBuddie = "izquierda";
@@ -220,9 +223,28 @@ function update() {
     }
     
     //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
-    {
+    //Se deshabilita el salto hasta que esté de nuevo en el suelo
+     if(cursors.up.isDown && player.body.touching.down){
+       player.body.velocity.y = -350;
+       cursors.up.enabled=false;
+    }
+    //si esta tocando el suelo se habilita el salto
+    if(player.body.touching.down ){
+        cursors.up.enabled = true;
+         //si esta en el suelo y tiene activo el salto doble, sus saltos disponibles son 2
+        if(saltoDobleActivado){
+            saltosDisponibles =2;
+        }
+    }
+    //si tiene el salto doble activo y salta se resta un salto disponible.
+    if (saltoDobleActivado && cursors.up.isDown){
+        saltosDisponibles = saltosDisponibles-1;
         player.body.velocity.y = -350;
+    }
+
+    //si tiene el salto doble activo, pero no le quedan disponibles se deshabilita el salto
+    if(saltoDobleActivado && saltosDisponibles === 0){
+        cursors.up.enabled = false;
     }
 
 }
@@ -262,6 +284,11 @@ function rdCoords(max){
 }
 function activarDobleSalto(player,bonus){
     //cambiar por salto doble
-    player.body.bounce.y=1.2;
     bonus.kill();
+    saltoDobleActivado = true;
+    //le doy uno porque si lo ha cogido en el aire solo debe saltar una vez
+    //en cuanto toque el suelo tendrá dos
+    //con el rebote no hace el doble salto del todo bien
+    saltosDisponibles = 1;
+  
 }
