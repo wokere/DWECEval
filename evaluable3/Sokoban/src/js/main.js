@@ -15,7 +15,7 @@ let tiemporestante =60;
 let PASOS =0;
 let PASOSTEXT;
 // Mapa
-let level = [[1, 1, 1, 1, 1, 1, 1, 1], [1, 0, 8, 1, 1, 1, 1, 1], [1, 0, 0, 1, 1,  1, 1, 1], [1, 0, 0, 0, 0, 0, 0, 1], [1, 1, 4, 2, 1, 3, 0, 1], [1, 0, 0, 0, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1, 1, 1], [1, 0, 0, 0, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]];
+let level = [[1, 1, 1, 1, 1, 1, 1, 1], [1, 0, 0, 1, 1, 1, 1, 1], [1, 0, 0, 1, 1,  1, 1, 1], [1, 0, 0, 0, 0, 0, 0, 1], [1, 1, 4, 2, 1, 3, 0, 1], [1, 0, 0, 0, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1, 1, 1], [1, 8, 0, 0, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]];
 
 // array which will contain all crates
 let crates = [];
@@ -41,6 +41,7 @@ function goFullScreen() {
     game.scale.updateLayout (true);
 }
 function create() {
+
     // going full screen with the function defined at line 32
     goFullScreen();
 
@@ -101,12 +102,10 @@ function create() {
                 case CACTUS:
                     //añadimos el cactus al mundo
                     cact = game.add.sprite(40*i,40*j,"cactus");
-                    cact.frame = level [j][i];
-                    cact.tint = 0x00FFF00;
+                    //cact.frame = level [j][i];
                     //con la tile debajo, que no es un agujero negro
                     tile = game.add.sprite(40 * i, 40 * j, "tiles");
                     fixedGroup.add(tile);
-                    //fixedGroup.add(cact);
                     break;                    
                 default:
                     // creation of a simple tile ->0
@@ -133,10 +132,11 @@ function create() {
     //empieza aqui el temporizador o cuando se de por comenzado el juego!?
     TEMPORIZADOR.start();
 
-}
 
+}
+//callback del evento de teclados
+//si el key code es = a las teclas correspondientes, ejecuta move a esas posiciones
 function moverseConTeclado(e){
-    console.log(e.keyCode);
     if(e.keyCode===38){
         console.log("arriba");
         move(0,-1);
@@ -158,7 +158,7 @@ function updateMarcador(){
     COUNTDOWNTEXT.text = "tiempo restante: "+tiemporestante;
     //si el tiempo es 0 se acabo el juego
     if(tiemporestante<=0){
-        endGame();
+        endGameFailed();
     }
     
 }
@@ -231,12 +231,17 @@ function move(deltaX, deltaY) {
             // move the player	
             movePlayer(deltaX, deltaY);
         }
+        
     }
     //añadimos lo que pasa si es un cactus, es decir, game over
     if(isCactus(player.posX +deltaX , player.posY+deltaY)){
-        movePlayer(deltaX, deltaY);
-       endGame();
+       endGameFailed();
     }
+    //tambien lo que ocurre si 
+    if(isCrateOnSpot(player.posX +deltaX , player.posY+deltaY)){
+        endGameSuccess();
+    }
+
 }
 
 // a tile is walkable when it's an empty tile or a spot tile
@@ -248,6 +253,10 @@ function isWalkable(posX, posY) {
 // a tile is a crate when it's a... guess what? crate, or it's a crate on its spot
 function isCrate(posX, posY) {
     return level[posY][posX] == CRATE || level[posY][posX] == CRATE + SPOT;
+}
+//miramos si la caja esta en su sitio
+function isCrateOnSpot(posX,posY){
+    return level[posY][posX] == CRATE + SPOT;
 }
 // check si se mueve al cactus 
 function isCactus(posX,posY){
@@ -292,9 +301,27 @@ function moveCrate(deltaX, deltaY) {
     // changing crate frame accordingly  
     crates[player.posY + 2 * deltaY][player.posX + 2 * deltaX].frame = level[player.posY + 2 * deltaY][player.posX + 2 * deltaX];
 }
-function endGame(){
+function endGameFailed(){
     COUNTDOWNTEXT.text= "¡GAME OVER!";
     TEMPORIZADOR.stop();
+    //player muerto
     player.kill();
-    //parar eventos de raton y teclado tambien
+    //destruimos todos los input managers para q no siga contando aunque demos a las teclas
+    game.input.destroy();
+}
+function endGameSuccess(){
+    
+    TEMPORIZADOR.stop();
+    game.input.destroy();
+    console.log(tiemporestante);
+    let finAreaText = game.add.text (150,200,"",{ fontSize: '16px', fill: '#000',backgroundColor:'#FFF',wordWrap:'true' });
+
+    let record = parseInt(localStorage.getItem("pasos"));
+
+    if(record > PASOS || isNaN(record)){
+        localStorage.setItem("pasos",PASOS);
+        finAreaText.text= "¡Conseguido! Nuevo récord en "+PASOS+" pasos";
+    }else{
+        finAreaText.text= "Conseguido en "+PASOS+"pasos, pero el record está en "+record;
+    }
 }
