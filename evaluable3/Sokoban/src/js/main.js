@@ -25,10 +25,10 @@ let tileSize = 40;
 
 // the player! Yeah!
 let player;
-//el cactus
-let cact;
+
 //el teclado
 let teclado;
+let activadoTeclado = true;
 function preload() {
     game.load.spritesheet("tiles", "assets/tiles.png", 40, 40);
     game.load.image("cactus","assets/cactus.png");
@@ -102,7 +102,6 @@ function create() {
                 case CACTUS:
                     //añadimos el cactus al mundo
                     cact = game.add.sprite(40*i,40*j,"cactus");
-                    //cact.frame = level [j][i];
                     //con la tile debajo, que no es un agujero negro
                     tile = game.add.sprite(40 * i, 40 * j, "tiles");
                     fixedGroup.add(tile);
@@ -116,10 +115,9 @@ function create() {
         }
 
     }
-
-   // game.input.keyboard.addCallbacks(this,moverseConTeclado);
+    //añado callbacks ondown and on up.
     teclado = game.input.keyboard;
-    teclado.addCallbacks(this,moverseConTeclado);
+    teclado.addCallbacks(this,moverseConTeclado,activarTeclado);
     // once the level has been created, we wait for the player to touch or click, then we call
     // beginSwipe function
     game.input.onDown.add(beginSwipe, this);
@@ -134,22 +132,32 @@ function create() {
 
 
 }
+//si se ha levantado permito que se active el teclado de nuevo
+//asi se evita que al pulsar dos teclas a la vez haga lo que le de la gana
+function activarTeclado(){
+    activadoTeclado=true;
+}
 //callback del evento de teclados
 //si el key code es = a las teclas correspondientes, ejecuta move a esas posiciones
 function moverseConTeclado(e){
-    if(e.keyCode===38){
-        //arriba
-        move(0,-1);
-    }else if(e.keyCode === 40){
-       //abajo
-        move(0,1);
-    }else if(e.keyCode === 39){
-        //derecha
-        move(1,0)
-    }else if(e.keyCode === 37){
-    //izquierda
-        move(-1,0);
-    }
+    //si es true puede moverse, si no no
+    if(activadoTeclado){
+        if(e.keyCode===38){
+            //arriba
+            move(0,-1);
+        }else if(e.keyCode === 40){
+        //abajo
+            move(0,1);
+        }else if(e.keyCode === 39){
+            //derecha
+            move(1,0);
+        }else if(e.keyCode === 37){
+        //izquierda
+            move(-1,0);
+        }
+        activadoTeclado = false;
+}
+    
 }
 
 //actualiza el marcador
