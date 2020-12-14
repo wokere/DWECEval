@@ -29,7 +29,7 @@ let direccionBuddie = "izquierda";
 let platforms;
 let cursors;
 
-
+//las estrellas
 let stars;
 let starPoints = 100;
 
@@ -37,8 +37,6 @@ const EVILSTAR = "evilStar";
 
 let score = 0;
 let scoreText;
-
-
 
 // el powerup
 let bonus;
@@ -147,15 +145,13 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
 
     // El bonus, en algun lugar random de la pantalla, hay que validar que no esté en las posiciones de las plataformas!
-    bonus = game.add.sprite(rdCoords(game.world.width),rdCoords(game.world.height),'bonus');
+    bonus = game.add.sprite(rdCoords(game.world.width),0,'bonus');
     
     //le damos "fisica"
     game.physics.arcade.enable(bonus);
     //si una estrella o el malo caen sobre el pues no lo atraviesan??????
-    //bonus.body.gravity.y = 300;
-    //bonus.body.collideWorldBounds = true;
-    bonus.body.immovable = true;
-
+    bonus.body.gravity.y = 300;
+    bonus.body.collideWorldBounds = true;
 
 }
 
@@ -169,7 +165,7 @@ function update() {
     game.physics.arcade.collide(buddie,platforms);
 
    // las plataformas y las estrellas tb chocan con el bonus. Con el buddie no para que no le impida atravesarlo.
-   //game.physics.arcade.collide(bonus,platforms);
+   game.physics.arcade.collide(bonus,platforms);
    game.physics.arcade.collide(bonus,stars);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
@@ -186,15 +182,16 @@ function update() {
     //Nuestro buddie empieza siempre yendo hacia la izquierda
     //y en cada frame continua en la direccion que seguia yendo
     moverHacia(buddie,direccionBuddie);
-   //hasta que llegue a un punto u otro de la pantalla, que entonces cambia
+  
+    //hasta que llegue a un punto u otro de la pantalla, que entonces cambia
        
    //!!!console.log(buddie.body.checkWorldBounds() );
 
-    if(buddie.body.x == 0){
+    if(buddie.body.x === 0){
        moverHacia(buddie,"derecha");
        direccionBuddie="derecha";
     }
-    if( buddie.body.x == game.world.width-40){
+    if( buddie.body.x === game.world.width-40){
         moverHacia(buddie,"izquierda");
         direccionBuddie="izquierda";
     }
@@ -288,7 +285,6 @@ function activarDobleSalto(player,bonus){
     saltoDobleActivado = true;
     //le doy uno porque si lo ha cogido en el aire solo debe saltar una vez
     //en cuanto toque el suelo tendrá dos
-    //con el rebote no hace el doble salto del todo bien
     saltosDisponibles = 1;
   
 }
