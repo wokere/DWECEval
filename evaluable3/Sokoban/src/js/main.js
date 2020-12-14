@@ -25,6 +25,10 @@ let tileSize = 40;
 
 // the player! Yeah!
 let player;
+//el cactus
+let cact;
+//el teclado
+let teclado;
 function preload() {
     game.load.spritesheet("tiles", "assets/tiles.png", 40, 40);
     game.load.image("cactus","assets/cactus.png");
@@ -113,6 +117,10 @@ function create() {
         }
 
     }
+
+   // game.input.keyboard.addCallbacks(this,moverseConTeclado);
+    teclado = game.input.keyboard;
+    teclado.addCallbacks(this,moverseConTeclado);
     // once the level has been created, we wait for the player to touch or click, then we call
     // beginSwipe function
     game.input.onDown.add(beginSwipe, this);
@@ -125,6 +133,23 @@ function create() {
     //empieza aqui el temporizador o cuando se de por comenzado el juego!?
     TEMPORIZADOR.start();
 
+}
+
+function moverseConTeclado(e){
+    console.log(e.keyCode);
+    if(e.keyCode===38){
+        console.log("arriba");
+        move(0,-1);
+    }else if(e.keyCode === 40){
+        console.log("abajo");
+        move(0,1);
+    }else if(e.keyCode === 39){
+        console.log("derecha");
+        move(1,0)
+    }else if(e.keyCode === 37){
+    console.log("izquierda");
+        move(-1,0);
+    }
 }
 
 //actualiza el marcador
