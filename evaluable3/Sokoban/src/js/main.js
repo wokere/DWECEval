@@ -138,16 +138,16 @@ function create() {
 //si el key code es = a las teclas correspondientes, ejecuta move a esas posiciones
 function moverseConTeclado(e){
     if(e.keyCode===38){
-        console.log("arriba");
+        //arriba
         move(0,-1);
     }else if(e.keyCode === 40){
-        console.log("abajo");
+       //abajo
         move(0,1);
     }else if(e.keyCode === 39){
-        console.log("derecha");
+        //derecha
         move(1,0)
     }else if(e.keyCode === 37){
-    console.log("izquierda");
+    //izquierda
         move(-1,0);
     }
 }
@@ -162,6 +162,7 @@ function updateMarcador(){
     }
     
 }
+//actualiza los pasos y los muestra en pantalla
 function updatePasos(){
     PASOS++;
     PASOSTEXT.text= PASOS+" Pasos";
@@ -309,18 +310,20 @@ function endGameFailed(){
     //destruimos todos los input managers para q no siga contando aunque demos a las teclas
     game.input.destroy();
 }
+
 function endGameSuccess(){
     
     TEMPORIZADOR.stop();
     game.input.destroy();
-    console.log(tiemporestante);
-    let finAreaText = game.add.text (150,200,"",{ fontSize: '16px', fill: '#000',backgroundColor:'#FFF',wordWrap:'true' });
-
+    //preparamos el area de texto
+    let finAreaText = game.add.text (50,150," ",{ fontSize: '16px', fill: '#000',backgroundColor:'#FFF',wordWrap:'true' });
+    //leemos el record
     let record = parseInt(localStorage.getItem("pasos"));
-
+    //si es NAN o es mayor que los pasos actuales
     if(record > PASOS || isNaN(record)){
         localStorage.setItem("pasos",PASOS);
         finAreaText.text= "¡Conseguido! Nuevo récord en "+PASOS+" pasos";
+        //si es menor
     }else{
         finAreaText.text= "Conseguido en "+PASOS+"pasos, pero el record está en "+record;
     }
