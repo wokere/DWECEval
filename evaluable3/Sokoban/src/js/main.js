@@ -101,7 +101,7 @@ function create() {
                     break;
                 case CACTUS:
                     //añadimos el cactus al mundo
-                    cact = game.add.sprite(40*i,40*j,"cactus");
+                    game.add.sprite(40*i,40*j,"cactus");
                     //con la tile debajo, que no es un agujero negro
                     tile = game.add.sprite(40 * i, 40 * j, "tiles");
                     fixedGroup.add(tile);
