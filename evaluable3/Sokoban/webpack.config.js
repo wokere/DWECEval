@@ -38,7 +38,7 @@ module.exports = {
     new CopyPlugin(
       [
         { from: 'src/html', to: './', force: true }, // Cogen la direccion destino de contentBase
-        { from: 'src/css', to: './', force: true },
+       /* { from: 'src/css', to: './', force: true },*/ //no hay css que cargar
         // Los assets los copiamos a la carpeta assets
         { from: 'src/assets', to: './assets', force: true },
       ]
