@@ -10,8 +10,8 @@
         <tr v-for="(x, i) in tableta" :key="i">
           <!--eventos dinamicos-->
           <td
-            v-for="(n, y) in tableta[i]"
-            @[tableta[i][y].evClick]="morderTableta(tableta[i][y])"
+            v-for="(onza, y) in tableta[i]"
+            @[tableta[i][y].evClick]="morderTableta(onza)"
             @[tableta[i][y].evHover]="atenuarTableta(i, y)"
             @[tableta[i][y].evLeave]="tableta[i][y].clase = originalclass"
             :key="y"
