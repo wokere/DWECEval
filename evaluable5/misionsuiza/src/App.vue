@@ -13,7 +13,7 @@
             v-for="(onza, y) in tableta[i]"
             @[tableta[i][y].evClick]="morderTableta(onza)"
             @[tableta[i][y].evHover]="atenuarTableta(i, y)"
-            @[tableta[i][y].evLeave]="tableta[i][y].clase = originalclass"
+            @[tableta[i][y].evLeave]="onza.clase = originalclass"
             :key="y"
             :class="tableta[i][y].clase"
           >
