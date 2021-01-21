@@ -40,7 +40,8 @@ export default {
     return {
       tableta: this.creaTableta(),
       originalclass: ORIGINALCLASS,
-      onzasComidas:0
+      onzasComidas:0,
+      stopComer: false
     };
   },
   computed:{
@@ -49,9 +50,13 @@ export default {
      return this.onzasComidas === this.tableta.length*this.tableta[0].length;
     },
     // computed propierty para el evento dinámico de los botones que hacen comer una fila o columna
-    // si el tablero ya se ha comido entero entonces será null para que no se pueda seguir comiendo
+    // si el tablero ya se ha comido entero o se ha hecho click en stop comer entonces será null para que no se pueda seguir comiendo
     clickComer: function(){
-      return this.tableroComido ? null : CLICK ;
+      if(this.tableroComido || this.stopComer){
+        return null;
+      } else{
+        return CLICK;
+      }
     }
   },
   methods: {
@@ -128,6 +133,17 @@ export default {
       }
       return columna;
     },
+    stopEating(){
+      //parar todos los eventos, sin cambiar las clases (morder)...
+      this.tableta.forEach(fila=>{
+        fila.forEach(onza => {
+          onza.evLeave = null;
+          onza.evHover = null;
+          onza.evClick = null;
+        })
+      });
+      this.stopComer = true;
+    }
 
   },
 };
