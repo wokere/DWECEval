@@ -1,12 +1,13 @@
 <template>
   <q-page class="flex flex-center">
-      <div class="busqueda">
+    <form @submit.prevent.stop="onSubmit" class="busqueda">
     <q-input
       class="input-form"
       v-model="text"
       filled
       label="texto de busqueda"
       hint="introduce texto"
+      :rules="[valor => !!valor || 'Campo Obligatorio']"
     />
     <q-input
       class="input-form"
@@ -15,6 +16,8 @@
       label="Fecha minima"
       mask="########"
       hint="Formato YYYYMMAA"
+     :rules="[valor => !!valor || 'Campo Obligatorio']"
+
     />
     <q-input
       class="input-form"
@@ -23,6 +26,8 @@
       label="fecha maxima"
       mask="########"
       hint="Formato YYYYMMAA"
+    :rules="[valor => !!valor || 'Campo Obligatorio']"
+
     />
     <!-- ponemos emit-value para q v-model coja value,mirar porque no autorellena-->
     <q-select
@@ -32,10 +37,11 @@
       emit-value
       :options="opciones"
       hint="elige"
+     :rules="[valor => !!valor || 'Campo Obligatorio']"
+
     />
-    <q-btn color="primary" class="boton" size="lg" round icon="search" />
-    {{ date }}
-    </div>
+    <q-btn color="primary" type="submit" class="boton" size="lg" round icon="search" />
+    </form>{{ date }}
     <q-list>
         <q-item v-for="n in 6" :key="n">
              <q-item-section>
