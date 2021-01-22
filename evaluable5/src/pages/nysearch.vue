@@ -229,6 +229,7 @@ export default {
           //por pagina, redondeando hacia arriba.
           this.paginas = Math.ceil(response.data.response.meta.hits / 10);
           this.news = response.data.response.docs;
+          this.error = undefined;
         })
         .catch((error) => {
           this.error = error;
