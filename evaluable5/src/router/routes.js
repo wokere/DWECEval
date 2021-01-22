@@ -4,6 +4,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
+      // en la ruta " " mostraremos la pagina de nysearch
       { path: '', component: () => import('pages/nysearch.vue') }
       
     ]
