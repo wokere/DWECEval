@@ -95,11 +95,12 @@ module.exports = function (/* ctx */) {
       // (like functional components as one of the examples),
       // you can manually specify Quasar components/directives to be available everywhere:
       //
-      // components: [],
+      //¡ components: [],
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      //se añade el plugin del loader para usarlo mientras se recibe respuesta de la petición.
+      plugins: ['Loading']
     },
 
     // animations: 'all', // --- includes all animations
